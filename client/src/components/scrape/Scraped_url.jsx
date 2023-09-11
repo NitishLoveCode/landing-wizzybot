@@ -24,7 +24,7 @@ export default function Scraped_url() {
     <>
       <Source_1_2_card/>
         <div className='flex flex-col gap-3 justify-center items-center text-center'>
-            <Heading_text text_size={"text-3xl mt-4 font-bold text-gray-800"} text={"Choose Pages and Import Custom Data"}/>
+            <Heading_text text_size={"text-xl sm:text-3xl mt-4 font-bold text-gray-800"} text={"Choose Pages and Import Custom Data"}/>
             <Heading_text text_size={"text-md text-gray-800"} text={"We have crawled all the pages on your website and listed them here. If you wish to exclude any pages, you can delete them from the list."}/>
             <Heading_text text_size={"text-sm mb-3 text-gray-500"} text={"Once you're satisfied with the selection, click the 'Import The Content and Create My AI Bot' button below to complete the import process."}/>
 
@@ -40,17 +40,17 @@ export default function Scraped_url() {
 
 
             {/* ---passing porps for Ai_human_popup--- */}
-            <Button action={human_ai_popup} style={"bg-gray-800 text-white p-3 pl-7 pr-7 rounded-full active:scale-95"} text={"Import the content & create my AI bot"}/>
+            <Button action={human_ai_popup} style={"bg-gray-800 text-white sm:p-3 pl-7 pr-7 rounded-full active:scale-95"} text={"Import the content & create my AI bot"}/>
 
             {/* ------------scraped page info---------------- */}
-            <div className='flex justify-between mt-6 gap-6 w-[35vw] mb-10'>
-              <div className='border-2 h-20 flex flex-col justify-center items-center shadow-xl pl-14 pr-14 w-[17vw]'>
+            <div className='flex justify-between mt-6 gap-6 w-full sm:w-[35vw] mb-10'>
+              <div className='border-2 h-20 flex flex-col justify-center items-center shadow-xl pl-14 pr-14 w-[50%] sm:w-[17vw]'>
                 <h2 className='text-md font-bold text-gray-600'>Total Pages</h2>
-                <h3 className='text-4xl font-bold text-gray-700'>68</h3>
+                <h3 className='text-2xl sm:text-4xl font-bold text-gray-700'>68</h3>
               </div>
-              <div className='border-2 h-20 flex flex-col justify-center items-center shadow-xl w-[17vw]'>
+              <div className='border-2 h-20 flex flex-col justify-center items-center shadow-xl w-[50%] sm:w-[17vw]'>
                 <h2 className='text-md font-bold text-gray-600'>Total Characters</h2>
-                <h3 className='text-4xl font-bold text-gray-700'>834532</h3>
+                <h3 className='text-2xl sm:text-4xl font-bold text-gray-700'>834532</h3>
               </div>
             </div>
 
