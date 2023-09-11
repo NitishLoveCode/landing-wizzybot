@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 export default function Button({style,text,action}) {
 
   // NOTE: look, if you want to use button component, for function or anything.
