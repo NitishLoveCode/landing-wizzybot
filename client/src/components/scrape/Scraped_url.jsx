@@ -15,7 +15,6 @@ export default function Scraped_url() {
   const location = useLocation();
   const [sources, setSources] = useState(location.state.sources);
   const chatbotId = location.state.chatbotId;
-  console.log(location.state)
   const [totalCharacters, setTotalCharacters] = useState(0);
 
   // --------------human and AI bot function-----------------
@@ -29,6 +28,8 @@ export default function Scraped_url() {
   }
 
   function handleRemove(id) {
+    const linkToRemove = sources.filter(item => item.id === id);
+    setTotalCharacters(totalCharacters => totalCharacters - linkToRemove[0].charCount);
     setSources(prevArray => prevArray.filter(item => item.id !== id));
   }
 
