@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import Preview from './childs/Preview'
 import Settings from './childs/Settings'
 import Customize from './childs/Customize'
@@ -13,10 +13,16 @@ import {BsPencil} from "react-icons/bs"
 import {ImEmbed2} from "react-icons/im"
 import {BsChatLeftText} from "react-icons/bs"
 import {BsDatabaseAdd} from "react-icons/bs"
+import serverBasePath from '../../../constants'
 
 export default function Root_page() {
     const location =useLocation()
     console.log(location.pathname)
+    
+    const {id} = useParams();
+
+
+
   return (
     <>
         <div className='ml-24 mr-24 mt-10 gap-4 flex flex-col'>
@@ -26,7 +32,7 @@ export default function Root_page() {
             <div className='flex justify-center border-b pb-3 items-center flex-col w-full'>
                 
                 <div className='flex justify-between w-full'>
-                    <Link to={"/root/preview"}>
+                    <Link to={`/chatbot/preview/${id}`}>
                     <div className='flex items-center gap-2 active:scale-95 cursor-pointer'>
                         <div>
                             <BsFillEyeFill className='text-2xl'/>
@@ -36,7 +42,7 @@ export default function Root_page() {
                         </div>
                     </div>
                     </Link>
-                    <Link to={"/root/settings"}>
+                    <Link to={`/chatbot/settings/${id}`}>
                     <div className='flex items-center gap-2 active:scale-95 cursor-pointer'>
                         <div>
                             <AiFillSetting className='text-2xl'/>
@@ -46,7 +52,7 @@ export default function Root_page() {
                         </div>
                     </div>
                     </Link>
-                    <Link to="/root/customize">
+                    <Link to={`/chatbot/customize/${id}`}>
                     <div className='flex items-center gap-2 active:scale-95 cursor-pointer'>
                         <div>
                             <BsPencil className='text-2xl'/>
@@ -56,7 +62,7 @@ export default function Root_page() {
                         </div>
                     </div>
                     </Link>
-                    <Link to="/root/embed-and-Share">
+                    <Link to={`/chatbot/embed-and-Share/${id}`}>
                     <div className='flex items-center gap-2 active:scale-95 cursor-pointer'>
                         <div>
                             <ImEmbed2 className='text-2xl'/>
@@ -66,7 +72,7 @@ export default function Root_page() {
                         </div>
                     </div>
                     </Link>
-                    <Link to={"/root/chat-inbox"}>
+                    <Link to={`/chatbot/chat-inbox/${id}`}>
                     <div className='flex items-center gap-2 active:scale-95 cursor-pointer'>
                         <div>
                             <BsChatLeftText className='text-2xl'/>
@@ -76,7 +82,7 @@ export default function Root_page() {
                         </div>
                     </div>
                     </Link>
-                    <Link to="/root/manage_data_sources">
+                    <Link to={`/chatbot/manage_data_sources/${id}`}>
                     <div className='flex items-center gap-2 active:scale-95 cursor-pointer'>
                         <div>
                             <BsDatabaseAdd className='text-2xl'/>
@@ -92,22 +98,22 @@ export default function Root_page() {
 
 
         {
-            location.pathname ==="/root/preview"? <Preview/>:""
+            location.pathname ===`/chatbot/preview/${id}`? <Preview/>:""
         }
         {
-            location.pathname ==="/root/settings"? <Settings/>:""
+            location.pathname ===`/chatbot/settings/${id}`? <Settings/>:""
         }
         {
-            location.pathname ==="/root/customize"? <Customize/>:""
+            location.pathname ===`/chatbot/customize/${id}`? <Customize/>:""
         }
         {
-            location.pathname ==="/root/embed-and-Share"? <Embed_and_Share/>:""
+            location.pathname ===`/chatbot/embed-and-Share/${id}`? <Embed_and_Share/>:""
         }
         {
-            location.pathname ==="/root/chat-inbox"? <Chat_Inbox/>:""
+            location.pathname ===`/chatbot/chat-inbox/${id}`? <Chat_Inbox/>:""
         }
         {
-            location.pathname ==="/root/manage_data_sources"? <Manage_Data_Sources/>:""
+            location.pathname ===`/chatbot/manage_data_sources/${id}`? <Manage_Data_Sources/>:""
         }
 
         </div>

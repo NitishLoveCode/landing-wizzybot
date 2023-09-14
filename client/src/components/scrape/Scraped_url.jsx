@@ -5,7 +5,7 @@ import Input_field from '../shared_components/Input_field'
 import Button from '../shared_components/Button'
 import Scraped_link from '../shared_components/Scraped_link'
 import Human_Ai_select_popup from './child/Human_Ai_select_popup'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import serverBasePath from '../../../constants'
 
@@ -16,6 +16,25 @@ export default function Scraped_url() {
   const [sources, setSources] = useState(location.state.sources);
   const chatbotId = location.state.chatbotId;
   const [totalCharacters, setTotalCharacters] = useState(0);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get(serverBasePath + '/auth/isAuthenticated', {
+        headers: {
+            'content-type': 'application/json',
+            'Accept': 'application/json',
+        },
+        withCredentials: true
+    })
+        .then((response) => {
+            if (response.data.authenticated === false) {
+                navigate('/login')
+            }
+        })
+        .catch((err) => console.log(err));
+
+}, []);
+
 
   // --------------human and AI bot function-----------------
   const human_ai_popup = () => {
@@ -58,7 +77,8 @@ export default function Scraped_url() {
         const data = response.data;
 
         if (data.links !== undefined && response.status !== 400) {
-          data.links.map((link, index) => addLink(link, index));
+          // data.links.map((link, index) => addLink(link, index));
+          navigate('/Dashboard');
           console.log('done')
         }
       })

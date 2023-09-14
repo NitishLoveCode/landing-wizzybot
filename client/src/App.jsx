@@ -16,12 +16,12 @@ export default function App() {
       <BrowserRouter>
           <HeaderRoot/>
           <Routes>
-            <Route path ="/" element={<Home/>}/>
+            <Route path ="/Dashboard" element={<Home/>}/>
             <Route path='/register' element={<Register/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/load-url' element={<Load_url/>}/>
             <Route path='/scrape' element={<Scraped_url/>}/>
-            <Route path='/root/:childs' element={<Root_page/>}/>
+            <Route path='/chatbot/:childs/:id' element={<Root_page/>}/>
             <Route path='/profile/:childs' element={<Left_sidebar/>}/>
           </Routes>
       </BrowserRouter>
