@@ -94,7 +94,7 @@ export default function Website() {
 
       <div className='flex flex-col gap-4'>
 
-        <h3 className='text-3xl font-bold'>Crawl a single URL</h3>
+        <h3 className='text-3xl font-bold'>Fetch single link</h3>
 
         <div className='flex gap-2 items-center'>
 
