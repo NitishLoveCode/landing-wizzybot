@@ -17,8 +17,6 @@ import serverBasePath from '../../../constants'
 
 export default function Root_page() {
     const location =useLocation()
-    console.log(location.pathname)
-    
     const {id} = useParams();
 
 
