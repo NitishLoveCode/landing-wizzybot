@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Button from '../../shared_components/Button';
 
-export default function Human_Ai_select_popup() {
+export default function Human_Ai_select_popup({action}) {
     // --------------swith for human sopport------------------
     const [swith, setswitch]=useState(true);
 
@@ -59,7 +59,7 @@ export default function Human_Ai_select_popup() {
                         </div>
                     </div>
                     <div className='mt-10'>
-                        <Button style={"bg-gray-800 text-white w-[70vw] sm:w-full p-3 sm:pl-40 sm:pr-40 rounded-xl active:scale-95"} text={"Create My AI Bot"}/>
+                        <Button style={"bg-gray-800 text-white w-[70vw] sm:w-full p-3 sm:pl-40 sm:pr-40 rounded-xl active:scale-95"} text={"Create My AI Bot"} action={action}/>
                     </div> 
                 </div>  
             </div>
