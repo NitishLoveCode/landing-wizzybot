@@ -1,6 +1,8 @@
 import React, { useLayoutEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import serverBasePath from '../../../../constants';
 import axios from 'axios';
+
 
 export default function User_popup_info() {
 
@@ -37,23 +39,31 @@ export default function User_popup_info() {
 
   return (
     <>
+
       <div className='absolute shadow-xl gap-1 flex flex-col right-10 top-[67px] rounded-md w-[17vw] h-[45vh] border-2 bg-white'>
 
         <div className='w-full h-12 border-b pl-2 cursor-pointer flex flex-col justify-start items-center'>
           <h3>Signed in as</h3>
           <p>{user.email}</p>
         </div>
+<Link to={"/profile/personal-information"}>
         <div className='w-full h-12 active:scale-95 border-b pl-2 cursor-pointer flex items-center hover:bg-gray-100'>
           <h3>{user.name}'s Workspace</h3>
         </div>
+</Link>
+<Link to={"/profile/personal-information"}>
         <div className='w-full h-12 active:scale-95 border-b pl-2 cursor-pointer flex items-center hover:bg-gray-100'>
           <h3>Your Profile</h3>
         </div>
+ </Link>
+<Link to={"/profile/team"}>
         <div className='w-full h-12 active:scale-95 border-b pl-2 cursor-pointer flex items-center hover:bg-gray-100'>
           <h3>Teammates</h3>
         </div>
+</Link>
         <div className='w-full h-12 active:scale-95 border-b pl-2 cursor-pointer flex items-center hover:bg-gray-100'>
           <h3>Billing</h3>
+
         </div>
         <button className='w-full h-12 active:scale-95 pl-2 cursor-pointer flex items-center hover:bg-gray-100'
           onClick={signout}
