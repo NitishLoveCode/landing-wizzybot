@@ -22,7 +22,7 @@ export default function Register() {
             setError('Please make sure that the password is atleast 8 characters long');
             return;
         }
-        axios.post(`${serverBasePath}/register/user`, 
+        axios.post(`${serverBasePath}/auth/register/user`, 
         {
             email: email,
             name: name,
