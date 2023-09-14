@@ -18,7 +18,7 @@ export default function Login() {
             return;
         }
 
-        axios.post(`${serverBasePath}/login/user`, 
+        axios.post(`${serverBasePath}/auth/login/user`, 
         {
             email: email,
             password: password,

@@ -5,7 +5,7 @@ import axios from 'axios';
 export default function User_popup_info() {
 
   function signout() {
-    window.open(serverBasePath + "/logout", "_self");
+    window.open(serverBasePath + "/auth/logout", "_self");
   }
 
   const [user, setUser] = useState({
