@@ -7,6 +7,8 @@ import Load_url from './components/scrape/Load_url'
 import Scraped_url from './components/scrape/Scraped_url'
 import Root_page from './components/dashboard/Root_page'
 import Preview from './components/dashboard/childs/Preview'
+import Home from './components/Home/Home'
+import Left_sidebar from './components/profile/Left_sidebar'
 
 export default function App() {
   return (
@@ -14,11 +16,13 @@ export default function App() {
       <BrowserRouter>
           <HeaderRoot/>
           <Routes>
+            <Route path ="/" element={<Home/>}/>
             <Route path='/register' element={<Register/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/load-url' element={<Load_url/>}/>
             <Route path='/scrape' element={<Scraped_url/>}/>
             <Route path='/root/:childs' element={<Root_page/>}/>
+            <Route path='/profile/:childs' element={<Left_sidebar/>}/>
           </Routes>
       </BrowserRouter>
     </>

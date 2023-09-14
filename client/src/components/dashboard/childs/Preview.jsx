@@ -16,14 +16,101 @@ export default function Preview() {
                 </div>
             </div>
 
-            <div className='h-full bg-[url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png")] overflow-y-scroll'>
-                <div className='m-5 flex justify-between'>
+            <div className='h-full bg-m overflow-y-scroll'>
+
+                <div className='m-5 flex flex-col justify-between'>
+                {/* ----------------message, you can write map function------------ */}
+
+                    {/* -----left message------ */}
                     <div className='bg-white h-fit p-1 rounded-md'>
                         <h3>Hello, how can i help you?</h3>
                     </div>
+                    {/* -------right messaage-------- */}
                     <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
                         <h3>hmmm, i don't need help :)</h3>
                     </div>
+
+                    <div className='bg-white h-fit p-1 rounded-md'>
+                        <h3>Hello, how can i help you?</h3>
+                    </div>
+                    {/* -------right messaage-------- */}
+                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
+                        <h3>hmmm, i don't need help :)</h3>
+                    </div>
+
+                    <div className='bg-white h-fit p-1 rounded-md'>
+                        <h3>Hello, how can i help you?</h3>
+                    </div>
+                    {/* -------right messaage-------- */}
+                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
+                        <h3>hmmm, i don't need help :)</h3>
+                    </div>
+
+                    <div className='bg-white h-fit p-1 rounded-md'>
+                        <h3>Hello, how can i help you?</h3>
+                    </div>
+                    {/* -------right messaage-------- */}
+                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
+                        <h3>hmmm, i don't need help :)</h3>
+                    </div>
+                    <div className='bg-white h-fit p-1 rounded-md'>
+                        <h3>Hello, how can i help you?</h3>
+                    </div>
+                    {/* -------right messaage-------- */}
+                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
+                        <h3>hmmm, i don't need help :)</h3>
+                    </div>
+                    <div className='bg-white h-fit p-1 rounded-md'>
+                        <h3>Hello, how can i help you?</h3>
+                    </div>
+                    {/* -------right messaage-------- */}
+                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
+                        <h3>hmmm, i don't need help :)</h3>
+                    </div>
+                    <div className='bg-white h-fit p-1 rounded-md'>
+                        <h3>Hello, how can i help you?</h3>
+                    </div>
+                    {/* -------right messaage-------- */}
+                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
+                        <h3>hmmm, i don't need help :)</h3>
+                    </div>
+                    <div className='bg-white h-fit p-1 rounded-md'>
+                        <h3>Hello, how can i help you?</h3>
+                    </div>
+                    {/* -------right messaage-------- */}
+                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
+                        <h3>hmmm, i don't need help :)</h3>
+                    </div>
+                    <div className='bg-white h-fit p-1 rounded-md'>
+                        <h3>Hello, how can i help you?</h3>
+                    </div>
+                    {/* -------right messaage-------- */}
+                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
+                        <h3>hmmm, i don't need help :)</h3>
+                    </div>
+                    <div className='bg-white h-fit p-1 rounded-md'>
+                        <h3>Hello, how can i help you?</h3>
+                    </div>
+                    {/* -------right messaage-------- */}
+                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
+                        <h3>hmmm, i don't need help :)</h3>
+                    </div>
+                    <div className='bg-white h-fit p-1 rounded-md'>
+                        <h3>Hello, how can i help you?</h3>
+                    </div>
+                    {/* -------right messaage-------- */}
+                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
+                        <h3>hmmm, i don't need help :)</h3>
+                    </div>
+                    <div className='bg-white h-fit p-1 rounded-md'>
+                        <h3>Hello, how can i help you?</h3>
+                    </div>
+                    {/* -------right messaage-------- */}
+                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
+                        <h3>hmmm, i don't need help :)</h3>
+                    </div>
+
+                {/* --------------message, box end--------------------------- */}
                 </div>
             </div>
 
