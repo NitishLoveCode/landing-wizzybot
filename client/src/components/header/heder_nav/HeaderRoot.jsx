@@ -10,7 +10,7 @@ export default function HeaderRoot() {
     <>
         <div className='w-screen'>
         {
-            location.pathname==="/login" || location.pathname==="/register" ? "":<HeaderBar/>
+            location.pathname==="/login" || location.pathname==="/profile/team" || location.pathname==="/profile/personal-information" || location.pathname==="/register"  || location.pathname==="/profile" ? "":<HeaderBar/>
         }
         </div>
     </>
