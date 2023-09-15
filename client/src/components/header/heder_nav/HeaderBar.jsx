@@ -16,7 +16,7 @@ export default function HeaderBar() {
     <>
       <div className='relative'>
         <div className='flex justify-between sm:pl-10 sm:pr-10 mb-8 shadow-md p-1'>
-            <Link to={"/"}>
+            <Link to={"/Dashboard"}>
             <div className='flex cursor-pointer active:scale-95 items-center'>
                 <img src="https://app.livechatai.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.99eba397.png&w=48&q=75" alt='logo'/>
                 <h1 className='text-xl sm:text-2xl font-semibold text-gray-700'>WizzyBot</h1>
