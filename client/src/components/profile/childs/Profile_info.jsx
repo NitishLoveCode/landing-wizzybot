@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 export default function Profile_info() {
     const [passChangeMessage, setPassChangeMessage] = useState('');
+    const [selectedFile, setSelectedFile] = useState();
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -20,6 +21,11 @@ export default function Profile_info() {
         newPassword: '',
         confirmPassword: '',
     });
+
+    const [userChange, setUserChange] = useState({
+        name: false,
+        image: false
+    })
 
     useLayoutEffect(() => {
         axios.get(serverBasePath + '/my-account', {
@@ -91,6 +97,45 @@ export default function Profile_info() {
 
     }
 
+    function onFileChange(event) {
+        setUserChange(u => { return { ...u, image: true } })
+        setSelectedFile(event.target.files[0]);
+    };
+
+    function handleNameChange(e) {
+        setUserChange(u => { return { ...u, name: true } })
+        setUser(user => { return { ...user, name: e.target.value } });
+    }
+
+    function handleUserInformationUpdate() {
+
+        if (userChange.image && !userChange.name) {
+            // only image has changed
+            
+            const formData = new FormData();
+            formData.append('myFile', selectedFile, selectedFile.name);
+            axios.post(`${serverBasePath}/user/user-image`, formData, {withCredentials: true} )
+                .then(res => console.log(res))
+                .catch(err => console.error(err));
+        } else if (!userChange.image && userChange.name) {
+            // only name has changed
+            axios.post(`${serverBasePath}/user/change-name`, { name: user.name }, {withCredentials: true})
+                .then(res => console.log(res))
+                .catch(err => console.error(err));
+        } else if (userChange.image && userChange.name) {
+            // both image and name have changed
+            const formData = new FormData();
+            formData.append('myFile', selectedFile, selectedFile.name);
+            axios.post(`${serverBasePath}/user/user-image`, formData, {withCredentials: true})
+                .then(res => console.log(res))
+                .catch(err => console.error(err));
+
+            axios.post(`${serverBasePath}/user/change-name`, { name: user.name }, {withCredentials: true})
+                .then(res => console.log(res))
+                .catch(err => console.error(err));
+        }
+        // if none has changed do nothing
+    }
 
     return (
         <>
@@ -129,12 +174,21 @@ export default function Profile_info() {
                                 </div>
                             </div>
                         </div>
-                        <input className='hidden' type="file" name="" id="upload_Avatar" />
+                        <input className='hidden' type="file" name="" id="upload_Avatar" onChange={onFileChange} />
                     </div>
                     <label className='mt-4'>Name</label>
-                    <input className='w-full outline-none rounded-md border-[1px] pl-2 h-10' type="text" name="WorkspaceName" placeholder='Name' />
+
+                    <input
+                        className='w-full outline-none rounded-md border-[1px] pl-2 h-10'
+                        type="text"
+                        name="UserName"
+                        placeholder='Name'
+                        value={user.name}
+                        onChange={handleNameChange}
+                    />
+
                     <div className='bg-main mt-4 p-2 w-24 items-center justify-center flex rounded-md text-white active:scale-95'>
-                        <button>Update</button>
+                        <button onClick={handleUserInformationUpdate}>Update</button>
                     </div>
                 </div>
             </div>

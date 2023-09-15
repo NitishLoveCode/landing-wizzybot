@@ -89,7 +89,7 @@ export default function Home() {
                     <h3>New Ai Bot</h3>
                 </div>
             </div>
-            {chatbots.map(chatbot => <ChatbotCard chatbot={chatbot} deleteChatbot={deleteChatbot} />)}
+            {chatbots.map((chatbot, i) => <ChatbotCard chatbot={chatbot} deleteChatbot={deleteChatbot} key={i}/>)}
         </div>
 
     )
