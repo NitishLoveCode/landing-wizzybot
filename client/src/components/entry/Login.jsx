@@ -29,7 +29,7 @@ export default function Login() {
         })
         .then(function (response) {
             if (response.status === 200){
-                navigate('/load-url');
+                navigate(response.data.response);
             }
         })
         .catch(function (error) {
