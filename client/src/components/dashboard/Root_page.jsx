@@ -19,13 +19,14 @@ export default function Root_page() {
     console.log(location.pathname)
   return (
     <>
-        <div className='ml-24 mr-24 mt-10 gap-4 flex flex-col'>
+        <div className='ml-2 mr-2 sm:ml-24 pb-8 sm:mr-24 mt-10 gap-4 flex flex-col'>
             <div>
-                <h3 className='text-3xl font-bold text-gray-800'>wizzyBot.com</h3>
+                <h3 className='text-3xl pl-1 font-bold text-gray-800'>wizzyBot.com</h3>
             </div>
+
             <div className='flex justify-center border-b pb-3 items-center flex-col w-full'>
                 
-                <div className='flex justify-between w-full'>
+                <div className='flex flex-wrap gap-2 p-1 justify-between w-full'>
                     <Link to={"/root/preview"}>
                     <div className='flex items-center gap-2 active:scale-95 cursor-pointer'>
                         <div>
@@ -88,8 +89,10 @@ export default function Root_page() {
                     </Link>
                 </div>
             </div>
+        </div>
 
 
+        <div className='ml-2 mr-2 sm:ml-20 sm:mr-20'>
 
         {
             location.pathname ==="/root/preview"? <Preview/>:""

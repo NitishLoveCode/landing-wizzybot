@@ -9,6 +9,7 @@ import Root_page from './components/dashboard/Root_page'
 import Preview from './components/dashboard/childs/Preview'
 import Home from './components/Home/Home'
 import Left_sidebar from './components/profile/Left_sidebar'
+import Forgotpassword from './components/entry/Forgotpassword'
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
             <Route path ="/" element={<Home/>}/>
             <Route path='/register' element={<Register/>}/>
             <Route path='/login' element={<Login/>}/>
+            <Route path='/forgot-password' element={<Forgotpassword/>}/>
             <Route path='/load-url' element={<Load_url/>}/>
             <Route path='/scrape' element={<Scraped_url/>}/>
             <Route path='/root/:childs' element={<Root_page/>}/>

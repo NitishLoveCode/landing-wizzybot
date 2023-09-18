@@ -7,7 +7,7 @@ import {BsDatabase} from "react-icons/bs"
 export default function Text() {
   return (
     <>
-        <div className='w-[50vw] mb-8 flex flex-col gap-4'>
+        <div className='w-full sm:w-[50vw] mb-8 flex flex-col gap-4'>
             <div>
                 <h3 className='text-2xl font-bold'>Add new text content</h3>
             </div>
@@ -18,7 +18,7 @@ export default function Text() {
                 <textarea className='border-[1px] rounded-md outline-none p-2 w-full border-gray-400' placeholder='Content' name="content" id="" cols="20" rows="5"></textarea>
             </div>
             <div>
-                <Button style={"bg-gray-900 p-3 rounded-md active:scale-95 text-white pl-8 pr-8"} text={"Add Content"}/>
+                <Button style={"bg-gray-900 w-full sm:w-fit p-3 rounded-md active:scale-95 text-white pl-8 pr-8"} text={"Add Content"}/>
             </div>
 
             <hr />

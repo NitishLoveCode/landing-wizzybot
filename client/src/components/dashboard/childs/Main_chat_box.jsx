@@ -1,13 +1,13 @@
 import React from 'react'
 import {AiOutlineSend} from "react-icons/ai"
 
-export default function Main_chat_box() {
+export default function Main_chat_box({AI_Bot_color,Message_color,User_message_color}) {
   return (
     <>
         {/* ----------------right side chat------------- */}
         <div className='sticky top-0 h-screen'>
-        <div className=' relative border-[1px] shadow-xl overflow-hidden rounded-3xl border-gray-300 w-full sm:w-[68vw] h-[80vh]'>
-            <div className={ "bg-[#2188f3] px-2 py-2"}>
+        <div className=' relative border-[1px] shadow-xl overflow-hidden rounded-3xl border-gray-300 w-full sm:w-[28vw] h-[80vh]'>
+            <div style={{ backgroundColor: AI_Bot_color }} className={ "px-2 py-2"}>
               <img className='h-10' src="https://app.livechatai.com/_next/static/media/logo-white.94898d4d.png" alt="logo" />
             </div>
 
@@ -17,7 +17,7 @@ export default function Main_chat_box() {
 
                 {/* -----------------send--------------- */}
                 <div className='flex justify-end'>
-                  <div className='bg-[#2188f3] mt-4 text-white w-fit px-2 rounded-md'>
+                  <div style={{ backgroundColor: User_message_color }} className='mt-4 text-white w-fit px-2 rounded-md'>
                     <h3>Lets jump on a video call.</h3>
                   </div>
                 </div>
@@ -25,7 +25,7 @@ export default function Main_chat_box() {
 
                 {/* -----------------reply--------------- */}
                 <div className='flex justify-start'>
-                  <div className='bg-[#f4f5f6] mt-4 w-fit px-2 rounded-md'>
+                  <div style={{ backgroundColor: Message_color }} className='mt-4 w-fit px-2 rounded-md'>
                     <h3>How often should i take the medicine?</h3>
                   </div>
                 </div>
@@ -33,7 +33,7 @@ export default function Main_chat_box() {
 
                 {/* -----------------send--------------- */}
                 <div className='flex justify-end'>
-                  <div className='bg-[#2188f3] mt-4 text-white w-fit px-2 rounded-md'>
+                  <div style={{ backgroundColor: User_message_color }} className='mt-4 text-white w-fit px-2 rounded-md'>
                     <h3>Twice a day, at breakfast and before bed</h3>
                   </div>
                 </div>
@@ -41,7 +41,7 @@ export default function Main_chat_box() {
 
                 {/* -----------------reply--------------- */}
                 <div className='flex justify-start'>
-                  <div className='bg-[#f4f5f6] mt-4 w-fit px-2 rounded-md'>
+                  <div style={{ backgroundColor: Message_color }} className='mt-4 w-fit px-2 rounded-md'>
                     <h3>Thanks a lot doc</h3>
                   </div>
                 </div>
@@ -49,7 +49,7 @@ export default function Main_chat_box() {
 
                 {/* -----------------send--------------- */}
                 <div className='flex justify-end'>
-                  <div className='bg-[#2188f3] mt-4 text-white w-fit px-2 rounded-md'>
+                  <div style={{ backgroundColor: User_message_color }} className='mt-4 text-white w-fit px-2 rounded-md'>
                     <h3>Thats my duty, mention not</h3>
                   </div>
                 </div>
@@ -57,7 +57,7 @@ export default function Main_chat_box() {
 
                 {/* -----------------reply--------------- */}
                 <div className='flex justify-start'>
-                  <div className='bg-[#f4f5f6] mt-4 w-fit px-2 rounded-md'>
+                  <div style={{ backgroundColor: Message_color }} className='mt-4 w-fit px-2 rounded-md'>
                     <h3>sorry to bother again but can i ask you one more favour?</h3>
                   </div>
                 </div>
@@ -65,7 +65,7 @@ export default function Main_chat_box() {
 
                 {/* -----------------send--------------- */}
                 <div className='flex justify-end'>
-                  <div className='bg-[#2188f3] mt-4 text-white w-fit px-2 rounded-md'>
+                  <div style={{ backgroundColor: User_message_color }} className='mt-4 text-white w-fit px-2 rounded-md'>
                     <h3>yeah sure, go ahead?</h3>
                   </div>
                 </div>
@@ -73,7 +73,7 @@ export default function Main_chat_box() {
 
                 {/* -----------------reply--------------- */}
                 <div className='flex justify-start'>
-                  <div className='bg-[#f4f5f6] mt-4 w-fit px-2 rounded-md'>
+                  <div style={{ backgroundColor: Message_color }} className='mt-4 w-fit px-2 rounded-md'>
                     <h3>I really had a scary feeling about this, can please advice some tricks to overcome my anxiety?</h3>
                   </div>
                 </div>
