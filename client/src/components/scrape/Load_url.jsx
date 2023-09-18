@@ -12,28 +12,10 @@ export default function Load_url() {
   const [baseLink, setBaseLink] = useState('');
   // const [sources, setSources] = useState([]);
   const navigate = useNavigate();
-  let chatbotId;
 
 
 
   function getLinks() {
-
-    if (chatbotId === undefined) {
-      axios.get(serverBasePath + '/new-chatbot', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        withCredentials: true
-      })
-        .then(response => {
-          const data = response.data;
-          console.log(data)
-          chatbotId = data.newBotId;
-        })
-        .catch(err => console.log(err));
-    }
-
 
     axios.post(serverBasePath + '/train/website/baseLink', { url: baseLink }, {
       headers: {
@@ -51,7 +33,7 @@ export default function Load_url() {
             }
           })
           // setSources(data.pagesData);
-          navigate('/scrape', { state: { sources: data.pagesData, chatbotId: chatbotId } })
+          navigate('/scrape', { state: { sources: data.pagesData } })
         }
       })
       .catch(err => console.log(err));
