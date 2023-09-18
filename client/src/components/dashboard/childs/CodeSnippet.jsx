@@ -1,7 +1,6 @@
 import React from 'react';
 
-export default function CodeSnippet() {
-  const codeString = `<script\n\tsrc="https://app.livechatai.com/embed.js"\n\tdata-id="clmbvu6kc0001l20f97fmho7y"\n\tasync defer>\n</script>`;
+export default function CodeSnippet({codeString}) {
   
   const handleCopyClick = () => {
     navigator.clipboard.writeText(codeString.replace(/\n\t/g, '\n    '));

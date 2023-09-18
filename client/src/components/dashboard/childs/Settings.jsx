@@ -99,7 +99,9 @@ export default function Settings() {
             withCredentials: true
         })
             .then((response) => {
-                // setResponse(response.data.response);
+                if (response.status === 200){
+                    setBackup({...settings});
+                }
             })
             .catch(err => console.log(err));
     }
