@@ -10,23 +10,26 @@ import Preview from './components/dashboard/childs/Preview'
 import Home from './components/Home/Home'
 import Left_sidebar from './components/profile/Left_sidebar'
 import Forgotpassword from './components/entry/Forgotpassword'
+import ResetPassword from './components/entry/ResetPassword'
 
 export default function App() {
   return (
     <>
       <BrowserRouter>
-          <HeaderRoot/>
-          <Routes>
-            <Route path='/' element={<Navigate to={'/dashboard'}/>} />
-            <Route path ="/Dashboard" element={<Home/>}/>
-            <Route path='/register' element={<Register/>}/>
-            <Route path='/login' element={<Login/>}/>
-            <Route path='/forgot-password' element={<Forgotpassword/>}/>
-            <Route path='/load-url' element={<Load_url/>}/>
-            <Route path='/scrape' element={<Scraped_url/>}/>
-            <Route path='/chatbot/:childs/:id' element={<Root_page/>}/>
-            <Route path='/profile/:childs' element={<Left_sidebar/>}/>
-          </Routes>
+        <HeaderRoot />
+        <Routes>
+          <Route path='/' element={<Navigate to={'/dashboard'} />} />
+          <Route path="/Dashboard" element={<Home />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/forgot-password' element={<Forgotpassword />} />
+          <Route path='/load-url' element={<Load_url />} />
+          <Route path='/scrape' element={<Scraped_url />} />
+          <Route path='/chatbot/:childs/:id' element={<Root_page />} />
+          <Route path='/profile/:childs' element={<Left_sidebar />} />
+          <Route path='/reset-password/:token' element={<ResetPassword />} />
+          <Route path='/test' element={<ResetPassword />} />
+        </Routes>
       </BrowserRouter>
     </>
   )

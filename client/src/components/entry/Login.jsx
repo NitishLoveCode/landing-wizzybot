@@ -13,28 +13,28 @@ export default function Login() {
 
     function sendToBackend() {
         setError('');
-        if (email === '' || password ==='' ){
+        if (email === '' || password === '') {
             setError('Please fill all the fields before signing in.');
             return;
         }
 
-        axios.post(`${serverBasePath}/auth/login/user`, 
-        {
-            email: email,
-            password: password,
-            type: 'user'
-        },
-        {
-            withCredentials: true
-        })
-        .then(function (response) {
-            if (response.status === 200){
-                navigate(response.data.response);
-            }
-        })
-        .catch(function (error) {
-            setError(error.response.data.response)
-        });
+        axios.post(`${serverBasePath}/auth/login/user`,
+            {
+                email: email,
+                password: password,
+                type: 'user'
+            },
+            {
+                withCredentials: true
+            })
+            .then(function (response) {
+                if (response.status === 200) {
+                    navigate(response.data.response);
+                }
+            })
+            .catch(function (error) {
+                setError(error.response.data.response)
+            });
     }
 
     return (
@@ -73,7 +73,9 @@ export default function Login() {
                         />
                     </div>
                     <div className='flex'>
-                        <label className='text-main cursor-pointer'>Forgot password?</label>
+                        <Link to={'/forgot-password'}>
+                            <label className='text-main cursor-pointer'>Forgot password?</label>
+                        </Link>
                     </div>
                     {error !== '' && <p className='text-red-400'>{error}</p>}
                     <Button style={"bg-main h-[36px] text-white p-1 w-full rounded-md active:scale-95"} text={"Login"} action={sendToBackend} />
