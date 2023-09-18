@@ -3,6 +3,8 @@ import { FiEdit2 } from "react-icons/fi"
 import { BiTime } from "react-icons/bi"
 import { AiOutlineSetting } from "react-icons/ai"
 import { BiFilterAlt } from "react-icons/bi"
+import { Link } from 'react-router-dom'
+
 import { useNavigate } from "react-router-dom"
 
 
@@ -11,7 +13,7 @@ export default function ChatbotCard({ chatbot, deleteChatbot }) {
 
     return (
         <>
-            <div className='w-[50vw] rounded-md border-[1px] border-gray-400 h-fit'>
+            <div className='w-[95vw] sm:w-[40vw] rounded-md border-[1px] border-gray-400 h-fit'>
                 <div className='flex py-2 px-4 bg-gray-100 rounded-t-md items-center justify-between'>
                     <button onClick={()=>{
                         navigate(`/chatbot/preview/${chatbot.id}`)
@@ -36,24 +38,41 @@ export default function ChatbotCard({ chatbot, deleteChatbot }) {
                         <div><h3>Resolutions</h3></div>
                     </div>
                 </div>
-                <div className='flex justify-around my-8'>
-                    <div className='flex cursor-pointer active:scale-95 items-center gap-2'>
-                        <FiEdit2 />
-                        <h3>CUSTOMIZE</h3>
+
+
+
+                <div className='flex justify-around items-center my-8'>
+                    <div className='flex flex-col sm:flex-row gap-[4vw]'>
+                        <Link to={"/root/customize"}>
+                        <div className='flex cursor-pointer active:scale-95 items-center gap-2'>
+                            <FiEdit2/>
+                            <h3 className='text-sm'>CUSTOMIZE</h3>
+                        </div>
+                        </Link>
+                        <Link to="/root/manage_data_sources">
+                        <div className='flex cursor-pointer active:scale-95 items-center gap-2'>
+                            <BiFilterAlt/>
+                            <h3 className='text-sm'>DATA SOURCE</h3>
+                        </div>
+                        </Link>
                     </div>
-                    <div className='flex cursor-pointer active:scale-95 items-center gap-2'>
-                        <BiFilterAlt />
-                        <h3>DATA SOURCE</h3>
-                    </div>
-                    <div className='flex cursor-pointer active:scale-95 items-center gap-2'>
-                        <BiTime />
-                        <h3>INBOX</h3>
-                    </div>
-                    <div className='flex cursor-pointer active:scale-95 items-center gap-2'>
-                        <AiOutlineSetting />
-                        <h3>SETTINGS</h3>
+                    <div className='flex flex-col sm:flex-row gap-[4vw]'>
+                        <Link to={"/root/chat-inbox"}>
+                        <div className='flex cursor-pointer active:scale-95 items-center gap-2'>
+                            <BiTime/>
+                            <h3 className='text-sm'>INBOX</h3>
+                        </div>
+                        </Link>
+                        <Link to={"/root/settings"}>
+                        <div className='flex cursor-pointer active:scale-95 items-center gap-2'>
+                            <AiOutlineSetting/>
+                            <h3 className='text-sm'>SETTINGS</h3>
+                        </div>
+                        </Link>
                     </div>
                 </div>
+
+
             </div>
         </>)
 }
