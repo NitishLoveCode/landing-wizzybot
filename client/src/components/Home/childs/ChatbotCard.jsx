@@ -6,10 +6,13 @@ import { BiFilterAlt } from "react-icons/bi"
 import { Link } from 'react-router-dom'
 
 import { useNavigate } from "react-router-dom"
+import { useState } from "react"
+import Delete_popup from "./Delete_popup"
 
 
-export default function ChatbotCard({ chatbot, deleteChatbot }) {
+export default function ChatbotCard({ chatbot,delete_traind_bot }) {
     const navigate = useNavigate();
+    
 
     return (
         <>
@@ -20,7 +23,7 @@ export default function ChatbotCard({ chatbot, deleteChatbot }) {
                     }}>
                         <h3 className='text-xl font-semibold'>{chatbot.name}</h3>
                     </button>
-                    <div onClick={() => { deleteChatbot(chatbot.id) }}>
+                    <div onClick={() => delete_traind_bot(chatbot.id) }>
                         <AiOutlineDelete className='text-2xl hover:text-red-500 cursor-pointer active:scale-95' />
                     </div>
                 </div>
@@ -71,8 +74,6 @@ export default function ChatbotCard({ chatbot, deleteChatbot }) {
                         </Link>
                     </div>
                 </div>
-
-
             </div>
         </>)
 }

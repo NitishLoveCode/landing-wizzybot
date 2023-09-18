@@ -10,6 +10,7 @@ import Preview from './components/dashboard/childs/Preview'
 import Home from './components/Home/Home'
 import Left_sidebar from './components/profile/Left_sidebar'
 import Forgotpassword from './components/entry/Forgotpassword'
+import Landing from './components/dashboard/landing/Landing'
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
             <Route path='/scrape' element={<Scraped_url/>}/>
             <Route path='/chatbot/:childs/:id' element={<Root_page/>}/>
             <Route path='/profile/:childs' element={<Left_sidebar/>}/>
+            <Route path='/profile/demo' element={<Landing/>}/>
           </Routes>
       </BrowserRouter>
     </>
