@@ -13,12 +13,15 @@ import { Link } from 'react-router-dom'
 import {HiMenuAlt2} from "react-icons/hi"
 import {AiOutlineClose} from "react-icons/ai"
 import Billing from './childs/Billing'
+import {MdOutlineAdd} from "react-icons/md"
+import Addteam from './childs/Addteam'
 
 export default function Left_sidebar() {
     const location =useLocation()
 
     const [userInfoToggle, setuserInfoToggle]=useState(false)
     const[hide_and_show, sethide_and_show]=useState("hidden")
+    const[AddteamPopup, setaddteamPopup]=useState(false)
 
     const headerToggleOn=()=>{
       if(userInfoToggle==true){
@@ -33,6 +36,16 @@ export default function Left_sidebar() {
             sethide_and_show("hidden")
         }else{
             sethide_and_show("")
+        }
+    }
+
+    // ------------------add new Team------------------
+    const add_new_team_popup=()=>{
+        console.log("caafasdfdas")
+        if(AddteamPopup===false){
+            setaddteamPopup(true)
+        }else{
+            setaddteamPopup(false)
         }
     }
 
@@ -133,7 +146,7 @@ export default function Left_sidebar() {
             }
 
             {
-                location.pathname==="/profile/team" ? <Team/>:""
+                location.pathname==="/profile/team" ? <Team add_new_team_popup={add_new_team_popup}/>:""
             }
              {
                 location.pathname==="/profile/billing" ? <Billing/>:""
@@ -145,6 +158,11 @@ export default function Left_sidebar() {
             
         </div>
     </div>
+            {/* --------------Team---add new user popup--------------- */}
+            
+            {
+                AddteamPopup? <Addteam add_new_team_popup={add_new_team_popup}/>:""
+            }
     </>
   )
 }
