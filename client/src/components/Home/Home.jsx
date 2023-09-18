@@ -4,10 +4,13 @@ import serverBasePath from '../../../constants'
 import ChatbotCard from './childs/ChatbotCard'
 import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/Loading';
+import Delete_popup from './childs/Delete_popup';
 
 export default function Home() {
 
     const [chatbots, setChatbots] = useState([]);
+    const [delete_bot, setdelete_bot] = useState(false)
+    const [chat_bot_id, setchat_bot_id] = useState(null)
     const navigate = useNavigate();
 
 
@@ -75,13 +78,26 @@ export default function Home() {
             .catch(err => console.log(err));
     }
 
+    
+
+
+
+    // --------for delete bot-----------------
+    const delete_traind_bot=(chat_id)=>{
+        setchat_bot_id(chat_id)
+        if(delete_bot===true){
+            setdelete_bot(false);
+        }else{
+            setdelete_bot(true);
+        }
+    }
 
 
 
     return (
 
         <>
-            <div className='mx-2 sm:mx-10'>
+        <div className='mx-2 sm:mx-10'>
             <div className='flex justify-between mb-8'>
                 <div>
                     <h3 className='text-2xl sm:text-4xl font-bold'>Dashboard</h3>
@@ -90,8 +106,12 @@ export default function Home() {
                     <h3>New Ai Bot</h3>
                 </div>
             </div>
-            {chatbots.map((chatbot, i) => <ChatbotCard chatbot={chatbot} deleteChatbot={deleteChatbot} key={i}/>)}
+            {chatbots.map((chatbot, i) => <ChatbotCard delete_traind_bot={delete_traind_bot} chatbot={chatbot} deleteChatbot={deleteChatbot} key={i}/>)}
         </div>
+
+        {
+            delete_bot? <Delete_popup chat_bot_id={chat_bot_id} delete_traind_bot={delete_traind_bot} deleteChatbot={deleteChatbot}/>:""
+        }
 
         </>
 
