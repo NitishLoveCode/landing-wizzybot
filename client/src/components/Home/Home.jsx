@@ -3,6 +3,7 @@ import axios from 'axios'
 import serverBasePath from '../../../constants'
 import ChatbotCard from './childs/ChatbotCard'
 import { useNavigate } from 'react-router-dom';
+import Loading from '../loading/Loading';
 
 export default function Home() {
 
@@ -54,7 +55,6 @@ export default function Home() {
                 }
             })
             .catch((err) => console.log(err));
-
     }, []);
 
     useEffect(fetchChatbots, [])
@@ -80,17 +80,23 @@ export default function Home() {
 
     return (
 
-        <div className='mx-10'>
+        <>
+            <div className='mx-2 sm:mx-10'>
             <div className='flex justify-between mb-8'>
                 <div>
-                    <h3 className='text-4xl font-bold'>Dashboard</h3>
+                    <h3 className='text-2xl sm:text-4xl font-bold'>Dashboard</h3>
                 </div>
-                <div className='bg-gray-900 text-white items-center cursor-pointer justify-center flex px-8 rounded-md active:scale-95'>
+                <div className='bg-gray-900 text-white items-center cursor-pointer justify-center flex px-2 sm:px-8 rounded-md active:scale-95'>
                     <h3>New Ai Bot</h3>
                 </div>
             </div>
             {chatbots.map((chatbot, i) => <ChatbotCard chatbot={chatbot} deleteChatbot={deleteChatbot} key={i}/>)}
         </div>
+
+        <div>
+            <Loading/>
+        </div>
+        </>
 
     )
 }

@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { IoMdAddCircleOutline } from "react-icons/io"
-import { BsDatabase } from "react-icons/bs"
+import {BsDatabase} from "react-icons/bs"
+import {RiDeleteBin6Line} from "react-icons/ri"
+
 import axios from 'axios';
 import serverBasePath from '../../../../constants';
 import { useParams } from 'react-router-dom';
@@ -36,9 +38,9 @@ export default function Pdf() {
 
     return (
         <>
-            <div className='w-[50vw]'>
+            <div className='w-[95vw] sm:w-[50vw]'>
                 <div>
-                    <h3 className='text-3xl font-bold'>Import PDF Content</h3>
+                    <h3 className='text-xl sm:text-3xl font-bold'>Import PDF Content</h3>
                 </div>
                 <div className='mb-20'>
                     {/* file uploader button */}

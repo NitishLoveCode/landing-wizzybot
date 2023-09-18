@@ -5,6 +5,9 @@ import IncludedLink from './childs/IncludedLink'
 import axios from 'axios'
 import serverBasePath from '../../../../constants'
 import { useParams } from 'react-router-dom'
+import { LuRefreshCw } from "react-icons/lu";
+import {AiOutlineArrowRight} from "react-icons/ai"
+import { MdDeleteOutline } from "react-icons/md";
 
 export default function Website() {
   const [links, editLinks] = useState([]);
@@ -121,6 +124,49 @@ export default function Website() {
           </div>
         </div>
 
+        <div className="flex gap-4 mt-8 items-center justify-center ">
+          <div className="w-[25vw] h-[1px] bg-gray-400"></div>
+          <div className="w-24 flex justify-center items-center">
+            <h3>OR</h3>
+          </div>
+          <div className="w-[25vw] h-[1px] bg-gray-400"></div>
+        </div>
+      
+
+      <div className="flex flex-col gap-4">
+        <h3 className="text-2xl sm:text-3xl font-bold">Crawl a single URL</h3>
+        <div className="flex sm:flex-row flex-col gap-2 items-center">
+          <Input_field
+            placeholder={"Enter URL..."}
+            style={"border-2 w-[95vw] rounded-md sm:w-[30vw] h-[6vh] pl-2"}
+          />
+          <Button
+            style={"bg-gray-800 w-[95vw] sm:w-[18vw] text-white p-2 pl-3 pr-3 rounded-md"}
+            text={"Fetch single link"}
+          />
+        </div>
+      </div>
+      {/* -------------------Imported & Trained Web Pages------------------- */}
+
+      
+
+      <div className="flex w-full sm:w-[50vw] flex-col gap-2">
+        <div className="flex w-full justify-between mb-10 gap-8 items-center">
+          <div>
+            <h3 className="text-md md:text-3xl font-bold">Imported Trained<br className="sm:hidden"></br> Web Pages</h3>
+          </div>
+          <div>
+            <Button
+              style={"border-2 text-sm rounded-md border-black p-1 pl-2 pr-2"}
+              text={"Delete all"}
+            />
+          </div>
+        </div>
+          {/* =================MORE OPTIONS============== */}
+          <div className="flex sm:hidden items-center gap-2 justify-end">
+            <h3>More</h3>
+            <AiOutlineArrowRight/>
+          </div>
 
 
         {/* --------------------from here trained url------------------------------------- */}
@@ -136,6 +182,7 @@ export default function Website() {
 
 
       </div>
+      </div>
     </>
-  )
+  );
 }
