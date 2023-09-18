@@ -64,7 +64,7 @@ export default function Text() {
 
     return (
         <>
-            <div className='w-[50vw] mb-8 flex flex-col gap-4'>
+            <div className='w-[95vw] sm:w-[50vw] mb-8 flex flex-col gap-4'>
                 <div>
                     <h3 className='text-2xl font-bold'>Add new text content</h3>
                 </div>
@@ -84,7 +84,7 @@ export default function Text() {
                     />
                 </div>
                 <div>
-                    <Button style={"bg-gray-900 p-3 rounded-md active:scale-95 text-white pl-8 pr-8"} text={"Add Content"} action={sumbitText} />
+                    <Button style={"bg-gray-900 w-[95vw] sm:w-auto p-3 rounded-md active:scale-95 text-white pl-8 pr-8"} text={"Add Content"} action={sumbitText} />
                 </div>
 
                 <hr />

@@ -1,127 +1,133 @@
-import React from 'react'
-import Button from '../../shared_components/Button'
-import {FiSend} from "react-icons/fi"
+import React, { useEffect, useState } from 'react'
+import { AiOutlineSend } from "react-icons/ai"
+import ChatBubble from '../../shared_components/ChatBubble'
+import { useParams } from 'react-router-dom';
+import serverBasePath from '../../../../constants';
+import axios from 'axios';
+
+export default function Main_chat_box() {
+  const { id } = useParams();
+
+  const [text, setText] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [typing, setTyping] = useState(false);
+  const [conversationId, setConversationId] = useState('');
+
+  function addMessage(message) {
+    setMessages(messages => [...messages, message]);
+  }
+
+  function sendMessage(event) {
+    if (text === ''){
+      return;
+    } 
+    let messageBody = { sender: 'user', body: text, conversationId: conversationId }
+    addMessage(messageBody);
+    setTyping(true);
+    axios.post(serverBasePath + '/message/' + id, messageBody, {
+      headers: {
+        'content-type': 'application/json',
+        'Accept': 'application/json'
+      },
+      withCredentials: true
+    })
+      .then((response) => {
+        const data = response.data;
+        setTyping(false)
+        addMessage(data);
+        if (conversationId === '') {
+          setConversationId(data.conversationId)
+        }
+      })
+      .catch(err => console.log(err));
+    setText('')
+  }
+
+  function handleChange(event) {
+    //handle input being done in the text area. This text will be the user input that will be sent to the server. 
+    setText(event.target.value)
+  }
+
+  function restartConvo(id) {
+    setMessages([]);
+    setConversationId('');
+    setTyping(true)
+
+    axios.post(serverBasePath + '/start/' + id, {},  {
+      headers: {
+        'content-type': 'application/json',
+        'Accept': 'application/json'
+      },
+      withCredentials: true
+    })
+      .then((response) => {
+        const data = response.data;
+        addMessage(data.message);
+        setTyping(false)
+      })
+      .catch(err => console.log(err));
+  }
 
 
-export default function Preview() {
+  useEffect(() => { restartConvo(id) }, [])
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.href = `${serverBasePath}/styles/userStyle.css/${id}`;
+    link.rel = "stylesheet";
+
+    // Append the new stylesheet to the document head
+    document.head.appendChild(link);
+}, []); // Empty array ensures this runs once on mount and not on updates
+
   return (
     <>
-        <div className='relative overflow-hidden border-2 border-main mb-4 rounded-xl h-[75vh]'>
-            <div className='flex  p-2 bg-main gap-2 items-center'>
-                <div>
-                    <img className='w-10' src="https://app.livechatai.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.99eba397.png&w=48&q=75" alt="logo" />
-                </div>
-                <div>
-                    <h3 className='text-xl text-white'>WizzyBot</h3>
-                </div>
+      {/* ----------------right side chat------------- */}
+      <div className='sticky top-0 h-screen'>
+        <div className=' relative border-[1px] shadow-xl overflow-hidden rounded-3xl border-gray-300 w-full sm:w-[68vw] h-[80vh]'>
+          <div className={"bg-[#2188f3] px-2 py-2 header-bar-color"}>
+            <img className='h-10' src="https://app.livechatai.com/_next/static/media/logo-white.94898d4d.png" alt="logo" />
+          </div>
+
+          {/* --------------------message --------------- */}
+          <div className='px-4 mt-4 pb-4 h-[72%] overflow-y-auto'>
+            <div className='flex flex-col gap-4'>
+
+              {messages.map((message, index) => <ChatBubble key={index + 1}
+                id={index + 1}
+                message={message} />)}
+
+              {typing && <ChatBubble key={-1} typing={typing} />}
+
+
+              {/* ----------------------------------------------------- */}
             </div>
+          </div>
+          {/* ------------------------------------------- */}
 
-            <div className='h-full bg-m overflow-y-scroll'>
-
-                <div className='m-5 flex flex-col justify-between'>
-                {/* ----------------message, you can write map function------------ */}
-
-                    {/* -----left message------ */}
-                    <div className='bg-white h-fit p-1 rounded-md'>
-                        <h3>Hello, how can i help you?</h3>
-                    </div>
-                    {/* -------right messaage-------- */}
-                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
-                        <h3>hmmm, i don't need help :)</h3>
-                    </div>
-
-                    <div className='bg-white h-fit p-1 rounded-md'>
-                        <h3>Hello, how can i help you?</h3>
-                    </div>
-                    {/* -------right messaage-------- */}
-                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
-                        <h3>hmmm, i don't need help :)</h3>
-                    </div>
-
-                    <div className='bg-white h-fit p-1 rounded-md'>
-                        <h3>Hello, how can i help you?</h3>
-                    </div>
-                    {/* -------right messaage-------- */}
-                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
-                        <h3>hmmm, i don't need help :)</h3>
-                    </div>
-
-                    <div className='bg-white h-fit p-1 rounded-md'>
-                        <h3>Hello, how can i help you?</h3>
-                    </div>
-                    {/* -------right messaage-------- */}
-                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
-                        <h3>hmmm, i don't need help :)</h3>
-                    </div>
-                    <div className='bg-white h-fit p-1 rounded-md'>
-                        <h3>Hello, how can i help you?</h3>
-                    </div>
-                    {/* -------right messaage-------- */}
-                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
-                        <h3>hmmm, i don't need help :)</h3>
-                    </div>
-                    <div className='bg-white h-fit p-1 rounded-md'>
-                        <h3>Hello, how can i help you?</h3>
-                    </div>
-                    {/* -------right messaage-------- */}
-                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
-                        <h3>hmmm, i don't need help :)</h3>
-                    </div>
-                    <div className='bg-white h-fit p-1 rounded-md'>
-                        <h3>Hello, how can i help you?</h3>
-                    </div>
-                    {/* -------right messaage-------- */}
-                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
-                        <h3>hmmm, i don't need help :)</h3>
-                    </div>
-                    <div className='bg-white h-fit p-1 rounded-md'>
-                        <h3>Hello, how can i help you?</h3>
-                    </div>
-                    {/* -------right messaage-------- */}
-                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
-                        <h3>hmmm, i don't need help :)</h3>
-                    </div>
-                    <div className='bg-white h-fit p-1 rounded-md'>
-                        <h3>Hello, how can i help you?</h3>
-                    </div>
-                    {/* -------right messaage-------- */}
-                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
-                        <h3>hmmm, i don't need help :)</h3>
-                    </div>
-                    <div className='bg-white h-fit p-1 rounded-md'>
-                        <h3>Hello, how can i help you?</h3>
-                    </div>
-                    {/* -------right messaage-------- */}
-                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
-                        <h3>hmmm, i don't need help :)</h3>
-                    </div>
-                    <div className='bg-white h-fit p-1 rounded-md'>
-                        <h3>Hello, how can i help you?</h3>
-                    </div>
-                    {/* -------right messaage-------- */}
-                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
-                        <h3>hmmm, i don't need help :)</h3>
-                    </div>
-                    <div className='bg-white h-fit p-1 rounded-md'>
-                        <h3>Hello, how can i help you?</h3>
-                    </div>
-                    {/* -------right messaage-------- */}
-                    <div className='mt-16 bg-[#d9fdd3] h-fit p-1 rounded-md'>
-                        <h3>hmmm, i don't need help :)</h3>
-                    </div>
-
-                {/* --------------message, box end--------------------------- */}
-                </div>
+          <div className='absolute bg-white bottom-0 w-full'>
+            <div className='border-[1px] h-14  px-2 mb-4 flex items-center'>
+              <input
+                className='outline-none w-full'
+                type="text"
+                name="message"
+                value={text}
+                onChange={handleChange}
+                onKeyDown={event => {
+                  if (event.key === 'Enter' && !event.shiftKey) {
+                    sendMessage(event);
+                  }
+                }}
+                placeholder='Send message'
+                required
+                 />
+              <button onClick={sendMessage}>
+                <AiOutlineSend className='pl-2 text-4xl' />
+              </button>
             </div>
-
-
-            <div className='absolute bg-main pt-2 pb-2 w-full bottom-0'>
-                <div className='flex gap-2 justify-center items-center'>
-                    <input className='w-[80%] outline-none h-9 rounded-sm p-2' type="text" name="message" placeholder='Send message'/>
-                    <Button style={"bg-white p-1 rounded-sm active:scale-95 h-8 pl-8 pr-8 text-xl text-main"} text={<FiSend/>}/>
-                </div>
-            </div>
+          </div>
         </div>
+
+      </div>
     </>
   )
 }
