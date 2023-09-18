@@ -93,9 +93,6 @@ export default function Home() {
             {chatbots.map((chatbot, i) => <ChatbotCard chatbot={chatbot} deleteChatbot={deleteChatbot} key={i}/>)}
         </div>
 
-        <div>
-            <Loading/>
-        </div>
         </>
 
     )
