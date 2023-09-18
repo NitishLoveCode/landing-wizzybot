@@ -16,7 +16,7 @@ export default function ChatbotCard({ chatbot,delete_traind_bot }) {
 
     return (
         <>
-            <div className='w-[95vw] sm:w-[40vw] rounded-md border-[1px] border-gray-400 h-fit'>
+            <div className='w-[95vw] sm:w-[60vw] md:w-[55vw] lg:w-[40vw] rounded-md border-[1px] border-gray-400 h-fit'>
                 <div className='flex py-2 px-4 bg-gray-100 rounded-t-md items-center justify-between'>
                     <button onClick={()=>{
                         navigate(`/chatbot/preview/${chatbot.id}`)
@@ -45,7 +45,7 @@ export default function ChatbotCard({ chatbot,delete_traind_bot }) {
 
 
                 <div className='flex justify-around items-center my-8'>
-                    <div className='flex flex-col sm:flex-row gap-[4vw]'>
+                    <div className='flex flex-col lg:flex-row gap-[4vw]'>
                         <Link to={"/chatbot/customize/" + chatbot.id}>
                         <div className='flex cursor-pointer active:scale-95 items-center gap-2'>
                             <FiEdit2/>
@@ -59,7 +59,7 @@ export default function ChatbotCard({ chatbot,delete_traind_bot }) {
                         </div>
                         </Link>
                     </div>
-                    <div className='flex flex-col sm:flex-row gap-[4vw]'>
+                    <div className='flex flex-col lg:flex-row gap-[4vw]'>
                         <Link to={"/chatbot/chat-inbox/" + chatbot.id}>
                         <div className='flex cursor-pointer active:scale-95 items-center gap-2'>
                             <BiTime/>
