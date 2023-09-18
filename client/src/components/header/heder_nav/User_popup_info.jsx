@@ -40,7 +40,7 @@ export default function User_popup_info() {
   return (
     <>
 
-      <div className='absolute shadow-xl gap-1 flex flex-col right-10 top-[67px] rounded-md w-[17vw] h-[45vh] border-2 bg-white'>
+      <div className='absolute z-50 shadow-xl gap-1 flex flex-col right-2 sm:right-10 top-12 sm:top-[67px] rounded-md w-[70vw] md:w-[20vw] sm:w-[17vw] h-fit border-2 bg-white'>
 
         <div className='w-full h-12 border-b pl-2 cursor-pointer flex flex-col justify-start items-center'>
           <h3>Signed in as</h3>
@@ -72,5 +72,5 @@ export default function User_popup_info() {
         </button>
       </div>
     </>
-  )
+  );
 }
