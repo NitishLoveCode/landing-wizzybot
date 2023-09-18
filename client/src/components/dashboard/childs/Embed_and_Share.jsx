@@ -1,8 +1,12 @@
 import React from 'react'
 import Heading_text from '../../shared_components/Heading_text'
 import CodeSnippet from './CodeSnippet'
+import { useParams } from 'react-router-dom'
+import serverBasePath from '../../../../constants';
 
 export default function Embed_and_Share() {
+  const { id } = useParams();
+
   return (
     <>
       <div className='w-full sm:px-0 flex flex-col mb-8 mt-8 gap-8'>
@@ -12,9 +16,9 @@ export default function Embed_and_Share() {
         </div>
         <div className='flex sm:flex-row flex-col gap-8 justify-between'>
           <div className='w-[60vw] items-center flex rounded-md h-[30vh] bg-gray-900'>
-          {
-            <CodeSnippet/>
-          }
+            {
+              <CodeSnippet codeString={`<script>\nconst chatbotId = '${id}';\n</script>\n\n <script\n  src = '${serverBasePath}/embed.js\n defer>\n</script>\n\n`} />
+            }
 
           </div>
           <div className='shadow-2xl border-2'>
@@ -27,10 +31,10 @@ export default function Embed_and_Share() {
           <h3 className='text-justify'>You can share LiveChatAI with your desired visitor via this link.</h3>
         </div>
         <div className='flex sm:flex-row flex-col gap-8 justify-between'>
-        <div className='w-[60vw] items-center flex rounded-md h-[30vh] bg-gray-900'>
-          {
-            <CodeSnippet/>
-          }
+          <div className='w-[60vw] items-center flex rounded-md h-[30vh] bg-gray-900'>
+            {
+               <CodeSnippet codeString={`${serverBasePath}/iframe/${id}`} />
+            }
 
           </div>
           <div className='shadow-2xl border-2'>
@@ -44,10 +48,11 @@ export default function Embed_and_Share() {
           <h3 className='text-justify'>Paste (embed) this code snippet where you want to display your LiveChatAI within a specific webpage.</h3>
         </div>
         <div className='flex sm:flex-row flex-col gap-8 justify-between'>
-        <div className='w-[60vw] items-center flex rounded-md h-[30vh] bg-gray-900'>
-          {
-            <CodeSnippet/>
-          }
+          <div className='w-[60vw] items-center flex rounded-md h-[30vh] bg-gray-900'>
+            {
+              <CodeSnippet codeString={` \n<iframe\n src="${serverBasePath}/iframe/${id}"\n frameborder="0" \nstyle=" height:100%;" \nwidth="100%"\n></iframe>`} />
+             
+            }
 
           </div>
           <div className='shadow-2xl border-2'>

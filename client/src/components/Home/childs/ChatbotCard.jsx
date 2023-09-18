@@ -46,13 +46,13 @@ export default function ChatbotCard({ chatbot,delete_traind_bot }) {
 
                 <div className='flex justify-around items-center my-8'>
                     <div className='flex flex-col sm:flex-row gap-[4vw]'>
-                        <Link to={"/root/customize"}>
+                        <Link to={"/chatbot/customize/" + chatbot.id}>
                         <div className='flex cursor-pointer active:scale-95 items-center gap-2'>
                             <FiEdit2/>
                             <h3 className='text-sm'>CUSTOMIZE</h3>
                         </div>
                         </Link>
-                        <Link to="/root/manage_data_sources">
+                        <Link to={"/chatbot/manage_data_sources/" + chatbot.id}>
                         <div className='flex cursor-pointer active:scale-95 items-center gap-2'>
                             <BiFilterAlt/>
                             <h3 className='text-sm'>DATA SOURCE</h3>
@@ -60,13 +60,13 @@ export default function ChatbotCard({ chatbot,delete_traind_bot }) {
                         </Link>
                     </div>
                     <div className='flex flex-col sm:flex-row gap-[4vw]'>
-                        <Link to={"/root/chat-inbox"}>
+                        <Link to={"/chatbot/chat-inbox/" + chatbot.id}>
                         <div className='flex cursor-pointer active:scale-95 items-center gap-2'>
                             <BiTime/>
                             <h3 className='text-sm'>INBOX</h3>
                         </div>
                         </Link>
-                        <Link to={"/root/settings"}>
+                        <Link to={"/chatbot/settings/" + chatbot.id}>
                         <div className='flex cursor-pointer active:scale-95 items-center gap-2'>
                             <AiOutlineSetting/>
                             <h3 className='text-sm'>SETTINGS</h3>
