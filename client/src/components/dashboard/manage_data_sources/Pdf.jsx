@@ -57,23 +57,58 @@ export default function Pdf() {
                             />
                         </div>
                     </label>
+
+                    {/* ----------------upload pdf content-------------- */}
+                    <div className='border-[1px] mt-4 overflow-y-scroll border-gray-400 h-40 rounded-md px-2 w-full'>
+                        <div className='mt-2'>
+                            <h3>Text: NITISH KUMAR Sec-45 Noida, India Mobile: +91 9818165647 ⋄ NitishLoveCode@gmail.com https://www.linkedin.com/in/nitishlovecode/ ⋄ OBJECTIVE 4+ years of experience in programming, having good knowledge in React.JS, Node.js, Express.js, 2+years MongoDB,</h3>
+                        </div>
+                    </div>
+
                 </div>
                 <hr />
-                <div>
+
+                {/* -------------------saved pdf content-------  */}
+                <div className='flex items-center justify-between mt-3'>
                     <h3 className='text-2xl font-bold'>Imported & Trained PDF Contents</h3>
+                    <button className='border-[1px] active:scale-95 text-sm p-1 px-2 rounded-md'>Delete All</button>
                 </div>
                 <div className='flex items-center justify-center mt-6'>
-                    <div className='flex gap-2 flex-col items-center justify-center'>
-                        <BsDatabase className='text-4xl' />
-                        <h3>No item</h3>
-                        {/* Conditional rendering to show if files have been uploaded */}
-                        {files.length > 0
-                            ? <p>Files uploaded: {files.map(file => file.name).join(', ')}</p>
-                            : <h3>There are no items in the library.</h3>
-                        }
-                    </div>
+
+                        {
+                            files.length > 0 ? <>
+                            <div className='border-[1px] overflow-y-scroll border-gray-400 h-28 rounded-md px-2 w-full'>
+                                <div className='flex items-center justify-between'>
+                                    <h3 className='text-[14px]'>Title: {files.map(file => file.name).join(', ')}</h3>
+                                    <div className='flex items-center gap-2'>
+                                        <h3 className='text-[14px]'>Length: 9988</h3>
+                                        <RiDeleteBin6Line className='cursor-pointer hover:text-red-400 active:scale-95'/>
+                                    </div>
+                                </div>
+                                <div className='mt-2'>
+                                    <h3>Text: NITISH KUMAR Sec-45 Noida, India Mobile: +91 9818165647 ⋄ NitishLoveCode@gmail.com https://www.linkedin.com/in/nitishlovecode/ ⋄ OBJECTIVE 4+ years of experience in programming, having good knowledge in React.JS, Node.js, Express.js, 2+years MongoDB,</h3>
+                                </div>
+                            </div>
+                            </>:<>
+                            <div className='flex gap-2 flex-col items-center justify-center'>
+                                <BsDatabase className='text-4xl' />
+                                <h3>No item</h3>
+                            </div>
+                            </>
+                        }   
                 </div>
             </div>
         </>
     );
 }
+
+{/* Conditional rendering to show if files have been uploaded */}
+// {files.length > 0
+//     ? <p>Files uploaded: {files.map(file => file.name).join(', ')}</p>
+//     : <h3>There are no items in the library.</h3>
+// }
+
+
+
+
+
