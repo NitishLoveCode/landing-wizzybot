@@ -43,11 +43,12 @@ export default function Home({ agencyClient }) {
         }
         else {
             setAgencyView(false)
-        }
-        
-        if (agencyView === false) {
             fetchChatbots();
         }
+        
+        // if (agencyView === false) {
+        //     fetchChatbots();
+        // }
 
     }, [])
     const [delete_bot, setdelete_bot] = useState(false)
