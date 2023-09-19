@@ -151,7 +151,7 @@ export default function Home({ agencyClient }) {
                 </div>
             }
             <div className='mx-2 sm:mx-10'>
-                <div className='flex justify-between mb-8'>
+                <div className='flex w-[85vw] justify-between mb-8'>
                     <div>
                         <h3 className='text-2xl sm:text-4xl font-bold'>{agencyClient !== undefined ? `${agencyClient.name}'s ` : ''}Dashboard</h3>
                     </div>
