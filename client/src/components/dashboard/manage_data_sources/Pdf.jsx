@@ -6,6 +6,7 @@ import {RiDeleteBin6Line} from "react-icons/ri"
 import axios from 'axios';
 import serverBasePath from '../../../../constants';
 import { useParams } from 'react-router-dom';
+import LoadingDots from '../../loading/LoadingDots';
 
 export default function Pdf() {
     const [files, setFiles] = useState([]); // State to keep track of uploaded files
@@ -99,6 +100,8 @@ export default function Pdf() {
                 </div>
             </div>
         </>
+
+        
     );
 }
 
@@ -107,6 +110,11 @@ export default function Pdf() {
 //     ? <p>Files uploaded: {files.map(file => file.name).join(', ')}</p>
 //     : <h3>There are no items in the library.</h3>
 // }
+
+
+
+
+
 
 
 
