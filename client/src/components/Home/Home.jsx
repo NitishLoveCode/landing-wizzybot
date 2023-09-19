@@ -4,7 +4,11 @@ import serverBasePath from '../../../constants'
 import ChatbotCard from './childs/ChatbotCard'
 import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/Loading';
+
+import LoadingDots from '../loading/LoadingDots';
+
 import { MdOutlineManageAccounts } from "react-icons/md"
+
 import Delete_popup from './childs/Delete_popup';
 
 export default function Home({ agencyClient }) {
@@ -138,6 +142,10 @@ export default function Home({ agencyClient }) {
             {
                 delete_bot ? <Delete_popup chat_bot_id={chat_bot_id} delete_traind_bot={delete_traind_bot} deleteChatbot={deleteChatbot} /> : ""
             }
+
+
+        {/* -------you can pass width for dots size------------- */}
+        <LoadingDots size={"4"}/>
 
         </>
 

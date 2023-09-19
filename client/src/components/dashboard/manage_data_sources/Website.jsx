@@ -100,7 +100,7 @@ export default function Website() {
       <div className='flex flex-col gap-4'>
         <h3 className='text-xl sm:text-3xl font-bold'>Fetch single link</h3>
 
-        <div className='flex flex-col gap-2 items-center'>
+        <div className='flex flex-col sm:flex-row gap-2 items-center'>
           <Input_field
             placeholder={"https://www.example.com"}
             style={"border-2 rounded-md w-[95vw] sm:w-[30vw] h-[6vh] pl-2"}
@@ -108,7 +108,7 @@ export default function Website() {
             setValue={editSingleLink}
             name='domain'
           />
-          <Button style={"bg-gray-800 text-white w-[95vw] sm:w-[30vw] p-2 pl-3 pr-3 rounded-md"} text={"Fetch new links from domain"} action={trainSingleLink}/>
+          <Button style={"bg-gray-800 text-white w-[95vw] sm:w-[18vw] p-2 pl-3 pr-3 rounded-md"} text={"Fetch new links from domain"} action={trainSingleLink}/>
         </div>
       </div>
       {/* -------------------Imported & Trained Web Pages------------------- */}
