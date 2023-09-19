@@ -13,33 +13,33 @@ export default function Register() {
 
     function sendToBackend() {
         setError('');
-        if (email === '' || password ==='' || name === ''){
+        if (email === '' || password === '' || name === '') {
             setError('Please fill all the fields before registering.');
             return;
         }
 
-        if (password.length < 8){
+        if (password.length < 8) {
             setError('Please make sure that the password is atleast 8 characters long');
             return;
         }
-        axios.post(`${serverBasePath}/auth/register/user`, 
-        {
-            email: email,
-            name: name,
-            password: password,
-            type: 'user'
-        },
-        {
-            withCredentials: true
-        })
-        .then(function (response) {
-            if (response.status === 200){
-                navigate('/load-url');
-            }
-        })
-        .catch(function (error) {
-            setError(error.response.data.response)
-        });
+        axios.post(`${serverBasePath}/auth/register/user`,
+            {
+                email: email,
+                name: name,
+                password: password,
+                type: 'user'
+            },
+            {
+                withCredentials: true
+            })
+            .then(function (response) {
+                if (response.status === 200) {
+                    navigate('/load-url');
+                }
+            })
+            .catch(function (error) {
+                setError(error.response.data.response)
+            });
     }
 
 
@@ -89,7 +89,7 @@ export default function Register() {
                         />
                     </div>
                     <div className='gap-3 flex'>
-                        <input className='w-4' type="checkbox" name="policy" required/>
+                        <input className='w-4' type="checkbox" name="policy" required />
                         <label className='underline'>I accept the privacy policy</label>
                     </div>
                     {error !== '' && <p className='text-red-400'>{error}</p>}
