@@ -6,6 +6,7 @@ import { BiMessageRoundedDots } from "react-icons/bi"
 import { useParams } from 'react-router-dom'
 import serverBasePath from '../../../../constants'
 import axios from 'axios'
+import LoadingDots from '../../loading/LoadingDots'
 
 export default function Settings() {
     const [ai_profile, setai_profile] = useState(false)
@@ -18,7 +19,7 @@ export default function Settings() {
         totalChars: 0,
     });
     const [backup, setBackup] = useState({});//keeps a backup of the settings currently on the server.
-
+    const [updating, setUpdating] = useState(false);
 
     // -------human live sopport switch---
     const [live_support, setlive_support] = useState(false)
@@ -90,7 +91,16 @@ export default function Settings() {
     }
 
 
+    function handleVisbilityChange(event) {
+        setSettings({
+            ...settings,
+            publicAccess: event.target.value === 'private' ? false : true
+        });
+    }
+
+
     function updateSettings() {
+        setUpdating(true);
         axios.post(`${serverBasePath}/settings/${id}`, settings, {
             headers: {
                 'content-type': 'application/json',
@@ -99,11 +109,14 @@ export default function Settings() {
             withCredentials: true
         })
             .then((response) => {
-                if (response.status === 200){
-                    setBackup({...settings});
+                if (response.status === 200) {
+                    setBackup({ ...settings });
+                    setUpdating(false)
                 }
             })
-            .catch(err => console.log(err));
+            .catch(err => {console.log(err)
+                setUpdating(false)
+            });
     }
 
     return (
@@ -115,7 +128,7 @@ export default function Settings() {
                             <div onClick={() => open_Card("ai_profile")} className='flex rounded-md cursor-pointer 
                 w-full justify-between pl-4 pr-4 h-10 bg-gray-300 items-center'>
                                 <div className='w-full'>
-                                    <h3>AI Profile & GPT Settings</h3>
+                                    <h3>Chatbot Profile & GPT Settings</h3>
                                 </div>
                                 <div>
                                     <AiOutlineArrowDown />
@@ -127,7 +140,7 @@ export default function Settings() {
     h-fit py-2 border-[1px] gap-2'>
                                     <div onClick={() => open_Card("ai_profile")} className='flex pr-4 justify-between w-full border-b-[1px] pb-1'>
                                         <div className=' w-[60%]'>
-                                            <h3 className='pl-4'>AI Profile & GPT Settings</h3>
+                                            <h3 className='pl-4'>Chatbot Profile & GPT Settings</h3>
                                         </div>
                                         <div>
                                             <AiOutlineArrowDown />
@@ -194,9 +207,28 @@ export default function Settings() {
                                             <h3 className='text-[13px]'>Adjust the 'temperature' to fine-tune the balance between creativity and coherence in the AI's responses. A higher temperature encourages the AI to generate more diverse and creative output, but it may also introduce randomness and reduce focus. A lower temperature, on the other hand, prompts the AI to produce more deterministic and focused responses, potentially at the cost of creativity and novelty.</h3>
 
                                         </div>
+
+                                        <div className='flex flex-col gap-2'>
+                                            <h3>Access mode</h3>
+                                            <select
+                                                value={settings.publicAccess ? 'public' : 'private'} onChange={handleVisbilityChange}
+                                                className=" p-1 border-gray-300 border rounded focus:outline-blue-900"
+                                            >
+
+                                                <option value="private">private</option>
+                                                <option value="public">public</option>
+
+                                            </select>
+                                            <p className='text-[13px]'>'private': Chatbot can only be accessed from your account. Used for testing purposes. </p>
+                                            <p className='text-[13px]'>'public': People can chat with your chatbot if you send them a link or you can embed the chatbot on your website
+                                                so your visitors are able to use it.</p>
+                                        </div>
+
+
+
                                         <div className='flex mt-8 justify-end gap-8 mr-10'>
                                             <Button style={"border-[1px] active:scale-95 rounded-md border-gray-800 p-1 w-24"} text={"Cancel"} action={cancelUpdate} />
-                                            <Button style={"rounded-md active:scale-95 bg-gray-900 text-white border-gray-800 border-[1px] p-1 w-24"} text={"Save"} action={updateSettings} />
+                                            <Button style={"rounded-md active:scale-95 bg-gray-900 text-white border-gray-800 border-[1px] p-1 w-24"} text={updating ? <LoadingDots size={"1"} color={'bg-white'}/> : "Save"} action={updateSettings} />
                                         </div>
                                     </div>
 
@@ -244,7 +276,10 @@ export default function Settings() {
                                         </div>
                                         <div className='flex mt-8 justify-end gap-8 mr-10'>
                                             <Button style={"border-[1px] active:scale-95 rounded-md border-gray-800 p-1 w-24"} text={"Cancel"} />
-                                            <Button style={"rounded-md active:scale-95 bg-gray-900 text-white border-gray-800 border-[1px] p-1 w-24"} text={"Save"} />
+                                            <Button style={"rounded-md active:scale-95 bg-gray-900 text-white border-gray-800 border-[1px] p-1 w-24"} text={updating ? <LoadingDots size={"1"} color={'bg-white'} /> : "Save"} action={() => {
+                                                setUpdating(true);
+                                                setTimeout(() => { setUpdating(false) }, 1000);
+                                            }} />
                                         </div>
                                     </div>
 

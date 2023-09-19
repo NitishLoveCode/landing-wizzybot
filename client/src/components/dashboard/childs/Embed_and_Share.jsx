@@ -17,7 +17,7 @@ export default function Embed_and_Share() {
         <div className='flex sm:flex-row flex-col gap-8 justify-between'>
           <div className='w-[60vw] items-center flex rounded-md h-[30vh] bg-gray-900'>
             {
-              <CodeSnippet codeString={`<script>\nconst chatbotId = '${id}';\n</script>\n\n <script\n  src = '${serverBasePath}/embed.js\n defer>\n</script>\n\n`} />
+              <CodeSnippet codeString={`<script>\nconst chatbotId = '${id}';\n</script>\n\n <script\n  src = '${serverBasePath}/embed.js'\n defer>\n</script>\n\n`} />
             }
 
           </div>
