@@ -1,36 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import serverBasePath from '../../../constants'
-import ChatbotCard from './childs/ChatbotCard'
 import { useNavigate } from 'react-router-dom';
-import Loading from '../loading/Loading';
-import { MdOutlineManageAccounts } from "react-icons/md"
-import Delete_popup from './childs/Delete_popup';
+import UserCard from './child/UserCard';
 
-export default function Home({ agencyClient }) {
+export default function AgencyDashboard({ setAgencyClient }) {
 
-    let temp = [];
-    const [agencyView, setAgencyView] = useState(undefined);
-    const [chatbots, setChatbots] = useState(temp);
-    useEffect(() => {
-        if (agencyClient !== undefined) {
-            temp = [...agencyClient.chatbots]
-            console.log(temp[0])
-            setAgencyView(true);
-            setChatbots(temp)
-        }
-        else{
-            setAgencyView(false)
-        }
-        
-    },[])
+    const [clients, setClients] = useState([]);
     const [delete_bot, setdelete_bot] = useState(false)
     const [chat_bot_id, setchat_bot_id] = useState(null)
     const navigate = useNavigate();
 
 
     function fetchChatbots() {
-        axios.get(serverBasePath + '/my-chatbots', {
+        axios.get(`${serverBasePath}/agency/my-chatbots`, {
             headers: {
                 'content-type': 'application/json',
                 'Accept': 'application/json'
@@ -39,17 +22,17 @@ export default function Home({ agencyClient }) {
         })
             .then(response => {
 
-                console.log(response.data.chatBots)
-                if (response.data.chatBots.length !== 0) {
-                    const newChatBots = response.data.chatBots.map(chatbot => ({
-                        name: chatbot.name,
-                        id: chatbot._id,
-                        totalConversations: chatbot.totalConversations,
-                        totalMessages: chatbot.totalMessages,
-                        totalResolutions: chatbot.totalResolutions
-                    }));
-
-                    setChatbots(newChatBots);
+                if (response.data.clients.length !== 0) {
+                    const newChatBots = response.data.clients.map(client => {
+                        console.log('clinet', client.id);
+                        return {
+                            name: client.name,
+                            id: client.id,
+                            email: client.email,
+                            chatBots: client.chatBots
+                        }
+                    });
+                    setClients(newChatBots);
                     // setloading(false);
                 }
                 else {
@@ -57,6 +40,7 @@ export default function Home({ agencyClient }) {
                 }
             })
             .catch(err => console.log(err));
+        console.log('sfsdsdf',clients[0])
     }
 
     useEffect(() => {
@@ -75,12 +59,7 @@ export default function Home({ agencyClient }) {
             .catch((err) => console.log(err));
     }, []);
 
-    useEffect(() => {
-        console.log(chatbots)
-        if (agencyView === false) {
-            fetchChatbots();
-        }
-    }, [])
+    useEffect(fetchChatbots, [])
 
     function deleteChatbot(id) {
         axios.delete(serverBasePath + `/deleteBot/${id}`, {
@@ -117,22 +96,27 @@ export default function Home({ agencyClient }) {
     return (
 
         <>
-            {agencyView &&
-                <div className='p-3 px-11 bg-blue-900 mt-[-2rem] mb-8 text-white font-medium'>
-                    <MdOutlineManageAccounts size={25} className='inline mx-2' />
-                    You are viewing this page as an manager
-                </div>
-            }
             <div className='mx-2 sm:mx-10'>
                 <div className='flex justify-between mb-8'>
                     <div>
-                        <h3 className='text-2xl sm:text-4xl font-bold'>{agencyClient !== undefined ? `${agencyClient.name}'s ` : ''}Dashboard</h3>
+                        <h3 className='text-2xl sm:text-4xl font-bold'>Accounts I can access</h3>
                     </div>
                     <div className='bg-gray-900 text-white items-center cursor-pointer justify-center flex px-2 sm:px-8 rounded-md active:scale-95'>
-                        <h3>New Ai Bot</h3>
+                        <h3>Add new user</h3>
                     </div>
                 </div>
-                {chatbots.map((chatbot, i) => <ChatbotCard delete_traind_bot={delete_traind_bot} chatbot={chatbot} deleteChatbot={deleteChatbot} key={i} />)}
+                <div className='mt-20'>
+                    {clients.map((client, i) => <UserCard
+                        id={client.id}
+                        email={client.email}
+                        name={client.name}
+                        delete_traind_bot={delete_traind_bot}
+                        chatbots={client.chatBots}
+                        deleteChatbot={deleteChatbot}
+                        setAgencyClient={setAgencyClient}
+                        key={client.id}
+                    />)}
+                </div>
             </div>
 
             {
