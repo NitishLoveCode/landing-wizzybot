@@ -3,7 +3,6 @@ import axios from 'axios'
 import serverBasePath from '../../../constants'
 import ChatbotCard from './childs/ChatbotCard'
 import { useNavigate } from 'react-router-dom';
-import Loading from '../loading/Loading';
 
 import LoadingDots from '../loading/LoadingDots';
 
@@ -16,24 +15,46 @@ export default function Home({ agencyClient }) {
     let temp = [];
     const [agencyView, setAgencyView] = useState(undefined);
     const [chatbots, setChatbots] = useState(temp);
+    const [loading, setLoading] = useState(true)
+
     useEffect(() => {
+
+        axios.get(serverBasePath + '/auth/isAuthenticated', {
+            headers: {
+                'content-type': 'application/json',
+                'Accept': 'application/json',
+            },
+            withCredentials: true
+        })
+            .then((response) => {
+                if (response.data.authenticated === false) {
+                    navigate('/login')
+                }
+            })
+            .catch((err) => console.log(err));
+
+
         if (agencyClient !== undefined) {
             temp = [...agencyClient.chatbots]
             console.log(temp[0])
             setAgencyView(true);
             setChatbots(temp)
+            setLoading(false);
         }
-        else{
+        else {
             setAgencyView(false)
+            fetchChatbots();
         }
         
-    },[])
+
+    }, [])
     const [delete_bot, setdelete_bot] = useState(false)
     const [chat_bot_id, setchat_bot_id] = useState(null)
     const navigate = useNavigate();
 
 
     function fetchChatbots() {
+        console.log('fetch called')
         axios.get(serverBasePath + '/my-chatbots', {
             headers: {
                 'content-type': 'application/json',
@@ -54,7 +75,7 @@ export default function Home({ agencyClient }) {
                     }));
 
                     setChatbots(newChatBots);
-                    // setloading(false);
+                    setLoading(false);
                 }
                 else {
                     navigate('/load-url')
@@ -63,28 +84,26 @@ export default function Home({ agencyClient }) {
             .catch(err => console.log(err));
     }
 
-    useEffect(() => {
-        axios.get(serverBasePath + '/auth/isAuthenticated', {
-            headers: {
-                'content-type': 'application/json',
-                'Accept': 'application/json',
-            },
-            withCredentials: true
-        })
-            .then((response) => {
-                if (response.data.authenticated === false) {
-                    navigate('/login')
-                }
-            })
-            .catch((err) => console.log(err));
-    }, []);
+    // useEffect(() => {
+    //     axios.get(serverBasePath + '/auth/isAuthenticated', {
+    //         headers: {
+    //             'content-type': 'application/json',
+    //             'Accept': 'application/json',
+    //         },
+    //         withCredentials: true
+    //     })
+    //         .then((response) => {
+    //             if (response.data.authenticated === false) {
+    //                 navigate('/login')
+    //             }
+    //         })
+    //         .catch((err) => console.log(err));
+    // }, []);
 
-    useEffect(() => {
-        console.log(chatbots)
-        if (agencyView === false) {
-            fetchChatbots();
-        }
-    }, [])
+    // useEffect(() => {
+    //     console.log(chatbots, agencyView)
+
+    // }, [])
 
     function deleteChatbot(id) {
         axios.delete(serverBasePath + `/deleteBot/${id}`, {
@@ -144,9 +163,14 @@ export default function Home({ agencyClient }) {
             }
 
 
-        {/* -------you can pass width for dots size------------- */}
-        <LoadingDots size={"4"}/>
+            {/* -------you can pass width for dots size------------- */}
+            {
+                loading &&
+                <div className='mx-auto mt-16 w-fit h-fit'>
+                    <LoadingDots size={"4"} />
 
+                </div>
+            }
         </>
 
     )
