@@ -102,12 +102,16 @@ export default function Home() {
             <div className='flex justify-between mb-8'>
                 <div>
                     <h3 className='text-2xl sm:text-4xl font-bold'>Dashboard</h3>
+                    {/* -------you can pass width for dots size------------- */}
+                    <LoadingDots size={"4"}/>
                 </div>
                 <div className='bg-gray-900 text-white items-center cursor-pointer justify-center flex px-2 sm:px-8 rounded-md active:scale-95'>
                     <h3>New Ai Bot</h3>
                 </div>
             </div>
-            {chatbots.map((chatbot, i) => <ChatbotCard delete_traind_bot={delete_traind_bot} chatbot={chatbot} deleteChatbot={deleteChatbot} key={i}/>)}
+            <div className='flex flex-wrap gap-8 justify-center'>
+                {chatbots.map((chatbot, i) => <ChatbotCard delete_traind_bot={delete_traind_bot} chatbot={chatbot} deleteChatbot={deleteChatbot} key={i}/>)}
+            </div>
         </div>
 
         {
@@ -115,8 +119,7 @@ export default function Home() {
         }
 
 
-        {/* -------you can pass width for dots size------------- */}
-        <LoadingDots size={"4"}/>
+        
 
         </>
 
