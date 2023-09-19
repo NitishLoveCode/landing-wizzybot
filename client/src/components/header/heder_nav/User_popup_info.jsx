@@ -46,9 +46,9 @@ export default function User_popup_info() {
           <h3>Signed in as</h3>
           <p>{user.email}</p>
         </div>
-<Link to={"/profile/personal-information"}>
+<Link to={"/agency-dashboard"}>
         <div className='w-full h-12 active:scale-95 border-b pl-2 cursor-pointer flex items-center hover:bg-gray-100'>
-          <h3>{user.name}'s Workspace</h3>
+          Client Accounts
         </div>
 </Link>
 <Link to={"/profile/personal-information"}>

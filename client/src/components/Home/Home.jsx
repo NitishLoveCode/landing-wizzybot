@@ -5,11 +5,27 @@ import ChatbotCard from './childs/ChatbotCard'
 import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/Loading';
 import LoadingDots from '../loading/LoadingDots';
+import { MdOutlineManageAccounts } from "react-icons/md"
 import Delete_popup from './childs/Delete_popup';
 
-export default function Home() {
 
-    const [chatbots, setChatbots] = useState([]);
+export default function Home({ agencyClient }) {
+
+    let temp = [];
+    const [agencyView, setAgencyView] = useState(undefined);
+    const [chatbots, setChatbots] = useState(temp);
+    useEffect(() => {
+        if (agencyClient !== undefined) {
+            temp = [...agencyClient.chatbots]
+            console.log(temp[0])
+            setAgencyView(true);
+            setChatbots(temp)
+        }
+        else{
+            setAgencyView(false)
+        }
+        
+    },[])
     const [delete_bot, setdelete_bot] = useState(false)
     const [chat_bot_id, setchat_bot_id] = useState(null)
     const navigate = useNavigate();
@@ -61,7 +77,12 @@ export default function Home() {
             .catch((err) => console.log(err));
     }, []);
 
-    useEffect(fetchChatbots, [])
+    useEffect(() => {
+        console.log(chatbots)
+        if (agencyView === false) {
+            fetchChatbots();
+        }
+    }, [])
 
     function deleteChatbot(id) {
         axios.delete(serverBasePath + `/deleteBot/${id}`, {
@@ -79,16 +100,16 @@ export default function Home() {
             .catch(err => console.log(err));
     }
 
-    
+
 
 
 
     // --------for delete bot-----------------
-    const delete_traind_bot=(chat_id)=>{
+    const delete_traind_bot = (chat_id) => {
         setchat_bot_id(chat_id)
-        if(delete_bot===true){
+        if (delete_bot === true) {
             setdelete_bot(false);
-        }else{
+        } else {
             setdelete_bot(true);
         }
     }
@@ -101,22 +122,35 @@ export default function Home() {
         <div className='mx-2 sm:mx-10'>
             <div className='flex justify-between mb-8'>
                 <div>
-                    <h3 className='text-2xl sm:text-4xl font-bold'>Dashboard</h3>
                     {/* -------you can pass width for dots size------------- */}
-                    <LoadingDots size={"4"}/>
+                    {/* <LoadingDots size={"4"}/> */}
+            {agencyView &&
+                <div className='p-3 px-11 bg-blue-900 mt-[-2rem] mb-8 text-white font-medium'>
+                    <MdOutlineManageAccounts size={25} className='inline mx-2' />
+                    You are viewing this page as an manager
                 </div>
-                <div className='bg-gray-900 text-white items-center cursor-pointer justify-center flex px-2 sm:px-8 rounded-md active:scale-95'>
-                    <h3>New Ai Bot</h3>
+            }
+            <div className='mx-2 sm:mx-10'>
+                <div className='flex justify-between mb-8'>
+                    <div>
+                        <h3 className='text-2xl sm:text-4xl font-bold'>{agencyClient !== undefined ? `${agencyClient.name}'s ` : ''}Dashboard</h3>
+                    </div>
+                    <div className='bg-gray-900 text-white items-center cursor-pointer justify-center flex px-2 sm:px-8 rounded-md active:scale-95'>
+                        <h3>New Ai Bot</h3>
+                    </div>
                 </div>
+                {/* {chatbots.map((chatbot, i) => <ChatbotCard delete_traind_bot={delete_traind_bot} chatbot={chatbot} deleteChatbot={deleteChatbot} key={i} />)} */}
             </div>
             <div className='flex flex-wrap gap-8 justify-center'>
                 {chatbots.map((chatbot, i) => <ChatbotCard delete_traind_bot={delete_traind_bot} chatbot={chatbot} deleteChatbot={deleteChatbot} key={i}/>)}
             </div>
         </div>
+        </div>
+        </div>
 
-        {
-            delete_bot? <Delete_popup chat_bot_id={chat_bot_id} delete_traind_bot={delete_traind_bot} deleteChatbot={deleteChatbot}/>:""
-        }
+            {
+                delete_bot ? <Delete_popup chat_bot_id={chat_bot_id} delete_traind_bot={delete_traind_bot} deleteChatbot={deleteChatbot} /> : ""
+            }
 
 
         
