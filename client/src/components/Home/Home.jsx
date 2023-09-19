@@ -46,9 +46,6 @@ export default function Home({ agencyClient }) {
             fetchChatbots();
         }
         
-        // if (agencyView === false) {
-        //     fetchChatbots();
-        // }
 
     }, [])
     const [delete_bot, setdelete_bot] = useState(false)
