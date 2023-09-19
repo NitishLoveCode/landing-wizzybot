@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {CiVolumeHigh} from "react-icons/ci"
+import {LuVolumeX} from "react-icons/lu"
 import {AiOutlineSend} from "react-icons/ai"
 
 export default function Chat_Inbox() {
+  const [chatVolume, setchatVloume]=useState(true)
+
+  const chatVolumeFun=()=>{
+    console.log("clifdas")
+    if(chatVolume===false){
+      setchatVloume(true)
+    }else{
+      setchatVloume(false)
+    }
+  }
+
   return (
     <div className='sm:mx-5'>
       <div className='flex sm:flex-row flex-col items-center sm:items-start gap-1 border-[0.5px] p-2 border-gray-300 rounded-t-2xl justify-between'>
@@ -16,8 +28,8 @@ export default function Chat_Inbox() {
           <div className='w-2 h-2 rounded-full bg-green-400'></div>
         </div>
         
-        <div className='flex items-center gap-2'>
-          <div className='border-[1px] border-gray-400 p-[3px] rounded-full cursor-pointer active:scale-95'><CiVolumeHigh className='text-xl'/></div>
+        <div onClick={()=>chatVolumeFun()} className='flex items-center gap-2'>
+          <div  className='border-[1px] border-gray-400 p-[3px] rounded-full cursor-pointer active:scale-95'>{chatVolume ? <CiVolumeHigh className='text-xl'/>:<LuVolumeX className='text-xl'/> }</div>
           <div className='bg-gray-700 active:scale-95 p-1 px-4 text-white rounded-md'><h3 className='text-[13px]'>End conversation</h3></div>
         </div>
       </div>
