@@ -12,9 +12,9 @@ const LoadingDots = ({size}) => {
 
   return (
     <div className="flex space-x-3">
-      <div className={`bg-blue-500 w-${size} h-${size} rounded-full transform transition-transform duration-300 ${activeDot === 0 ? 'translate-y-[-0.5rem]' : ''}`}></div>
-      <div className={`bg-blue-500 w-${size} h-${size} rounded-full transform transition-transform duration-300 ${activeDot === 1 ? 'translate-y-[-0.5rem]' : ''}`}></div>
-      <div className={`bg-blue-500 w-${size} h-${size} rounded-full transform transition-transform duration-300 ${activeDot === 2 ? 'translate-y-[-0.5rem]' : ''}`}></div>
+      <div className={`bg-blue-500 w-${size} h-${size} rounded-full transform transition-transform duration-500 ${activeDot === 0 ? 'translate-y-[-0.5rem]' : ''}`}></div>
+      <div className={`bg-blue-500 w-${size} h-${size} rounded-full transform transition-transform duration-500 ${activeDot === 1 ? 'translate-y-[-0.5rem]' : ''}`}></div>
+      <div className={`bg-blue-500 w-${size} h-${size} rounded-full transform transition-transform duration-500 ${activeDot === 2 ? 'translate-y-[-0.5rem]' : ''}`}></div>
     </div>
   );
 };
