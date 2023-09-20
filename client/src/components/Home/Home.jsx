@@ -3,12 +3,11 @@ import axios from 'axios'
 import serverBasePath from '../../../constants'
 import ChatbotCard from './childs/ChatbotCard'
 import { useNavigate } from 'react-router-dom';
-
 import LoadingDots from '../loading/LoadingDots';
 
 import { MdOutlineManageAccounts } from "react-icons/md"
-
 import Delete_popup from './childs/Delete_popup';
+
 
 export default function Home({ agencyClient }) {
 
@@ -140,6 +139,11 @@ export default function Home({ agencyClient }) {
     return (
 
         <>
+        <div className='mx-2 sm:mx-10'>
+            <div className='flex justify-between mb-8'>
+                <div>
+                    {/* -------you can pass width for dots size------------- */}
+                    {/* <LoadingDots size={"4"}/> */}
             {agencyView &&
                 <div className='p-3 px-11 bg-blue-900 mt-[-2rem] mb-8 text-white font-medium'>
                     <MdOutlineManageAccounts size={25} className='inline mx-2' />
@@ -147,7 +151,7 @@ export default function Home({ agencyClient }) {
                 </div>
             }
             <div className='mx-2 sm:mx-10'>
-                <div className='flex justify-between mb-8'>
+                <div className='flex w-[85vw] justify-between mb-8'>
                     <div>
                         <h3 className='text-2xl sm:text-4xl font-bold'>{agencyClient !== undefined ? `${agencyClient.name}'s ` : ''}Dashboard</h3>
                     </div>
@@ -157,14 +161,21 @@ export default function Home({ agencyClient }) {
                         <h3>New Ai Bot</h3>
                     </div>
                 </div>
-                {chatbots.map((chatbot, i) => <ChatbotCard delete_traind_bot={delete_traind_bot} chatbot={chatbot} deleteChatbot={deleteChatbot} key={i} />)}
+                {/* {chatbots.map((chatbot, i) => <ChatbotCard delete_traind_bot={delete_traind_bot} chatbot={chatbot} deleteChatbot={deleteChatbot} key={i} />)} */}
             </div>
+            <div className='flex flex-wrap gap-8 justify-center'>
+                {chatbots.map((chatbot, i) => <ChatbotCard delete_traind_bot={delete_traind_bot} chatbot={chatbot} deleteChatbot={deleteChatbot} key={i}/>)}
+            </div>
+        </div>
+        </div>
+        </div>
 
             {
                 delete_bot ? <Delete_popup chat_bot_id={chat_bot_id} delete_traind_bot={delete_traind_bot} deleteChatbot={deleteChatbot} /> : ""
             }
 
 
+        
             {/* -------you can pass width for dots size------------- */}
             {
                 loading &&
