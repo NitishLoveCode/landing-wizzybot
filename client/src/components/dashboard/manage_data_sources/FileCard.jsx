@@ -1,4 +1,4 @@
-import './childs/styles/fileCard.css'
+// import './childs/styles/fileCard.css'
 import { RiDeleteBin6Line } from "react-icons/ri"
 
 export default function FileCard({name, chars, data, deleteAction}) {
