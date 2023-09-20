@@ -111,26 +111,26 @@ export default function Profile_info() {
 
         if (userChange.image && !userChange.name) {
             // only image has changed
-            
+
             const formData = new FormData();
             formData.append('myFile', selectedFile, selectedFile.name);
-            axios.post(`${serverBasePath}/user/user-image`, formData, {withCredentials: true} )
+            axios.post(`${serverBasePath}/user/user-image`, formData, { withCredentials: true })
                 .then(res => console.log(res))
                 .catch(err => console.error(err));
         } else if (!userChange.image && userChange.name) {
             // only name has changed
-            axios.post(`${serverBasePath}/user/change-name`, { name: user.name }, {withCredentials: true})
+            axios.post(`${serverBasePath}/user/change-name`, { name: user.name }, { withCredentials: true })
                 .then(res => console.log(res))
                 .catch(err => console.error(err));
         } else if (userChange.image && userChange.name) {
             // both image and name have changed
             const formData = new FormData();
             formData.append('myFile', selectedFile, selectedFile.name);
-            axios.post(`${serverBasePath}/user/user-image`, formData, {withCredentials: true})
+            axios.post(`${serverBasePath}/user/user-image`, formData, { withCredentials: true })
                 .then(res => console.log(res))
                 .catch(err => console.error(err));
 
-            axios.post(`${serverBasePath}/user/change-name`, { name: user.name }, {withCredentials: true})
+            axios.post(`${serverBasePath}/user/change-name`, { name: user.name }, { withCredentials: true })
                 .then(res => console.log(res))
                 .catch(err => console.error(err));
         }
@@ -138,121 +138,108 @@ export default function Profile_info() {
     }
 
     return (
-    <>
-        <div>
-        <div className='w-[82vw] flex flex-col sm:flex-row p-2 sm:p-10 gap-8'>
-                <div className='w-[82vw] sm:w-[40%]'>
-                    <h3 className='text-xl font-bold'>Workspace Information</h3>
-                    <p>Update your workspace information associated with your account.</p>
-                </div>
-                <div className='w-[100vw] sm:w-[60%] flex flex-col gap-4 justify-start'>
-                    <h3 className='text-md font-bold'>Workspace Name</h3>
-                    <input className='w-[82vw] sm:w-full outline-none rounded-md border-[1px] sm:pl-2 h-10' type="text" name="WorkspaceName" placeholder='Workspace Name'/>
-                    <div className='bg-main p-2 w-[82vw] sm:w-24 items-center justify-center flex rounded-md text-white active:scale-95'>
-                        <button>Update</button>
-                    </div>
-                </div>
-            <hr />
-            </div>
+        <>
+            <div>
+                
 
-            <div className='w-[82vw] sm:w-full flex sm:flex-row flex-col p-2 sm:p-10 gap-8'>
-                <div className='w-[82vw] sm:w-[40%]'>
-                    <h3 className='text-xl font-bold'>Personal Information</h3>
-                    <p>Update your personal information associated with your account.</p>
-                </div>
-                <div className='w-[82vw] sm:w-[28%] flex flex-col justify-start'>
-                    <div>
-                        <div className='border-[1px] p-1 rounded-md'>
-                            <div className='flex items-center gap-4'>
-                                <label htmlFor="upload_Avatar">
-                                    <div className='flex cursor-pointer active:scale-95 items-center gap-2 border-[1px] w-fit p-2 bg-green-100 rounded-md'>
-                                        <AiFillPlusCircle className='text-xl' />
-                                        <h3>Choose file</h3>
+                <div className='w-[82vw] sm:w-full flex sm:flex-row flex-col p-2 sm:p-10 gap-8'>
+                    <div className='w-[82vw] sm:w-[40%]'>
+                        <h3 className='text-xl font-bold'>Personal Information</h3>
+                        <p>Update your personal information associated with your account.</p>
+                    </div>
+                    <div className='w-[82vw] sm:w-[28%] flex flex-col justify-start'>
+                        <div>
+                            <div className='border-[1px] p-1 rounded-md'>
+                                <div className='flex items-center gap-4'>
+                                    <label htmlFor="upload_Avatar">
+                                        <div className='flex cursor-pointer active:scale-95 items-center gap-2 border-[1px] w-fit p-2 bg-green-100 rounded-md'>
+                                            <AiFillPlusCircle className='text-xl' />
+                                            <h3>Choose file</h3>
+                                        </div>
+                                    </label>
+                                    <div>
+                                        <h3>No file choosen</h3>
                                     </div>
-                                </label>
-                                <div>
-                                    <h3>No file choosen</h3>
                                 </div>
                             </div>
+                            <input className='hidden' type="file" name="" id="upload_Avatar" onChange={onFileChange} />
                         </div>
-                        <input className='hidden' type="file" name="" id="upload_Avatar" onChange={onFileChange} />
+                        <label className='mt-4'>Name</label>
+
+                        <input
+                            className='w-full outline-none rounded-md border-[1px] pl-2 h-10'
+                            type="text"
+                            name="UserName"
+                            placeholder='Name'
+                            value={user.name}
+                            onChange={handleNameChange}
+                        />
+
+                        <div className='bg-main mt-4 p-2 w-[82vw] sm:w-24 items-center justify-center flex rounded-md text-white active:scale-95'>
+                            <button onClick={handleUserInformationUpdate}>Update</button>
+                        </div>
                     </div>
-                    <label className='mt-4'>Name</label>
+                    <hr />
+                </div>
 
-                    <input
-                        className='w-full outline-none rounded-md border-[1px] pl-2 h-10'
-                        type="text"
-                        name="UserName"
-                        placeholder='Name'
-                        value={user.name}
-                        onChange={handleNameChange}
-                    />
+                <div className='w-[82vw] sm:w-full flex sm:flex-row flex-col p-2 sm:p-10 gap-8'>
+                    <div className='w-[82vw] sm:w-[40%]'>
+                        <h3 className='text-xl font-bold'>Change Password</h3>
+                        <p>Update your password associated with your account.</p>
+                    </div>
+                    <div className='sm:w-[60%] flex flex-col gap-1 justify-start'>
+                        <h3>Current Password</h3>
+                        <input
+                            className='w-full mb-2 outline-none rounded-md border-[1px] pl-2 h-10'
+                            type="password"
+                            name="WorkspaceName"
+                            placeholder='Current Password'
+                            value={passwordFields.currentPassword}
+                            onChange={event => { handlePasswordFieldChange('currentPassword', event) }}
+                        />
 
-                    <div className='bg-main mt-4 p-2 w-[82vw] sm:w-24 items-center justify-center flex rounded-md text-white active:scale-95'>
-                        <button onClick={handleUserInformationUpdate}>Update</button>
+                        <h3>New Password</h3>
+                        <input
+                            className='w-full mb-2 outline-none rounded-md border-[1px] pl-2 h-10'
+                            type="password"
+                            name="WorkspaceName"
+                            placeholder='New Password'
+                            value={passwordFields.newPassword}
+                            onChange={(event) => {
+                                handlePasswordFieldChange('newPassword', event)
+                            }}
+                        />
+
+                        <h3>Confirm Password</h3>
+                        <input
+                            className='w-full mb-2 outline-none rounded-md border-[1px] pl-2 h-10'
+                            type="password"
+                            name="WorkspaceName"
+                            placeholder='Confirm Password'
+                            value={passwordFields.confirmPassword}
+                            onChange={(event) => { handlePasswordFieldChange('confirmPassword', event) }}
+                        />
+
+
+                        <div className='bg-main p-2 w-full sm:w-24 items-center justify-center flex rounded-md text-white active:scale-95'>
+                            <button onClick={changePassword}>Update</button>
+                        </div>
+                        <p className='font-extralight mt-2 text-red-500'>{passChangeMessage}</p>
+                    </div>
+                    <hr />
+                </div>
+
+                <div className='w-[82vw] sm:w-full flex sm:flex-row flex-col p-2 sm:p-10'>
+                    <div className='w-[82vw] sm:w-[40%]'>
+                        <h3 className='text-xl font-bold'>Other Settings</h3>
+                        <p>Update other settings associated with your account.</p>
+                    </div>
+                    <div className='sm:w-[60%] flex flex-col gap-4 justify-start'>
+                        <div className='bg-red-500 p-2 sm:w-fit items-center justify-center flex rounded-md text-white active:scale-95'>
+                            <button onClick={deleteUser}>Delete Account</button>
+                        </div>
                     </div>
                 </div>
-            <hr />
-            </div>
-
-            <div className='w-[82vw] sm:w-full flex sm:flex-row flex-col p-2 sm:p-10 gap-8'>
-                <div className='w-[82vw] sm:w-[40%]'>
-                    <h3 className='text-xl font-bold'>Change Password</h3>
-                    <p>Update your password associated with your account.</p>
-                </div>
-                <div className='sm:w-[60%] flex flex-col gap-1 justify-start'>
-                    <h3>Current Password</h3>
-                    <input
-                        className='w-full mb-2 outline-none rounded-md border-[1px] pl-2 h-10'
-                        type="password"
-                        name="WorkspaceName"
-                        placeholder='Current Password'
-                        value={passwordFields.currentPassword}
-                        onChange={event => { handlePasswordFieldChange('currentPassword', event) }}
-                    />
-
-                    <h3>New Password</h3>
-                    <input
-                        className='w-full mb-2 outline-none rounded-md border-[1px] pl-2 h-10'
-                        type="password"
-                        name="WorkspaceName"
-                        placeholder='New Password'
-                        value={passwordFields.newPassword}
-                        onChange={(event) => {
-                            handlePasswordFieldChange('newPassword', event)
-                        }}
-                    />
-
-                    <h3>Confirm Password</h3>
-                    <input
-                        className='w-full mb-2 outline-none rounded-md border-[1px] pl-2 h-10'
-                        type="password"
-                        name="WorkspaceName"
-                        placeholder='Confirm Password'
-                        value={passwordFields.confirmPassword}
-                        onChange={(event) => { handlePasswordFieldChange('confirmPassword', event) }}
-                    />
-
-
-                    <div className='bg-main p-2 w-full sm:w-24 items-center justify-center flex rounded-md text-white active:scale-95'>
-                        <button onClick={changePassword}>Update</button>
-                    </div>
-                    <p className='font-extralight mt-2 text-red-500'>{passChangeMessage}</p>
-                </div>
-            <hr />
-            </div>
-
-            <div className='w-[82vw] sm:w-full flex sm:flex-row flex-col p-2 sm:p-10'>
-                <div className='w-[82vw] sm:w-[40%]'>
-                    <h3 className='text-xl font-bold'>Other Settings</h3>
-                    <p>Update other settings associated with your account.</p>
-                </div>
-                <div className='sm:w-[60%] flex flex-col gap-4 justify-start'>
-                    <div className='bg-red-500 p-2 sm:w-fit items-center justify-center flex rounded-md text-white active:scale-95'>
-                        <button onClick={deleteUser}>Delete Account</button>
-                    </div>
-                </div>
-            </div>
             </div>
         </>
     )

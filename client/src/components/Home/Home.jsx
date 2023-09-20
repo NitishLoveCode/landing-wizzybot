@@ -151,7 +151,9 @@ export default function Home({ agencyClient }) {
                     <div>
                         <h3 className='text-2xl sm:text-4xl font-bold'>{agencyClient !== undefined ? `${agencyClient.name}'s ` : ''}Dashboard</h3>
                     </div>
-                    <div className='bg-gray-900 text-white items-center cursor-pointer justify-center flex px-2 sm:px-8 rounded-md active:scale-95'>
+                    <div 
+                    onClick={() => {navigate('/load-url')}}
+                    className='bg-gray-900 text-white items-center cursor-pointer justify-center flex px-2 sm:px-8 rounded-md active:scale-95'>
                         <h3>New Ai Bot</h3>
                     </div>
                 </div>
