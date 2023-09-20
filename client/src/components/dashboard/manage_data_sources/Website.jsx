@@ -17,6 +17,7 @@ export default function Website() {
   const [untrainedLinks, setUntrainedLinks] = useState([]);
   const [clicked, setClicked] = useState(false);
   const { id } = useParams();
+  const [loading, setLoading] = useState(true);
 
   function addLink(link, index) {
     editLinks(prev => {
@@ -49,6 +50,7 @@ export default function Website() {
         if (Object.keys(data).length !== 0) {
           data.links.map((link, index) => addLink(link, index))
         }
+        setLoading(false);
       })
       .catch(err => console.log(err));
   }
@@ -73,21 +75,21 @@ export default function Website() {
 
   }
 
-  function deleteUntrainedLink(id){
+  function deleteUntrainedLink(id) {
     let temp = [...untrainedLinks];
-    temp = temp.filter((link, index)=>{
-      if ( id !== index){
+    temp = temp.filter((link, index) => {
+      if (id !== index) {
         return link;
       }
     });
-    if (temp.length === 0){
+    if (temp.length === 0) {
       setClicked(false);
     }
     setUntrainedLinks(temp)
   }
 
   function sendLinks(untrainedLinks) {
-   
+
 
     axios.post(serverBasePath + '/train/website/links',
       { links: untrainedLinks, chatbotId: id },
@@ -108,7 +110,7 @@ export default function Website() {
           setBaseLink('');
           setClicked(false);
           data.links.map((link, index) => addLink(link, index));
-          
+
         }
       })
       .catch(err => console.log(err));
@@ -125,106 +127,109 @@ export default function Website() {
 
   return (
     <>
-      <div className="flex items-center gap-4 flex-col">
-        <div className="flex flex-col gap-4">
-          <h3 className="text-2xl sm:text-3xl font-bold">Crawl a new website</h3>
-          <div className="flex sm:flex-row flex-col gap-2 items-center">
-            <Input_field
-              placeholder={"https://www.example.com"}
-              style={"border-2 w-[95vw] outline-none rounded-md sm:w-[30vw] h-[6vh] pl-2"}
-              value={baseLink}
-              setValue={setBaseLink}
-            />
-            <Button
-              style={"bg-gray-800 w-[95vw] sm:w-[18vw] text-white p-2 pl-3 pr-3 rounded-md"}
-              text={"Fetch new links from domain"}
-              action={sendBaseLink}
-            />
-          </div>
-        </div>
-      </div>
-
-      {
-        clicked && <>
-          {
-            untrainedLinks.length === 0 ?
-              <LoadingDots size={2} color={'bg-black'} />
-              :
-              <div className=''>
-                {
-                  untrainedLinks.map((webpage, index) => {
-                    webpage.status = false
-                    return (
-                      <>
-                        <IncludedLink
-                          id={index}
-                          key={index}
-                          link={webpage}
-                          deleteAction={deleteUntrainedLink}
-                        />
-                        <div className='my-2'></div>
-                      </>
-                    )
-                  }
-
-                  )
-                }
-                <Button 
-                style={"bg-gray-800 w-[95vw] sm:w-[25vw] text-white p-2 pl-3 pr-3 mt-2 rounded-md"}
-                text={'Import content and add to my chatbot'} 
-                action={()=>{sendLinks(untrainedLinks)}}
+      {loading ? <LoadingDots size={4} /> :
+        <>
+          <div className="flex items-center gap-4 flex-col">
+            <div className="flex flex-col gap-4">
+              <h3 className="text-2xl sm:text-3xl font-bold">Crawl a new website</h3>
+              <div className="flex sm:flex-row flex-col gap-2 items-center">
+                <Input_field
+                  placeholder={"https://www.example.com"}
+                  style={"border-2 w-[95vw] outline-none rounded-md sm:w-[30vw] h-[6vh] pl-2"}
+                  value={baseLink}
+                  setValue={setBaseLink}
+                />
+                <Button
+                  style={"bg-gray-800 w-[95vw] sm:w-[18vw] text-white p-2 pl-3 pr-3 rounded-md"}
+                  text={"Fetch new links from domain"}
+                  action={sendBaseLink}
                 />
               </div>
+            </div>
+          </div>
+
+          {
+            clicked && <>
+              {
+                untrainedLinks.length === 0 ?
+                  <LoadingDots size={2} color={'bg-black'} />
+                  :
+                  <div className=''>
+                    {
+                      untrainedLinks.map((webpage, index) => {
+                        webpage.status = false
+                        return (
+                          <>
+                            <IncludedLink
+                              id={index}
+                              key={index}
+                              link={webpage}
+                              deleteAction={deleteUntrainedLink}
+                            />
+                            <div className='my-2'></div>
+                          </>
+                        )
+                      }
+
+                      )
+                    }
+                    <Button
+                      style={"bg-gray-800 w-[95vw] sm:w-[25vw] text-white p-2 pl-3 pr-3 mt-2 rounded-md"}
+                      text={'Import content and add to my chatbot'}
+                      action={() => { sendLinks(untrainedLinks) }}
+                    />
+                  </div>
+              }
+            </>
+
           }
-        </>
 
-      }
+          <div className='flex flex-col gap-4'>
+            <h3 className='text-xl sm:text-3xl font-bold'>Fetch single link</h3>
 
-      <div className='flex flex-col gap-4'>
-        <h3 className='text-xl sm:text-3xl font-bold'>Fetch single link</h3>
-
-        <div className='flex flex-col sm:flex-row gap-2 items-center'>
-          <Input_field
-            placeholder={"https://www.example.com"}
-            style={"border-2 rounded-md w-[95vw] sm:w-[30vw] h-[6vh] pl-2"}
-            value={singleLink}
-            setValue={editSingleLink}
-            name='domain'
-          />
-          <Button style={"bg-gray-800 text-white w-[95vw] sm:w-[18vw] p-2 pl-3 pr-3 rounded-md"} text={"Fetch new links from domain"} action={trainSingleLink} />
-        </div>
-      </div>
-      {/* -------------------Imported & Trained Web Pages------------------- */}
-
-
-      <div className="flex w-full sm:w-[50vw] flex-col gap-2">
-        <div className="flex w-full justify-between mb-10 gap-8 items-center">
-          <div>
-            <h3 className="text-md md:text-3xl font-bold">Imported Trained<br className="sm:hidden"></br> Web Pages</h3>
+            <div className='flex flex-col sm:flex-row gap-2 items-center'>
+              <Input_field
+                placeholder={"https://www.example.com"}
+                style={"border-2 rounded-md w-[95vw] sm:w-[30vw] h-[6vh] pl-2"}
+                value={singleLink}
+                setValue={editSingleLink}
+                name='domain'
+              />
+              <Button style={"bg-gray-800 text-white w-[95vw] sm:w-[18vw] p-2 pl-3 pr-3 rounded-md"} text={"Fetch new links from domain"} action={trainSingleLink} />
+            </div>
           </div>
-          <div>
-            <Button
-              style={"border-2 text-sm rounded-md border-black p-1 pl-2 pr-2"}
-              text={"Delete all"}
-            />
+          {/* -------------------Imported & Trained Web Pages------------------- */}
+
+
+          <div className="flex w-full sm:w-[50vw] flex-col gap-2">
+            <div className="flex w-full justify-between mb-10 gap-8 items-center">
+              <div>
+                <h3 className="text-md md:text-3xl font-bold">Imported Trained<br className="sm:hidden"></br> Web Pages</h3>
+              </div>
+              <div>
+                <Button
+                  style={"border-2 text-sm rounded-md border-black p-1 pl-2 pr-2"}
+                  text={"Delete all"}
+                />
+              </div>
+            </div>
+            {/* =================MORE OPTIONS============== */}
+            <div className="flex sm:hidden items-center gap-2 justify-end">
+              <h3>More</h3>
+              <AiOutlineArrowRight />
+            </div>
+
+
+            {/* --------------------from here trained url------------------------------------- */}
+
+            {
+              links.map((webpage, i) => <IncludedLink
+                link={webpage}
+                key={i}
+              />)
+            }
           </div>
-        </div>
-        {/* =================MORE OPTIONS============== */}
-        <div className="flex sm:hidden items-center gap-2 justify-end">
-          <h3>More</h3>
-          <AiOutlineArrowRight />
-        </div>
-
-
-        {/* --------------------from here trained url------------------------------------- */}
-
-        {
-          links.map((webpage, i) => <IncludedLink
-            link={webpage}
-            key={i} 
-          />)
-        }
-      </div>
+        </>}
     </>
   );
 }
