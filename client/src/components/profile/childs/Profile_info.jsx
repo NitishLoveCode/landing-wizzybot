@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 export default function Profile_info() {
     const [passChangeMessage, setPassChangeMessage] = useState('');
     const [selectedFile, setSelectedFile] = useState();
+    const [selectedFileName, setSelectedFileName] = useState('No file chosen');
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -98,13 +99,15 @@ export default function Profile_info() {
     }
 
     function onFileChange(event) {
-        setUserChange(u => { return { ...u, image: true } })
+        setUserChange(u => { return { ...u, image: true } });
         setSelectedFile(event.target.files[0]);
+        setSelectedFileName(event.target.files[0].name);
     };
 
     function handleNameChange(e) {
         setUserChange(u => { return { ...u, name: true } })
         setUser(user => { return { ...user, name: e.target.value } });
+        
     }
 
     function handleUserInformationUpdate() {
@@ -158,7 +161,7 @@ export default function Profile_info() {
                                         </div>
                                     </label>
                                     <div>
-                                        <h3>No file choosen</h3>
+                                        <h3>{selectedFileName}</h3>
                                     </div>
                                 </div>
                             </div>
