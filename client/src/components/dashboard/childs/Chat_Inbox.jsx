@@ -289,5 +289,7 @@ export default function Chat_Inbox() {
         </>
       }
     </div>
+    </div>
+    </div>
   )
 }
