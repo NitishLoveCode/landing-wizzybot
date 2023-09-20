@@ -1,7 +1,7 @@
 import { MdDeleteOutline } from "react-icons/md"
 import { LuRefreshCw } from "react-icons/lu"
 
-export default function IncludedLink({ link }) {
+export default function IncludedLink({ link, id, deleteAction }) {
     return (
         <div className='w-[50vw] gap-2 flex items-center justify-between'>
 
@@ -13,14 +13,17 @@ export default function IncludedLink({ link }) {
             <div>
                 <h3>{link.charCount}</h3>
             </div>
-            
-            <div className='cursor-pointer active:scale-95 hover:text-red-500'>
+
+            <div
+                className='cursor-pointer active:scale-95 hover:text-red-500'
+                onClick={() => { deleteAction(id) }}
+            >
                 <MdDeleteOutline className='text-2xl' />
             </div>
-
+            {/* 
             <div className='cursor-pointer active:scale-95'>
                 <LuRefreshCw className='text-2xl' />
-            </div>
+            </div> */}
 
         </div>
     )

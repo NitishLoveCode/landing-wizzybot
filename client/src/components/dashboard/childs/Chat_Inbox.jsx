@@ -1,342 +1,278 @@
-import React from 'react'
-import {CiVolumeHigh} from "react-icons/ci"
-import {AiOutlineSend} from "react-icons/ai"
+
+import React, { useEffect, useState } from 'react'
+import { CiVolumeHigh } from "react-icons/ci"
+import { AiOutlineSend } from "react-icons/ai"
+import UserCard from './UserCard'
+import { useParams } from 'react-router-dom';
+import ChatArea from './ChatArea';
+import serverBasePath from '../../../../constants';
+import socketIOClient from "socket.io-client";
+import axios from 'axios';
+import image from '../../../assets/listening.svg';
+const socket = socketIOClient(serverBasePath);
 
 export default function Chat_Inbox() {
+
+  const { id } = useParams();
+  const [active, setActive] = useState(0);
+  const [messages, setMessages] = useState([
+    // { conversationId: '321', socketId: 'Sameer', conversation: [{}, { sender: 'bot', body: 'hello' }, { sender: 'user', body: 'kesay ho?' }] },
+  ]);
+  const [botState, setBotState] = useState('Stop');
+  const [loading, setLoading] = useState('')
+
+  function addMessage(message, conversationId) {
+    let temp = [...messages]
+    temp = temp.filter(message => conversationId === message.conversationId);
+    // console.log(temp[0].conversation)
+
+    if (temp.length !== 0) {
+
+      temp[0].conversation.push({ sender: message.sender, body: message.body });
+      setMessages(messages => [...messages.slice(0, active), temp[0], ...messages.slice(active + 1)]);
+    }
+  }
+
+  function sendMessage(message, socketId) {
+    console.log(message)
+    socket.emit('stop bot', socketId)
+    setBotState('Start');
+    socket.emit('new message', id, { sender: 'supportAgent', body: message.body, conversationId: message.conversationId }, socketId)
+    addMessage(message, message.conversationId);
+  }
+
+
+  useEffect(() => {
+    socket.connect()
+    socket.on('connect', (socket) => {
+      // console.log('hello')
+      // socket.emit('agentConnect', id);
+      // socket.emit('joinRoom', 'Support Agents', id);
+      console.log('connected')
+    });
+
+    // socket.emit('joinRoom', 'Support Agents', id);
+
+    socket.emit('agentConnect', id);
+
+    socket.on('identify', () => {
+      // socket.emit('joinRoom', 'Support Agents', id);
+      socket.emit('agentConnect', id);
+      console.log('identification successfull')
+    });
+
+
+    socket.on('userDisconnect', (socketId) => {
+      socket.emit('leaveRoom', socketId);
+      // setMessages(prevMessages => {
+      //   let updatedMessages = [...prevMessages];
+      //   if (active === updatedMessages.length - 1) {
+      //     setActive(active - 1)
+      //   }
+      //   updatedMessages = updatedMessages.filter(message => message.socketId !== socketId);
+      //   return updatedMessages;
+      // });
+    });
+
+    socket.on("Pair with Customer", (id) => {
+      console.log('pairing')
+      socket.emit("joinRoom", id);
+    });
+
+    socket.on("new message", (data, socketId) => {
+      console.log(data)
+      // console.log('new message received')
+      // Directly using setMessages with function parameter 
+      // to ensure we always work with the most current state
+      setMessages(prevMessages => {
+        const existingIndex = prevMessages.findIndex(message => message.conversationId === data.conversationId);
+
+        if (existingIndex > -1) {
+          // Existing conversation   
+          // Using spread to make a new copy and mutate that
+          const updatedMessages = [...prevMessages];
+          updatedMessages[existingIndex].conversation.push({
+            sender: data.sender,
+            body: data.body
+          });
+          return updatedMessages;
+        }
+        else {
+          // New conversation
+          const newConversation = {
+            conversationId: data.conversationId,
+            socketId: socketId,
+            new: true,
+            conversation: [{ sender: data.sender, body: data.body }],
+            startTime: new Date()
+          };
+          return [...prevMessages, newConversation];
+        }
+      });
+
+    });
+
+    const beforeUnload = (ev) => {
+      ev.preventDefault();
+      // socket.emit('leaveRoom', `Support Agents ${id}`);
+      socket.disconnect();
+    };
+
+    window.addEventListener('beforeunload', beforeUnload);
+
+
+
+    // Cleanup function to leave room when component unmounts
+    return () => {
+      window.removeEventListener('beforeunload', beforeUnload);
+      // socket.emit('leaveRoom');
+      // socket.disconnect()
+    }
+  }, []);
+
+
+  function handleBotClick() {
+    if (botState === 'Stop') {
+      setBotState('Start');
+      socket.emit('stop bot', messages[active].socketId);
+    }
+    else if (botState === 'Start') {
+      setBotState('Stop');
+      socket.emit('start bot', messages[active].socketId);
+    }
+  }
+
+  function setActiveConversation(index) {
+    const chosenMessage = messages[index]; //to get conversation id and save socket id;
+    setLoading(chosenMessage.conversationId);
+    console.log(chosenMessage)
+    if (chosenMessage.new === true) {
+      const messageBackup = [...messages];
+
+      axios.post(
+        serverBasePath + '/conversationHistory',
+        {
+          conversationId: chosenMessage.conversationId,
+          chatbotId: id
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          withCredentials: true
+        }
+      )
+        .then(response => {
+          const newMessage = {
+            conversationId: chosenMessage.conversationId,
+            new: false,
+            socketId: chosenMessage.socketId,
+            startTime: chosenMessage.startTime,
+            conversation: response.data
+          }
+          messageBackup[index] = newMessage;
+          setMessages(messageBackup)
+          setLoading('');
+        })
+        .catch(err => {
+          console.log(err);
+          setLoading('');
+        }
+        );
+    }
+    setActive(index)
+
+  }
+
+
+
   return (
     <div className='sm:mx-5'>
-      <div className='flex sm:flex-row flex-col items-center sm:items-start gap-1 border-[0.5px] p-2 border-gray-300 rounded-t-2xl justify-between'>
-        <div className='flex items-center gap-2'>
-          <div>
-            <h3 className='text-[12px]'>Chatting with</h3>
-          </div>
-          <div>
-            <h3 className='text-sm sm:text-xl'>NitishLoveCode@gmail.com</h3>
-          </div>
-          <div className='w-2 h-2 rounded-full bg-green-400'></div>
+
+
+      {
+        messages.length === 0 &&
+        <>
+        <div className='m-auto w-full h-full text-center'>
+
+          <img className='w-1/2 md:w-1/3 mx-auto mt-6 opacity-95'  src={image} alt="image notifying users of current conversations with chatbot" />
+          <p className='font-light text-blue-800 opacity-70 text-xl ml-5 my-8 p-5'>No one is using the chatbot right now, but don't worry we will keep on listening for new conversations</p>
+
         </div>
-        
-        <div className='flex items-center gap-2'>
-          <div className='border-[1px] border-gray-400 p-[3px] rounded-full cursor-pointer active:scale-95'><CiVolumeHigh className='text-xl'/></div>
-          <div className='bg-gray-700 active:scale-95 p-1 px-4 text-white rounded-md'><h3 className='text-[13px]'>End conversation</h3></div>
-        </div>
-      </div>
+        </>
+      }
 
-      <div className='mt-2 sm:mt-4 flex sm:flex-row flex-col gap-2'>
-        <div className='w-full sm:w-[28vw] border-[1px] p-1 h-[80vh]'>
-          <div className='bg-gray-100 mb-2 rounded-3xl flex items-center'>
-            <input className='w-full bg-transparent h-10 outline-none px-2' placeholder='Filter with date range' type="text" name="search" id="" />
-          </div>
 
-          <div className='w-full gap-3 flex flex-col overflow-y-scroll h-[70vh]'>
 
-              <div className='border-b-[1px] cursor-pointer active:scale-95 hover:bg-gray-100 pb-1 flex items-center'>
-                <div className='w-14 min-w-14 h-14 min-h-14 rounded-full bg-gray-300'>
+      {messages.length > 0 &&
+        <>
+          {messages.length > 0 &&
+            <div className='flex sm:flex-row flex-col items-center sm:items-start gap-1 border-[0.5px] p-5 border-gray-300 rounded-t-2xl justify-between'>
+              <div className='flex items-center gap-2'>
+                <div>
+                  <h3 className='text-sm sm:text-xl'>Chatting with</h3>
                 </div>
-                <div className='w-[80%] ml-2 flex flex-col'>
-                  <div className='flex justify-between'>
-                    <div><h3>Nitish kumar</h3></div>
-                    <div><h3 className='text-sm'>1m ago</h3></div>
-                  </div>
-                  <div>
-                    <h3 className='text-sm'>Hello, how are you?</h3>
-                  </div>
+                <div>
+                  <h3 className='text-sm sm:text-xl'>{messages[active].name === undefined ? messages[active].socketId : messages[active].name}</h3>
                 </div>
+                <div className='w-2 h-2 rounded-full bg-green-400'></div>
               </div>
 
-
-              <div className='border-b-[1px] cursor-pointer active:scale-95 hover:bg-gray-100 pb-1 flex items-center'>
-                <div className='w-14 min-w-14 h-14 min-h-14 rounded-full bg-gray-300'>
-                </div>
-                <div className='w-[80%] ml-2 flex flex-col'>
-                  <div className='flex justify-between'>
-                    <div><h3>Nitish kumar</h3></div>
-                    <div><h3 className='text-sm'>1m ago</h3></div>
-                  </div>
-                  <div>
-                    <h3 className='text-sm'>Hello, how are you?</h3>
-                  </div>
+              <div className='flex items-center gap-2'>
+                <div className='border-[1px] border-gray-400 p-[3px] rounded-full cursor-pointer active:scale-95'><CiVolumeHigh className='text-xl' /></div>
+                <div
+                  className='bg-gray-700 active:scale-95 p-1 px-4 text-white rounded-md'
+                  onClick={handleBotClick}
+                >
+                  <h3 className='text-[13px]'>{botState} bot</h3>
                 </div>
               </div>
+            </div>
+          }
 
-
-              <div className='border-b-[1px] cursor-pointer active:scale-95 hover:bg-gray-100 pb-1 flex items-center'>
-                <div className='w-14 min-w-14 h-14 min-h-14 rounded-full bg-gray-300'>
-                </div>
-                <div className='w-[80%] ml-2 flex flex-col'>
-                  <div className='flex justify-between'>
-                    <div><h3>Nitish kumar</h3></div>
-                    <div><h3 className='text-sm'>1m ago</h3></div>
-                  </div>
-                  <div>
-                    <h3 className='text-sm'>Hello, how are you?</h3>
-                  </div>
-                </div>
+          <div className='mt-2 sm:mt-4 flex sm:flex-row flex-col gap-2'>
+            <div className='w-full sm:w-[28vw] border-[1px] p-1 h-[80vh]'>
+              <div className='bg-gray-100 mb-2 rounded-3xl flex items-center h-2'>
+                {/* <input className='w-full bg-transparent h-10 outline-none px-2' placeholder='Filter with date range' type="text" name="search" id="" /> */}
               </div>
 
+              <div className='w-full gap-3 flex flex-col overflow-y-scroll h-[70vh]'>
 
 
-              <div className='border-b-[1px] cursor-pointer active:scale-95 hover:bg-gray-100 pb-1 flex items-center'>
-                <div className='w-14 min-w-14 h-14 min-h-14 rounded-full bg-gray-300'>
-                </div>
-                <div className='w-[80%] ml-2 flex flex-col'>
-                  <div className='flex justify-between'>
-                    <div><h3>Nitish kumar</h3></div>
-                    <div><h3 className='text-sm'>1m ago</h3></div>
-                  </div>
-                  <div>
-                    <h3 className='text-sm'>Hello, how are you?</h3>
-                  </div>
-                </div>
+
+
+                {messages.map((message, index) => {
+                  console.log(message)
+                  return <UserCard
+                    id={index}
+                    messages={message.conversation}
+                    conversationId={message.conversationId}
+                    name={message.name}
+                    time={message.startTime}
+                    active={active}
+                    setActive={setActiveConversation}
+                    key={index}
+                  />
+                })}
+
               </div>
+            </div>
+
+
+            {/* ----------------middle card for message------------------------- */}
+
+
+            {messages.length !== 0 ?
+              <ChatArea messages={messages[active].conversation} setMessages={sendMessage} name={messages[active].socketId} conversationId={messages[active].conversationId} socketId={messages[active].socketId} loading={loading} /> :
+              <ChatArea messages={[]} setMessages={() => { }} conversationId={[]} socketId={''} />
+            }
 
 
 
-              <div className='border-b-[1px] cursor-pointer active:scale-95 hover:bg-gray-100 pb-1 flex items-center'>
-                <div className='w-14 min-w-14 h-14 min-h-14 rounded-full bg-gray-300'>
-                </div>
-                <div className='w-[80%] ml-2 flex flex-col'>
-                  <div className='flex justify-between'>
-                    <div><h3>Nitish kumar</h3></div>
-                    <div><h3 className='text-sm'>1m ago</h3></div>
-                  </div>
-                  <div>
-                    <h3 className='text-sm'>Hello, how are you?</h3>
-                  </div>
-                </div>
-              </div>
 
-
-              <div className='border-b-[1px] cursor-pointer active:scale-95 hover:bg-gray-100 pb-1 flex items-center'>
-                <div className='w-14 min-w-14 h-14 min-h-14 rounded-full bg-gray-300'>
-                </div>
-                <div className='w-[80%] ml-2 flex flex-col'>
-                  <div className='flex justify-between'>
-                    <div><h3>Nitish kumar</h3></div>
-                    <div><h3 className='text-sm'>1m ago</h3></div>
-                  </div>
-                  <div>
-                    <h3 className='text-sm'>Hello, how are you?</h3>
-                  </div>
-                </div>
-              </div>
-
-
-
-              <div className='border-b-[1px] cursor-pointer active:scale-95 hover:bg-gray-100 pb-1 flex items-center'>
-                <div className='w-14 min-w-14 h-14 min-h-14 rounded-full bg-gray-300'>
-                </div>
-                <div className='w-[80%] ml-2 flex flex-col'>
-                  <div className='flex justify-between'>
-                    <div><h3>Nitish kumar</h3></div>
-                    <div><h3 className='text-sm'>1m ago</h3></div>
-                  </div>
-                  <div>
-                    <h3 className='text-sm'>Hello, how are you?</h3>
-                  </div>
-                </div>
-              </div>
-
-
-              <div className='border-b-[1px] cursor-pointer active:scale-95 hover:bg-gray-100 pb-1 flex items-center'>
-                <div className='w-14 min-w-14 h-14 min-h-14 rounded-full bg-gray-300'>
-                </div>
-                <div className='w-[80%] ml-2 flex flex-col'>
-                  <div className='flex justify-between'>
-                    <div><h3>Nitish kumar</h3></div>
-                    <div><h3 className='text-sm'>1m ago</h3></div>
-                  </div>
-                  <div>
-                    <h3 className='text-sm'>Hello, how are you?</h3>
-                  </div>
-                </div>
-              </div>
-
-
-
-              <div className='border-b-[1px] cursor-pointer active:scale-95 hover:bg-gray-100 pb-1 flex items-center'>
-                <div className='w-14 min-w-14 h-14 min-h-14 rounded-full bg-gray-300'>
-                </div>
-                <div className='w-[80%] ml-2 flex flex-col'>
-                  <div className='flex justify-between'>
-                    <div><h3>Nitish kumar</h3></div>
-                    <div><h3 className='text-sm'>1m ago</h3></div>
-                  </div>
-                  <div>
-                    <h3 className='text-sm'>Hello, how are you?</h3>
-                  </div>
-                </div>
-              </div>
-
-
-
-              <div className='border-b-[1px] cursor-pointer active:scale-95 hover:bg-gray-100 pb-1 flex items-center'>
-                <div className='w-14 min-w-14 h-14 min-h-14 rounded-full bg-gray-300'>
-                </div>
-                <div className='w-[80%] ml-2 flex flex-col'>
-                  <div className='flex justify-between'>
-                    <div><h3>Nitish kumar</h3></div>
-                    <div><h3 className='text-sm'>1m ago</h3></div>
-                  </div>
-                  <div>
-                    <h3 className='text-sm'>Hello, how are you?</h3>
-                  </div>
-                </div>
-              </div>
-
-
-
-              <div className='border-b-[1px] cursor-pointer active:scale-95 hover:bg-gray-100 pb-1 flex items-center'>
-                <div className='w-14 min-w-14 h-14 min-h-14 rounded-full bg-gray-300'>
-                </div>
-                <div className='w-[80%] ml-2 flex flex-col'>
-                  <div className='flex justify-between'>
-                    <div><h3>Nitish kumar</h3></div>
-                    <div><h3 className='text-sm'>1m ago</h3></div>
-                  </div>
-                  <div>
-                    <h3 className='text-sm'>Hello, how are you?</h3>
-                  </div>
-                </div>
-              </div>
-
-
-
-              <div className='border-b-[1px] cursor-pointer active:scale-95 hover:bg-gray-100 pb-1 flex items-center'>
-                <div className='w-14 min-w-14 h-14 min-h-14 rounded-full bg-gray-300'>
-                </div>
-                <div className='w-[80%] ml-2 flex flex-col'>
-                  <div className='flex justify-between'>
-                    <div><h3>Nitish kumar</h3></div>
-                    <div><h3 className='text-sm'>1m ago</h3></div>
-                  </div>
-                  <div>
-                    <h3 className='text-sm'>Hello, how are you?</h3>
-                  </div>
-                </div>
-              </div>
-
-
-              <div className='border-b-[1px] cursor-pointer active:scale-95 hover:bg-gray-100 pb-1 flex items-center'>
-                <div className='w-14 min-w-14 h-14 min-h-14 rounded-full bg-gray-300'>
-                </div>
-                <div className='w-[80%] ml-2 flex flex-col'>
-                  <div className='flex justify-between'>
-                    <div><h3>Nitish kumar</h3></div>
-                    <div><h3 className='text-sm'>1m ago</h3></div>
-                  </div>
-                  <div>
-                    <h3 className='text-sm'>Hello, how are you?</h3>
-                  </div>
-                </div>
-              </div>
-              
-
-              
-
-              
-
-
-
-          </div>
-        </div>
-
-
-        {/* ----------------middle card for message------------------------- */}
-        <div className='w-full'>
-        <div className='sticky top-0 '>
-          <div className=' relative border-[1px] shadow-xl overflow-hidden
-            border-gray-300 h-[80vh]'>
-              <div className="bg-gray-200 px-2 py-2 flex items-center gap-2">
-                <div className='w-12 min-w-12 h-12 min-h-12 rounded-full bg-gray-400'>
-                </div>
-                <div><h3>Nitish kumar</h3></div>
-              </div>
-    
-              {/* --------------------message --------------- */}
-              <div className='px-4 mt-4 pb-4 h-[72%] overflow-y-scroll'>
-                <div className='flex flex-col gap-4'>
-    
-                  {/* -----------------send--------------- */}
-                  <div className='flex justify-end'>
-                    <div className='bg-[#2188f3] mt-4 text-white w-fit px-2 rounded-md'>
-                      <h3>Lets jump on a video call.</h3>
-                    </div>
-                  </div>
-                  {/* ----------------------------------------------------- */}
-    
-                  {/* -----------------reply--------------- */}
-                  <div className='flex justify-start'>
-                    <div className='bg-[#f4f5f6] mt-4 w-fit px-2 rounded-md'>
-                      <h3>How often should i take the medicine?</h3>
-                    </div>
-                  </div>
-                  {/* ----------------------------------------------------- */}
-    
-                  {/* -----------------send--------------- */}
-                  <div className='flex justify-end'>
-                    <div className='bg-[#2188f3] mt-4 text-white w-fit px-2 rounded-md'>
-                      <h3>Twice a day, at breakfast and before bed</h3>
-                    </div>
-                  </div>
-                  {/* ----------------------------------------------------- */}
-    
-                  {/* -----------------reply--------------- */}
-                  <div className='flex justify-start'>
-                    <div className='bg-[#f4f5f6] mt-4 w-fit px-2 rounded-md'>
-                      <h3>Thanks a lot doc</h3>
-                    </div>
-                  </div>
-                  {/* ----------------------------------------------------- */}
-    
-                  {/* -----------------send--------------- */}
-                  <div className='flex justify-end'>
-                    <div className='bg-[#2188f3] mt-4 text-white w-fit px-2 rounded-md'>
-                      <h3>Thats my duty, mention not</h3>
-                    </div>
-                  </div>
-                  {/* ----------------------------------------------------- */}
-    
-                  {/* -----------------reply--------------- */}
-                  <div className='flex justify-start'>
-                    <div className='bg-[#f4f5f6] mt-4 w-fit px-2 rounded-md'>
-                      <h3>sorry to bother again but can i ask you one more favour?</h3>
-                    </div>
-                  </div>
-                  {/* ----------------------------------------------------- */}
-    
-                  {/* -----------------send--------------- */}
-                  <div className='flex justify-end'>
-                    <div className='bg-[#2188f3] mt-4 text-white w-fit px-2 rounded-md'>
-                      <h3>yeah sure, go ahead?</h3>
-                    </div>
-                  </div>
-                  {/* ----------------------------------------------------- */}
-    
-                  {/* -----------------reply--------------- */}
-                  <div className='flex justify-start'>
-                    <div className='bg-[#f4f5f6] mt-4 w-fit px-2 rounded-md'>
-                      <h3>I really had a scary feeling about this, can please advice some tricks to overcome my anxiety?</h3>
-                    </div>
-                  </div>
-                  {/* ----------------------------------------------------- */}
-              </div>
-              </div>
-              {/* ------------------------------------------- */}
-    
-              <div className='absolute bg-white bottom-0 w-full'>
-                <div className='border-[1px] border-gray-300 h-14 px-2 flex items-center'>
-                  <input className='outline-none w-full' type="text" name="message" placeholder='Send message'/>
-                  <AiOutlineSend className='pl-2 text-4xl'/>
-                </div>
-              </div>
-          </div>
-    
-          </div>
-        </div>
-
-        {/* -------------------Right sectation card-------------- */}
-        {/* <div className='w-[25vw]'>
+            {/* -------------------Right sectation card-------------- */}
+            {/* <div className='w-[25vw]'>
           <div className='p-2'>
             <h3 className='text-xl'>Details</h3>
           </div>
@@ -344,8 +280,9 @@ export default function Chat_Inbox() {
 
           </div>
         </div> */}
-      </div>
-      
+          </div>
+        </>
+      }
     </div>
   )
 }
