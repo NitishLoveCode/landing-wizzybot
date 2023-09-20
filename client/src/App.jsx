@@ -26,8 +26,8 @@ export default function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='/forgot-password' element={<Forgotpassword />} />
-          <Route path='/load-url' element={<Load_url />} />
-          <Route path='/scrape' element={<Scraped_url />} />
+          <Route path='/load-url' element={<Load_url agencyView={agencyClient.name !== undefined} />} />
+          <Route path='/scrape' element={<Scraped_url agencyView={agencyClient.name !== undefined} agencyClient={agencyClient} />} />
           <Route path='/chatbot/:childs/:id' element={<Root_page agencyView={agencyClient.name !== undefined} />} />
           <Route path='/profile/:childs' element={<Left_sidebar />} />
           <Route path='/reset-password/:token' element={<ResetPassword />} />

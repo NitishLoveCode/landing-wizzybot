@@ -44,7 +44,7 @@ export default function Home({ agencyClient }) {
             setAgencyView(false)
             fetchChatbots();
         }
-        
+
 
     }, [])
     const [delete_bot, setdelete_bot] = useState(false)
@@ -105,7 +105,8 @@ export default function Home({ agencyClient }) {
     // }, [])
 
     function deleteChatbot(id) {
-        axios.delete(serverBasePath + `/deleteBot/${id}`, {
+        // const deleteRoute = agencyClient === undefined ? `${serverBasePath}/deleteBot/${id}` : `${serverBasePath}/deleteBot/${agencyClient.id}`
+        axios.delete(`${serverBasePath}/deleteBot/${id}`, {
             headers: {
                 'content-type': 'application/json',
                 'Accept': 'application/json',
@@ -114,7 +115,8 @@ export default function Home({ agencyClient }) {
         })
             .then((response) => {
                 if (response.status === 200) {
-                    fetchChatbots()
+                    fetchChatbots();
+                    setdelete_bot(false)
                 }
             })
             .catch(err => console.log(err));
@@ -126,6 +128,7 @@ export default function Home({ agencyClient }) {
 
     // --------for delete bot-----------------
     const delete_traind_bot = (chat_id) => {
+        console.log('iddddd',chat_id)
         setchat_bot_id(chat_id)
         if (delete_bot === true) {
             setdelete_bot(false);
@@ -139,43 +142,46 @@ export default function Home({ agencyClient }) {
     return (
 
         <>
-        <div className='mx-2 sm:mx-10'>
-            <div className='flex justify-between mb-8'>
-                <div>
-                    {/* -------you can pass width for dots size------------- */}
-                    {/* <LoadingDots size={"4"}/> */}
             {agencyView &&
-                <div className='p-3 px-11 bg-blue-900 mt-[-2rem] mb-8 text-white font-medium'>
+            // NOTE FOR NITISH: DO NOT MOVE THIS BAR FROM THIS PLACE!!!!!!!!
+                <div className='p-3 px-11 w-screen bg-blue-900 mt-[-2rem] mb-8 text-white font-medium'>
                     <MdOutlineManageAccounts size={25} className='inline mx-2' />
                     You are viewing this page as an manager
                 </div>
             }
             <div className='mx-2 sm:mx-10'>
-                <div className='flex w-[85vw] justify-between mb-8'>
+
+                <div className='flex justify-between mb-8'>
                     <div>
-                        <h3 className='text-2xl sm:text-4xl font-bold'>{agencyClient !== undefined ? `${agencyClient.name}'s ` : ''}Dashboard</h3>
-                    </div>
-                    <div 
-                    onClick={() => {navigate('/load-url')}}
-                    className='bg-gray-900 text-white items-center cursor-pointer justify-center flex px-2 sm:px-8 rounded-md active:scale-95'>
-                        <h3>New Ai Bot</h3>
+                        {/* -------you can pass width for dots size------------- */}
+                        {/* <LoadingDots size={"4"}/> */}
+
+                        <div className='mx-2 sm:mx-10'>
+                            <div className='flex w-[85vw] justify-between mb-8'>
+                                <div>
+                                    <h3 className='text-2xl sm:text-4xl font-bold'>{agencyClient !== undefined ? `${agencyClient.name}'s ` : ''}Dashboard</h3>
+                                </div>
+                                <div
+                                    onClick={() => { navigate('/load-url') }}
+                                    className='bg-gray-900 text-white items-center cursor-pointer justify-center flex px-2 sm:px-8 rounded-md active:scale-95'>
+                                    <h3>New Ai Bot</h3>
+                                </div>
+                            </div>
+                            {/* {chatbots.map((chatbot, i) => <ChatbotCard delete_traind_bot={delete_traind_bot} chatbot={chatbot} deleteChatbot={deleteChatbot} key={i} />)} */}
+                        </div>
+                        <div className='flex flex-wrap gap-8 justify-center'>
+                            {chatbots.map((chatbot, i) => <ChatbotCard delete_traind_bot={delete_traind_bot} chatbot={chatbot} deleteChatbot={deleteChatbot} key={i} />)}
+                        </div>
                     </div>
                 </div>
-                {/* {chatbots.map((chatbot, i) => <ChatbotCard delete_traind_bot={delete_traind_bot} chatbot={chatbot} deleteChatbot={deleteChatbot} key={i} />)} */}
             </div>
-            <div className='flex flex-wrap gap-8 justify-center'>
-                {chatbots.map((chatbot, i) => <ChatbotCard delete_traind_bot={delete_traind_bot} chatbot={chatbot} deleteChatbot={deleteChatbot} key={i}/>)}
-            </div>
-        </div>
-        </div>
-        </div>
 
             {
                 delete_bot ? <Delete_popup chat_bot_id={chat_bot_id} delete_traind_bot={delete_traind_bot} deleteChatbot={deleteChatbot} /> : ""
             }
 
 
-        
+
             {/* -------you can pass width for dots size------------- */}
             {
                 loading &&
