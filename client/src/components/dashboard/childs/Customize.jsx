@@ -5,13 +5,14 @@ import Main_chat_box from './Main_chat_box'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import serverBasePath from '../../../../constants';
+import LoadingDots from '../../loading/LoadingDots';
 
 export default function Customize() {
 
   const { id } = useParams();
   const [hidden, sethidden] = useState(false)
   const [settings, setSettings] = useState({});
-  const [response, setResponse] = useState('');
+  const [response, setResponse] = useState(false);
   const [backup, setBackup] = useState({});//keeps a backup of the settings currently on the server.
 
 
@@ -34,7 +35,8 @@ export default function Customize() {
     })
       .then((response) => {
         setSettings(response.data);
-        setBackup(response.data)
+        setBackup(response.data);
+        setResponse(true);
       })
       .catch(err => console.log(err));
 
@@ -80,7 +82,13 @@ export default function Customize() {
   }
 
   return (
+    
     <>
+    {response === false ? 
+    <div className='mt-10'>
+    <LoadingDots size={4} />
+    </div>
+     :
       <div className='flex sm:flex-row flex-col gap-10'>
         <div className="flex flex-col gap-8 pb-8">
           <div className='border-[1px] border-gray-400 rounded-md gap-4 pb-4 w-full sm:w-[55vw]'>
@@ -248,6 +256,7 @@ export default function Customize() {
 
         {/* -------------------------------- */}
       </div>
+}
     </>
   )
 }

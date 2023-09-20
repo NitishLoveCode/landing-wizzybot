@@ -4,6 +4,7 @@ import ChatBubble from '../../shared_components/ChatBubble';
 
 export default function Main_chat_box({ AI_Bot_color, Message_color, User_message_color, Initial_Message }) {
 
+  
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
