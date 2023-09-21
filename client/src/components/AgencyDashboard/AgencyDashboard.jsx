@@ -28,7 +28,7 @@ export default function AgencyDashboard({ setAgencyClient }) {
 
                 if (response.data.clients.length !== 0) {
                     const newChatBots = response.data.clients.map(client => {
-                        console.log('clinet', client.id);
+                        // console.log('clinet', client.id);
                         return {
                             name: client.name,
                             id: client.id,
@@ -44,7 +44,6 @@ export default function AgencyDashboard({ setAgencyClient }) {
                 }
             })
             .catch(err => console.log(err));
-        console.log('sfsdsdf', clients[0])
     }
 
     useEffect(() => {

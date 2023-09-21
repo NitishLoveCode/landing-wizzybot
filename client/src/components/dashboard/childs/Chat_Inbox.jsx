@@ -35,7 +35,6 @@ export default function Chat_Inbox({ messages, setMessages }) {
   }
 
   function sendMessage(message, socketId) {
-    console.log(message)
     socket.emit('stop bot', socketId)
     setBotState('Start');
     socket.emit('new message', id, { sender: 'supportAgent', body: message.body, conversationId: message.conversationId }, socketId)
@@ -148,7 +147,6 @@ export default function Chat_Inbox({ messages, setMessages }) {
     if (chosenMessage.new === true) {
       setLoading(chosenMessage.conversationId);
     }
-    console.log(chosenMessage)
     if (chosenMessage.new === true) {
       const messageBackup = [...messages];
 
@@ -246,7 +244,6 @@ export default function Chat_Inbox({ messages, setMessages }) {
 
 
                 {messages.map((message, index) => {
-                  console.log(message)
                   return <UserCard
                     id={index}
                     messages={message.conversation}

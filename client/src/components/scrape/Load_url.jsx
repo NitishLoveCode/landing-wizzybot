@@ -14,7 +14,6 @@ export default function Load_url({ agencyView }) {
   // const [sources, setSources] = useState([]);
   const navigate = useNavigate();
 
-  console.log(agencyView)
 
   function getLinks() {
 

@@ -35,7 +35,6 @@ export default function Home({ agencyClient }) {
 
         if (agencyClient !== undefined) {
             temp = [...agencyClient.chatbots]
-            console.log(temp[0])
             setAgencyView(true);
             setChatbots(temp)
             setLoading(false);
@@ -53,7 +52,6 @@ export default function Home({ agencyClient }) {
 
 
     function fetchChatbots() {
-        console.log('fetch called')
         axios.get(serverBasePath + '/my-chatbots', {
             headers: {
                 'content-type': 'application/json',
@@ -63,7 +61,6 @@ export default function Home({ agencyClient }) {
         })
             .then(response => {
 
-                console.log(response.data.chatBots)
                 if (response.data.chatBots.length !== 0) {
                     const newChatBots = response.data.chatBots.map(chatbot => ({
                         name: chatbot.name,
@@ -128,7 +125,6 @@ export default function Home({ agencyClient }) {
 
     // --------for delete bot-----------------
     const delete_traind_bot = (chat_id) => {
-        console.log('iddddd',chat_id)
         setchat_bot_id(chat_id)
         if (delete_bot === true) {
             setdelete_bot(false);

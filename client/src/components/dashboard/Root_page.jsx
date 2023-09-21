@@ -59,7 +59,7 @@ export default function Root_page({ agencyView }) {
             // Directly using setMessages with function parameter 
             // to ensure we always work with the most current state
 
-            if (data.signature === messages[message.length - 1].signature){
+            if (data.signature === messages[messages.length - 1].signature){
                 return;
             }
 

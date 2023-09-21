@@ -29,7 +29,6 @@ export default function Website() {
     })
   }
   function addUntrainedLink(link, index) {
-    console.log('loin', link)
     setUntrainedLinks(prev => {
       if (link.id === undefined) {
         link.id = index
@@ -105,7 +104,6 @@ export default function Website() {
     )
       .then((response) => {
         const data = response.data;
-        console.log(data)
         if (Object.keys(data).length !== 0 && response.status !== 400) {
           editLinks([]);
           setUntrainedLinks([]);
