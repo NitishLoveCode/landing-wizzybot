@@ -14,7 +14,7 @@ import ResetPassword from './components/entry/ResetPassword'
 import AgencyDashboard from './components/AgencyDashboard/AgencyDashboard'
 import MessageHistory from './components/MessageHistory/MessageHistory'
 import SocketContext from './SocketContext';
-import { getSocket } from './socket.js';
+import { getSocket } from './socket.jsx';
 
 const socket = getSocket();
 
