@@ -4,7 +4,7 @@ import { IoMdAddCircle } from "react-icons/io"
 
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import Chatbox from './childs/chatbox';
+import Chatbox from './childs/Chatbox';
 import serverBasePath from '../../../constants';
 import LoadingDots from '../loading/LoadingDots';
 import { addDays } from 'date-fns';
