@@ -4,12 +4,12 @@ import { IoMdAddCircle } from "react-icons/io"
 
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import Chatbox from './child/chatbox';
+import Chatbox from './childs/chatbox';
 import serverBasePath from '../../../constants';
 import LoadingDots from '../loading/LoadingDots';
 import { addDays } from 'date-fns';
-import ConversationHistory from './child/ConversationHistory'
-import DatePicker from './child/DatePicker'
+import ConversationHistory from './childs/ConversationHistory'
+import DatePicker from './childs/DatePicker'
 
 
 export default function messageHistory() {
