@@ -14,9 +14,9 @@ import ResetPassword from './components/entry/ResetPassword'
 import AgencyDashboard from './components/AgencyDashboard/AgencyDashboard'
 import MessageHistory from './components/MessageHistory/MessageHistory'
 import SocketContext from './SocketContext';
-import socketIOClient from "socket.io-client";
-import serverBasePath from '../constants'
-const socket = socketIOClient(serverBasePath);
+import { getSocket } from './socket.js';
+
+const socket = getSocket();
 
 export default function App() {
   const [agencyClient, setAgencyClient] = useState({});
