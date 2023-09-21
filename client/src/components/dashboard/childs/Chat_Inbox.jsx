@@ -12,7 +12,7 @@ import image from '../../../assets/listening.svg';
 import SocketContext from '../../../SocketContext';
 // const socket = socketIOClient(serverBasePath);
 
-export default function Chat_Inbox({messages,setMessages}) {
+export default function Chat_Inbox({ messages, setMessages }) {
   const socket = useContext(SocketContext);
   const { id } = useParams();
   const [active, setActive] = useState(0);
@@ -145,7 +145,9 @@ export default function Chat_Inbox({messages,setMessages}) {
 
   function setActiveConversation(index) {
     const chosenMessage = messages[index]; //to get conversation id and save socket id;
-    setLoading(chosenMessage.conversationId);
+    if (chosenMessage.new === true) {
+      setLoading(chosenMessage.conversationId);
+    }
     console.log(chosenMessage)
     if (chosenMessage.new === true) {
       const messageBackup = [...messages];
@@ -195,12 +197,12 @@ export default function Chat_Inbox({messages,setMessages}) {
       {
         messages.length === 0 &&
         <>
-        <div className='m-auto w-full h-full text-center'>
+          <div className='m-auto w-full h-full text-center'>
 
-          <img className='w-1/2 md:w-1/3 mx-auto mt-6 opacity-95'  src={image} alt="image notifying users of current conversations with chatbot" />
-          <p className='font-light text-blue-800 opacity-70 text-xl mx-auto my-8 p-5 w-[40%]'>No one is using the chatbot right now, but don't worry we will keep on listening for new conversations</p>
+            <img className='w-1/2 md:w-1/3 mx-auto mt-6 opacity-95' src={image} alt="image notifying users of current conversations with chatbot" />
+            <p className='font-light text-blue-800 opacity-70 text-xl mx-auto my-8 p-5 w-[40%]'>No one is using the chatbot right now, but don't worry we will keep on listening for new conversations</p>
 
-        </div>
+          </div>
         </>
       }
 

@@ -84,7 +84,8 @@ export default function Root_page({ agencyView }) {
                 }
             });
         })
-      const beforeUnload = (ev) => {
+        
+        const beforeUnload = (ev) => {
             ev.preventDefault();
             // socket.emit('leaveRoom', `Support Agents ${id}`);
             socket.disconnect();
