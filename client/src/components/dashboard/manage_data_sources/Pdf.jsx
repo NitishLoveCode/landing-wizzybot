@@ -43,6 +43,7 @@ export default function Pdf() {
                 setUploadingFile(null); // Reset the uploadingFile state when finished
                 setTrainedFiles(response.data);
                 setFiles([])
+                fetchFiles();
             })
             .catch(err => {
                 console.log("Error in upload: ", err);
@@ -68,6 +69,32 @@ export default function Pdf() {
                 setLoading(false)
             });
     }
+
+    function deleteFiles(itemId) {
+        const fileToRemove = trainedFiles.filter(question => question.id === id);
+        if (fileToRemove.new !== true) {
+          axios.delete(`${serverBasePath}/train/file`, {
+            params: {
+              itemId: itemId,
+              chatbotId: id
+            },
+            withCredentials: true
+          })
+            .then(function (response) {
+              if (response.status === 200) {
+                setTrainedFiles([]);
+                fetchFiles();
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+      }
+
+      function deleteAll(){
+        trainedFiles.forEach(file => deleteFiles(file.id))
+      }
 
     useEffect(fetchFiles, []);
 
@@ -105,7 +132,7 @@ export default function Pdf() {
                         {/* -------------------saved pdf content-------  */}
                         <div className='flex items-center justify-between mt-3'>
                             <h3 className='text-2xl font-bold'>Imported & Trained PDF Contents</h3>
-                            <button className='border-[1px] active:scale-95 text-sm p-1 px-2 rounded-md'>Delete All</button>
+                            <button className='border-[1px] active:scale-95 text-sm p-1 px-2 rounded-md' onClick={deleteAll}>Delete All</button>
                         </div>
                         <div className='flex-col items-center justify-center mt-6'>
 
@@ -119,6 +146,8 @@ export default function Pdf() {
                                                     chars={file.chars}
                                                     data={file.data}
                                                     id={file.id}
+                                                    key={file.id}
+                                                    deleteAction={deleteFiles}
                                                 />
                                             })
                                         }

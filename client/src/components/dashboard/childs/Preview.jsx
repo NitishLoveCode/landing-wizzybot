@@ -82,10 +82,10 @@ export default function Main_chat_box() {
   return (
     <>
       {/* ----------------right side chat------------- */}
-      <div className='sticky top-0 h-screen'>
+      <div className='sticky top-0 ml-4 lg:ml-24 h-screen'>
         <div className=' relative border-[1px] shadow-xl overflow-hidden rounded-3xl border-gray-300 w-full sm:w-[68vw] h-[80vh]'>
-          <div className={"bg-[#2188f3] px-2 py-2 header-bar-color"}>
-            <img className='h-10' src="https://app.livechatai.com/_next/static/media/logo-white.94898d4d.png" alt="logo" />
+          <div className={"bg-[#2188f3] px-2 py-2 header-bar-color h-14"}>
+            {/* <img className='h-10' src="https://app.livechatai.com/_next/static/media/logo-white.94898d4d.png" alt="logo" /> */}
           </div>
 
           {/* --------------------message --------------- */}
