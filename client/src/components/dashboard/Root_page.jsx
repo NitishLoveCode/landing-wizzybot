@@ -59,10 +59,11 @@ export default function Root_page({ agencyView }) {
             // Directly using setMessages with function parameter 
             // to ensure we always work with the most current state
 
-            if (data.signature === messages[messages.length - 1].signature){
-                return;
+            if (messages.length > 0) {
+                if (data.signature === messages[messages.length - 1].signature) {
+                    return;
+                }
             }
-
 
             setMessages(prevMessages => {
                 const existingIndex = prevMessages.findIndex(message => message.conversationId === data.conversationId);
