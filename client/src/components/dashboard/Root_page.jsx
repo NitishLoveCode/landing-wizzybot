@@ -58,6 +58,12 @@ export default function Root_page({ agencyView }) {
             // console.log('new message received')
             // Directly using setMessages with function parameter 
             // to ensure we always work with the most current state
+
+            if (data.signature === messages[message.length - 1].signature){
+                return;
+            }
+
+
             setMessages(prevMessages => {
                 const existingIndex = prevMessages.findIndex(message => message.conversationId === data.conversationId);
 
@@ -84,7 +90,7 @@ export default function Root_page({ agencyView }) {
                 }
             });
         })
-        
+
         const beforeUnload = (ev) => {
             ev.preventDefault();
             // socket.emit('leaveRoom', `Support Agents ${id}`);
