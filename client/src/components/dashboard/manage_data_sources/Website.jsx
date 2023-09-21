@@ -18,6 +18,7 @@ export default function Website() {
   const [clicked, setClicked] = useState(false);
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
+  const [fetched, setFetched] = useState(false);
 
   function addLink(link, index) {
     editLinks(prev => {
@@ -47,6 +48,7 @@ export default function Website() {
     })
       .then((response) => {
         const data = response.data;
+        editLinks([]);
         if (Object.keys(data).length !== 0) {
           data.links.map((link, index) => addLink(link, index))
         }
@@ -123,7 +125,42 @@ export default function Website() {
     }
   }
 
-  useEffect(getLinks, []);
+  function deleteLinks(itemId, setClicked) {
+    const linkToRemove = links.filter(question => question.id === id);
+    if (linkToRemove.new !== true) {
+      axios.delete(`${serverBasePath}/train/website/link`, {
+        params: {
+          itemId: itemId,
+          chatbotId: id
+        },
+        withCredentials: true
+      })
+        .then(function (response) {
+          if (response.status === 200) {
+            getLinks();
+            if (setClicked !== undefined) {
+              setClicked(false);
+            }
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }
+
+  function deleteAll(){
+    links.forEach(link => {deleteLinks(link.id);})
+  }
+
+  useEffect(() => {
+    if (fetched === false) {
+      getLinks()
+      setFetched(true);
+    }
+  }
+    , []
+  );
 
   return (
     <>
@@ -210,6 +247,7 @@ export default function Website() {
                 <Button
                   style={"border-2 text-sm rounded-md border-black p-1 pl-2 pr-2"}
                   text={"Delete all"}
+                  action={deleteAll}
                 />
               </div>
             </div>
@@ -226,6 +264,7 @@ export default function Website() {
               links.map((webpage, i) => <IncludedLink
                 link={webpage}
                 key={i}
+                deleteAction={deleteLinks}
               />)
             }
           </div>

@@ -4,7 +4,6 @@ import ChatBubble from '../../shared_components/ChatBubble';
 
 export default function Main_chat_box({ AI_Bot_color, Message_color, User_message_color, Initial_Message }) {
 
-  
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
@@ -26,8 +25,8 @@ export default function Main_chat_box({ AI_Bot_color, Message_color, User_messag
       {/* ----------------right side chat------------- */}
       <div className='sticky top-0 h-screen'>
         <div className=' relative border-[1px] shadow-xl overflow-hidden rounded-3xl border-gray-300 w-full sm:w-[28vw] h-[80vh]'>
-          <div style={{ backgroundColor: AI_Bot_color }} className={"px-2 py-2"}>
-            <img className='h-10' src="https://app.livechatai.com/_next/static/media/logo-white.94898d4d.png" alt="logo" />
+          <div style={{ backgroundColor: AI_Bot_color }} className={"px-2 py-2 h-10"}>
+            {/* <img className='h-10' src="https://app.livechatai.com/_next/static/media/logo-white.94898d4d.png" alt="logo" /> */}
           </div>
 
           {/* --------------------message --------------- */}

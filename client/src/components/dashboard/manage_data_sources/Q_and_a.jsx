@@ -89,6 +89,30 @@ export default function Q_and_a() {
             .catch(err => console.log(err))
     }
 
+    function deleteQuestion(itemId) {
+        setClicked(itemId);
+        const QAToRemove = QA.filter(question => question.id === id);
+        if (QAToRemove.new !== true) {
+            axios.delete(`${serverBasePath}/train/deleteQuestions`, {
+                params: {
+                    itemId: itemId,
+                    chatbotId: id
+                },
+                withCredentials: true
+            })
+                .then(function (response) {
+                    if (response.status === 200) {
+                        getQuestions();
+                        setClicked('');
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+        setQA(prev => prev.filter(item => item.id !== id));
+    }
+
     useEffect(getQuestions, []);
 
 
@@ -134,7 +158,7 @@ export default function Q_and_a() {
                             <>
                                 {
                                     QA.map((cur) => {
-                                        return <Saved_question cur={cur} />
+                                        return <Saved_question cur={cur} deleteQuestion={deleteQuestion} />
                                     })
 
                                 }

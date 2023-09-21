@@ -3,7 +3,7 @@ import { IoIosArrowDown } from 'react-icons/io'
 import Input_field from '../../shared_components/Input_field'
 import Button from '../../shared_components/Button'
 
-export default function Saved_question({cur}) {
+export default function Saved_question({cur, deleteQuestion}) {
     const [card_open, setcard_open]=useState(false)
 
 
