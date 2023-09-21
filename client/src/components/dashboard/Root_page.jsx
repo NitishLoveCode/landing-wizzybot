@@ -58,9 +58,10 @@ export default function Root_page({ agencyView }) {
             // console.log('new message received')
             // Directly using setMessages with function parameter 
             // to ensure we always work with the most current state
-
+            console.log(messages.length)
             if (messages.length > 0) {
                 if (data.signature === messages[messages.length - 1].signature) {
+                    console.log(messages[messages.length - 1].signature, data.signature)
                     return;
                 }
             }
