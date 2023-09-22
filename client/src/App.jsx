@@ -13,6 +13,7 @@ import Left_sidebar from './components/profile/Left_sidebar'
 import Forgotpassword from './components/entry/Forgotpassword'
 import ResetPassword from './components/entry/ResetPassword'
 import AgencyDashboard from './components/AgencyDashboard/AgencyDashboard'
+import Landing from './components/dashboard/landing/Landing'
 import MessageHistory from './components/MessageHistory/MessageHistory'
 import SocketContext from './SocketContext';
 import { getSocket } from './socket.jsx';
@@ -29,6 +30,7 @@ export default function App() {
 
   return (
     <>
+
       <div>
 
         <Toaster
@@ -65,10 +67,11 @@ export default function App() {
             <Route path='/reset-password/:token' element={<ResetPassword />} />
             <Route path='/agency-dashboard' element={<AgencyDashboard setAgencyClient={setAgencyClient} />} />
             {/* <Route path='/test' element={<GoogleButton />} /> */}
-
+            <Route path="/landing-1" element={<Landing/>}/>
           </Routes>
         </BrowserRouter>
       </SocketContext.Provider>
+
     </>
   )
 }
