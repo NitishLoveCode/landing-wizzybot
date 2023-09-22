@@ -155,7 +155,7 @@ export default function Customize() {
               </div>
             </div>
 
-            <div className='px-5 py-3 mt-4'>
+            {/* <div className='px-5 py-3 mt-4'>
               <div>
                 <h3>Upload header logo</h3>
               </div>
@@ -176,8 +176,8 @@ export default function Customize() {
                 <input className='h-4 w-4 cursor-pointer' type="checkbox" name="" id="Remove_tag" />
                 <label className='cursor-pointer' htmlFor="Remove_tag">Remove “Powered by LiveChatAI” branding</label>
               </div>
-            </div>
-            <div className='flex justify-end px-5 gap-4'>
+            </div> */}
+            <div className='flex justify-end px-5 gap-4 mt-4'>
               <button
                 className='border-[1px] border-gray-400 p-2 px-8 rounded-md active:scale-95'
                 onClick={cancelUpdate}
