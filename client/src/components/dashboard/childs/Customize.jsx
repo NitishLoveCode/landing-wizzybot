@@ -10,6 +10,7 @@ import LoadingDots from '../../loading/LoadingDots';
 export default function Customize() {
 
   const { id } = useParams();
+  const [hidden, sethidden] = useState(false)
   const [settings, setSettings] = useState({});
   const [response, setResponse] = useState(false);
   const [backup, setBackup] = useState({});//keeps a backup of the settings currently on the server.
@@ -70,6 +71,14 @@ export default function Customize() {
     const backupCopy = { ...backup };
     setSettings(backupCopy);
 
+  }
+
+  const hide_and_show=()=>{
+    if(hidden===true){
+      sethidden(false)
+    }else{
+      sethidden(true)
+    }
   }
 
   return (
@@ -146,7 +155,7 @@ export default function Customize() {
               </div>
             </div>
 
-            <div className='px-5 py-3 mt-4'>
+            {/* <div className='px-5 py-3 mt-4'>
               <div>
                 <h3>Upload header logo</h3>
               </div>
@@ -167,8 +176,8 @@ export default function Customize() {
                 <input className='h-4 w-4 cursor-pointer' type="checkbox" name="" id="Remove_tag" />
                 <label className='cursor-pointer' htmlFor="Remove_tag">Remove “Powered by LiveChatAI” branding</label>
               </div>
-            </div>
-            <div className='flex justify-end px-5 gap-4'>
+            </div> */}
+            <div className='flex justify-end px-5 gap-4 mt-4'>
               <button
                 className='border-[1px] border-gray-400 p-2 px-8 rounded-md active:scale-95'
                 onClick={cancelUpdate}
@@ -187,13 +196,18 @@ export default function Customize() {
           </div>
 
           {/* ------------------------bottom card-------------- */}
-          <div className='border-[1px] border-gray-400 rounded-md gap-4 pb-4 w-full sm:w-[55vw]'>
-            <div className='flex h-14 cursor-pointer border-gray-400 border-b-[1px] px-5 items-center justify-between'>
-              <h3>Initial Message</h3>
-              <AiOutlineArrowDown />
-            </div>
 
-            <div className='px-5 mt-4 mb-4'>
+
+          {
+
+            hidden ? <>
+            <div className='border-[1px] border-gray-400 rounded-md gap-4 pb-4 w-full sm:w-[55vw]'>
+              <div onClick={()=>hide_and_show()} className='flex h-14 cursor-pointer border-gray-400 border-b-[1px] px-5 items-center justify-between'>
+                <h3>Initial Message</h3>
+                <AiOutlineArrowDown />
+              </div>
+
+              <div className='px-5 mt-4 mb-4'>
               <div>
                 <h3>Initial Message</h3>
               </div>
@@ -210,18 +224,6 @@ export default function Customize() {
               </div>
             </div>
 
-            {/* <div className='px-5 mt-4 mb-4'>
-              <div>
-                <h3>Initial Message</h3>
-              </div>
-              <div>
-                <textarea className='w-full px-2 outline-none h-32 rounded-md border-[1px] border-gray-400' name="Initial_Message"></textarea>
-              </div>
-              <div>
-                <h3 className='text-sm'>Enter each message in a new line.</h3>
-              </div>
-            </div> */}
-
             <div className='flex justify-end px-5 gap-4'>
               <button
                 className='border-[1px] border-gray-400 p-2 px-8 rounded-md active:scale-95'
@@ -237,6 +239,15 @@ export default function Customize() {
               </button>
             </div>
           </div>
+            </>:<>
+
+            <div onClick={()=>hide_and_show()} className='flex h-14 cursor-pointer border-gray-400 rounded-md border-[1px] px-5 items-center justify-between'>
+                <h3>Initial Message</h3>
+                <AiOutlineArrowDown />
+          </div>
+            </>
+          }
+
         </div>
 
         {

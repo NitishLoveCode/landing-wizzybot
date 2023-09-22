@@ -7,9 +7,10 @@ import Scraped_link from '../shared_components/Scraped_link'
 import Human_Ai_select_popup from './child/Human_Ai_select_popup'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { MdOutlineManageAccounts } from "react-icons/md"
 import serverBasePath from '../../../constants'
 
-export default function Scraped_url() {
+export default function Scraped_url({ agencyView, agencyClient }) {
   // -----------Human and AI bot popup-----------------
   const [selectMode, setselectMode] = useState(false)
   const location = useLocation();
@@ -19,25 +20,24 @@ export default function Scraped_url() {
 
   useEffect(() => {
     axios.get(serverBasePath + '/auth/isAuthenticated', {
-        headers: {
-            'content-type': 'application/json',
-            'Accept': 'application/json',
-        },
-        withCredentials: true
+      headers: {
+        'content-type': 'application/json',
+        'Accept': 'application/json',
+      },
+      withCredentials: true
     })
-        .then((response) => {
-            if (response.data.authenticated === false) {
-                navigate('/login')
-            }
-        })
-        .catch((err) => console.log(err));
+      .then((response) => {
+        if (response.data.authenticated === false) {
+          navigate('/login')
+        }
+      })
+      .catch((err) => console.log(err));
 
-}, []);
+  }, []);
 
 
   // --------------human and AI bot function-----------------
   const human_ai_popup = () => {
-    console.log("human_ai_popup called")
     if (selectMode == false) {
       setselectMode(true);
     } else {
@@ -65,8 +65,8 @@ export default function Scraped_url() {
   function sendLinks() {
 
     let chatbotId;
-  
-    axios.get(serverBasePath + '/new-chatbot', {
+    const newChatbotRoute = agencyView ? `${serverBasePath}/agency/new-chatbot/${agencyClient.id}` : `${serverBasePath}/new-chatbot`
+    axios.get(newChatbotRoute, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -75,41 +75,46 @@ export default function Scraped_url() {
     })
       .then(response => {
         const data = response.data;
-        console.log(data);
         chatbotId = data.newBotId;
-  
+
         const untrainedLinks = sources.filter(item => item.status === undefined || item.status === '');
-  
-        return axios.post(serverBasePath + '/train/website/links', 
-            { links: untrainedLinks, chatbotId: chatbotId }, 
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-              },
+
+        return axios.post(serverBasePath + '/train/website/links',
+          { links: untrainedLinks, chatbotId: chatbotId },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
             withCredentials: true
-            });
+          });
       })
       .then(response => {
         const data = response.data;
-  
+
         if (data.links !== undefined && response.status !== 400) {
-          navigate('/Dashboard');
-          console.log('done')
+          navigate(agencyView ? `client-dashboard/${agencyClient.id}` :'/Dashboard');
         }
       })
       .catch(err => console.log(err));
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     sources.forEach(link => {
-      console.log(link.charCount)
-      setTotalCharacters(totalCharacters => totalCharacters + link.charCount)});
+      setTotalCharacters(totalCharacters => totalCharacters + link.charCount)
+    });
   }, []);
 
 
   return (
     <>
+      {agencyView &&
+        // NOTE FOR NITISH: DO NOT MOVE THIS BAR FROM THIS PLACE!!!!!!!!
+        <div className='p-3 px-11 w-screen bg-blue-900 mt-[-2rem] mb-8 text-white font-medium'>
+          <MdOutlineManageAccounts size={25} className='inline mx-2' />
+          You are viewing this page as an manager
+        </div>
+      }
       <Source_1_2_card />
       <div className='flex flex-col gap-3 justify-center items-center text-center'>
         <Heading_text text_size={"text-xl sm:text-3xl mt-4 font-bold text-gray-800"} text={"Choose Pages and Import Custom Data"} />

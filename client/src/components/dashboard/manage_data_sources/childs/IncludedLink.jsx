@@ -1,7 +1,13 @@
 import { MdDeleteOutline } from "react-icons/md"
 import { LuRefreshCw } from "react-icons/lu"
+import LoadingDots from "../../../loading/LoadingDots"
+import { useState } from "react";
 
-export default function IncludedLink({ link }) {
+export default function IncludedLink({ link, id, deleteAction }) {
+
+    const [clicked, setClicked] = useState(false);
+
+
     return (
         <div className='w-[50vw] gap-2 flex items-center justify-between'>
 
@@ -13,14 +19,25 @@ export default function IncludedLink({ link }) {
             <div>
                 <h3>{link.charCount}</h3>
             </div>
-            
-            <div className='cursor-pointer active:scale-95 hover:text-red-500'>
-                <MdDeleteOutline className='text-2xl' />
-            </div>
 
+            {!clicked ?
+                <div
+                    className='cursor-pointer active:scale-95 hover:text-red-500'
+                    onClick={() => {
+                        setClicked(true)
+                        deleteAction(link.id, setClicked)
+                    }}
+                >
+                    <MdDeleteOutline className='text-2xl' />
+                </div>
+                :
+                <LoadingDots size={1} color={'bg-black'} />
+
+            }
+            {/* 
             <div className='cursor-pointer active:scale-95'>
                 <LuRefreshCw className='text-2xl' />
-            </div>
+            </div> */}
 
         </div>
     )

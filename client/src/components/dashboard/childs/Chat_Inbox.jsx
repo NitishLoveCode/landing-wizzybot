@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from 'react'
+
+import React, { useContext, useEffect, useState } from 'react'
 import { CiVolumeHigh } from "react-icons/ci"
 import { AiOutlineSend } from "react-icons/ai"
 import UserCard from './UserCard'
 import { useParams } from 'react-router-dom';
 import ChatArea from './ChatArea';
 import serverBasePath from '../../../../constants';
-import socketIOClient from "socket.io-client";
+// import socketIOClient from "socket.io-client";
 import axios from 'axios';
 import image from '../../../assets/listening.svg';
-const socket = socketIOClient(serverBasePath);
+import SocketContext from '../../../SocketContext';
+// const socket = socketIOClient(serverBasePath);
 
-export default function Chat_Inbox() {
-
+export default function Chat_Inbox({ messages, setMessages }) {
+  const socket = useContext(SocketContext);
   const { id } = useParams();
   const [active, setActive] = useState(0);
-  const [messages, setMessages] = useState([
-    // { conversationId: '321', socketId: 'Sameer', conversation: [{}, { sender: 'bot', body: 'hello' }, { sender: 'user', body: 'kesay ho?' }] },
-  ]);
+  // const [messages, setMessages] = useState([
+  //   // { conversationId: '321', socketId: 'Sameer', conversation: [{}, { sender: 'bot', body: 'hello' }, { sender: 'user', body: 'kesay ho?' }] },
+  // ]);
   const [botState, setBotState] = useState('Stop');
   const [loading, setLoading] = useState('')
 
@@ -33,7 +35,6 @@ export default function Chat_Inbox() {
   }
 
   function sendMessage(message, socketId) {
-    console.log(message)
     socket.emit('stop bot', socketId)
     setBotState('Start');
     socket.emit('new message', id, { sender: 'supportAgent', body: message.body, conversationId: message.conversationId }, socketId)
@@ -41,93 +42,93 @@ export default function Chat_Inbox() {
   }
 
 
-  useEffect(() => {
-    socket.connect()
-    socket.on('connect', (socket) => {
-      // console.log('hello')
-      // socket.emit('agentConnect', id);
-      // socket.emit('joinRoom', 'Support Agents', id);
-      console.log('connected')
-    });
+  // useEffect(() => {
+  //   socket.connect()
+  //   socket.on('connect', (socket) => {
+  //     // console.log('hello')
+  //     // socket.emit('agentConnect', id);
+  //     // socket.emit('joinRoom', 'Support Agents', id);
+  //     console.log('connected')
+  //   });
 
-    // socket.emit('joinRoom', 'Support Agents', id);
+  //   // socket.emit('joinRoom', 'Support Agents', id);
 
-    socket.emit('agentConnect', id);
+  //   socket.emit('agentConnect', id);
 
-    socket.on('identify', () => {
-      // socket.emit('joinRoom', 'Support Agents', id);
-      socket.emit('agentConnect', id);
-      console.log('identification successfull')
-    });
-
-
-    socket.on('userDisconnect', (socketId) => {
-      socket.emit('leaveRoom', socketId);
-      // setMessages(prevMessages => {
-      //   let updatedMessages = [...prevMessages];
-      //   if (active === updatedMessages.length - 1) {
-      //     setActive(active - 1)
-      //   }
-      //   updatedMessages = updatedMessages.filter(message => message.socketId !== socketId);
-      //   return updatedMessages;
-      // });
-    });
-
-    socket.on("Pair with Customer", (id) => {
-      console.log('pairing')
-      socket.emit("joinRoom", id);
-    });
-
-    socket.on("new message", (data, socketId) => {
-      console.log(data)
-      // console.log('new message received')
-      // Directly using setMessages with function parameter 
-      // to ensure we always work with the most current state
-      setMessages(prevMessages => {
-        const existingIndex = prevMessages.findIndex(message => message.conversationId === data.conversationId);
-
-        if (existingIndex > -1) {
-          // Existing conversation   
-          // Using spread to make a new copy and mutate that
-          const updatedMessages = [...prevMessages];
-          updatedMessages[existingIndex].conversation.push({
-            sender: data.sender,
-            body: data.body
-          });
-          return updatedMessages;
-        }
-        else {
-          // New conversation
-          const newConversation = {
-            conversationId: data.conversationId,
-            socketId: socketId,
-            new: true,
-            conversation: [{ sender: data.sender, body: data.body }],
-            startTime: new Date()
-          };
-          return [...prevMessages, newConversation];
-        }
-      });
-
-    });
-
-    const beforeUnload = (ev) => {
-      ev.preventDefault();
-      // socket.emit('leaveRoom', `Support Agents ${id}`);
-      socket.disconnect();
-    };
-
-    window.addEventListener('beforeunload', beforeUnload);
+  //   socket.on('identify', () => {
+  //     // socket.emit('joinRoom', 'Support Agents', id);
+  //     socket.emit('agentConnect', id);
+  //     console.log('identification successfull')
+  //   });
 
 
+  //   socket.on('userDisconnect', (socketId) => {
+  //     socket.emit('leaveRoom', socketId);
+  //     // setMessages(prevMessages => {
+  //     //   let updatedMessages = [...prevMessages];
+  //     //   if (active === updatedMessages.length - 1) {
+  //     //     setActive(active - 1)
+  //     //   }
+  //     //   updatedMessages = updatedMessages.filter(message => message.socketId !== socketId);
+  //     //   return updatedMessages;
+  //     // });
+  //   });
 
-    // Cleanup function to leave room when component unmounts
-    return () => {
-      window.removeEventListener('beforeunload', beforeUnload);
-      // socket.emit('leaveRoom');
-      // socket.disconnect()
-    }
-  }, []);
+  //   socket.on("Pair with Customer", (id) => {
+  //     console.log('pairing')
+  //     socket.emit("joinRoom", id);
+  //   });
+
+  //   socket.on("new message", (data, socketId) => {
+  //     console.log(data)
+  //     // console.log('new message received')
+  //     // Directly using setMessages with function parameter 
+  //     // to ensure we always work with the most current state
+  //     setMessages(prevMessages => {
+  //       const existingIndex = prevMessages.findIndex(message => message.conversationId === data.conversationId);
+
+  //       if (existingIndex > -1) {
+  //         // Existing conversation   
+  //         // Using spread to make a new copy and mutate that
+  //         const updatedMessages = [...prevMessages];
+  //         updatedMessages[existingIndex].conversation.push({
+  //           sender: data.sender,
+  //           body: data.body
+  //         });
+  //         return updatedMessages;
+  //       }
+  //       else {
+  //         // New conversation
+  //         const newConversation = {
+  //           conversationId: data.conversationId,
+  //           socketId: socketId,
+  //           new: true,
+  //           conversation: [{ sender: data.sender, body: data.body }],
+  //           startTime: new Date()
+  //         };
+  //         return [...prevMessages, newConversation];
+  //       }
+  //     });
+
+  //   });
+
+  //   const beforeUnload = (ev) => {
+  //     ev.preventDefault();
+  //     // socket.emit('leaveRoom', `Support Agents ${id}`);
+  //     socket.disconnect();
+  //   };
+
+  //   window.addEventListener('beforeunload', beforeUnload);
+
+
+
+  //   // Cleanup function to leave room when component unmounts
+  //   return () => {
+  //     window.removeEventListener('beforeunload', beforeUnload);
+  //     // socket.emit('leaveRoom');
+  //     // socket.disconnect()
+  //   }
+  // }, []);
 
 
   function handleBotClick() {
@@ -143,8 +144,9 @@ export default function Chat_Inbox() {
 
   function setActiveConversation(index) {
     const chosenMessage = messages[index]; //to get conversation id and save socket id;
-    setLoading(chosenMessage.conversationId);
-    console.log(chosenMessage)
+    if (chosenMessage.new === true) {
+      setLoading(chosenMessage.conversationId);
+    }
     if (chosenMessage.new === true) {
       const messageBackup = [...messages];
 
@@ -193,12 +195,12 @@ export default function Chat_Inbox() {
       {
         messages.length === 0 &&
         <>
-        <div className='m-auto w-full h-full text-center'>
+          <div className='m-auto w-full h-full text-center'>
 
-          <img className='w-1/2 md:w-1/3 mx-auto mt-6 opacity-95'  src={image} alt="image notifying users of current conversations with chatbot" />
-          <p className='font-light text-blue-800 opacity-70 text-xl ml-5 my-8 p-5'>No one is using the chatbot right now, but don't worry we will keep on listening for new conversations</p>
+            <img className='w-1/2 md:w-1/3 mx-auto mt-6 opacity-95' src={image} alt="image notifying users of current conversations with chatbot" />
+            <p className='font-light text-blue-800 opacity-70 text-xl mx-auto my-8 p-5 w-[40%]'>No one is using the chatbot right now, but don't worry we will keep on listening for new conversations</p>
 
-        </div>
+          </div>
         </>
       }
 
@@ -242,7 +244,6 @@ export default function Chat_Inbox() {
 
 
                 {messages.map((message, index) => {
-                  console.log(message)
                   return <UserCard
                     id={index}
                     messages={message.conversation}
