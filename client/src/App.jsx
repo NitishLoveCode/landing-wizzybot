@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import './App.css'
 import Register from './components/entry/Register'
 import Login from './components/entry/Login'
 import HeaderRoot from './components/header/heder_nav/HeaderRoot'
@@ -15,6 +16,8 @@ import AgencyDashboard from './components/AgencyDashboard/AgencyDashboard'
 import MessageHistory from './components/MessageHistory/MessageHistory'
 import SocketContext from './SocketContext';
 import { getSocket } from './socket.jsx';
+import GoogleButton from './test'
+
 
 const socket = getSocket();
 
@@ -40,7 +43,7 @@ export default function App() {
           <Route path='/profile/:childs' element={<Left_sidebar />} />
           <Route path='/reset-password/:token' element={<ResetPassword />} />
           <Route path='/agency-dashboard' element={<AgencyDashboard setAgencyClient={setAgencyClient} />} />
-          <Route path='/test/:id' element={<MessageHistory />} />
+          <Route path='/test' element={<GoogleButton />} />
         </Routes>
       </BrowserRouter>
       </SocketContext.Provider>
