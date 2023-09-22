@@ -9,6 +9,8 @@ import { LuRefreshCw } from "react-icons/lu";
 import { AiOutlineArrowRight } from "react-icons/ai"
 import { MdDeleteOutline } from "react-icons/md";
 import LoadingDots from '../../loading/LoadingDots'
+import toast from 'react-hot-toast';
+
 
 export default function Website() {
   const [links, editLinks] = useState([]);
@@ -53,7 +55,7 @@ export default function Website() {
         }
         setLoading(false);
       })
-      .catch(err => console.log(err));
+      .catch(err => {console.log(err) ;toast.error(err.message)});
   }
 
 
@@ -109,6 +111,7 @@ export default function Website() {
           setUntrainedLinks([]);
           setBaseLink('');
           setClicked(false);
+          toast.success('Successfully trained chatbot on new data.')
           data.links.map((link, index) => addLink(link, index));
 
         }
@@ -135,6 +138,7 @@ export default function Website() {
       })
         .then(function (response) {
           if (response.status === 200) {
+            toast.success('Successfully deleted.');
             getLinks();
             if (setClicked !== undefined) {
               setClicked(false);
@@ -142,7 +146,7 @@ export default function Website() {
           }
         })
         .catch(function (error) {
-          console.log(error);
+          toast.error(error.response === undefined ? error.message : error.response);
         });
     }
   }
@@ -164,6 +168,7 @@ export default function Website() {
     <>
       {loading ? <LoadingDots size={4} /> :
         <>
+        {/* <button onClick={notify}>Make me a toast</button> */}
           <div className="flex items-center gap-4 flex-col">
             <div className="flex flex-col gap-4">
               <h3 className="text-2xl sm:text-3xl font-bold">Crawl a new website</h3>

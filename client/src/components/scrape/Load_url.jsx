@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import serverBasePath from '../../../constants'
 import { MdOutlineManageAccounts } from "react-icons/md"
+import toast from 'react-hot-toast';
 
 export default function Load_url({ agencyView }) {
 
@@ -36,7 +37,7 @@ export default function Load_url({ agencyView }) {
           navigate('/scrape', { state: { sources: data.pagesData } })
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {console.log(err);toast.error(err.response.data.message !== undefined ? err.response.data.message : err.message)});
   }
 
 
