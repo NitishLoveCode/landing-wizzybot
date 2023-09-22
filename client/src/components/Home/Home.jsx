@@ -7,6 +7,7 @@ import LoadingDots from '../loading/LoadingDots';
 
 import { MdOutlineManageAccounts } from "react-icons/md"
 import Delete_popup from './childs/Delete_popup';
+import toast from 'react-hot-toast';
 
 
 export default function Home({ agencyClient }) {
@@ -14,7 +15,8 @@ export default function Home({ agencyClient }) {
     let temp = [];
     const [agencyView, setAgencyView] = useState(undefined);
     const [chatbots, setChatbots] = useState(temp);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+    const [allowedChatbots,setAllowedChatbots] = useState(1);
 
     useEffect(() => {
 
@@ -71,6 +73,7 @@ export default function Home({ agencyClient }) {
                     }));
 
                     setChatbots(newChatBots);
+                    setAllowedChatbots(response.data.allowedChatbots)
                     setLoading(false);
                 }
                 else {
@@ -79,6 +82,16 @@ export default function Home({ agencyClient }) {
             })
             .catch(err => console.log(err));
     }
+
+    function newChatbot(){
+        if (chatbots.length < allowedChatbots){
+            navigate('/load-url')
+        }
+        else{
+            toast.error('You have already reached the limits of allowed chatbots.');
+        }
+    }
+
 
     // useEffect(() => {
     //     axios.get(serverBasePath + '/auth/isAuthenticated', {
@@ -135,6 +148,8 @@ export default function Home({ agencyClient }) {
 
 
 
+
+
     return (
 
         <>
@@ -158,7 +173,7 @@ export default function Home({ agencyClient }) {
                                     <h3 className='text-2xl sm:text-4xl font-bold'>{agencyClient !== undefined ? `${agencyClient.name}'s ` : ''}Dashboard</h3>
                                 </div>
                                 <div
-                                    onClick={() => { navigate('/load-url') }}
+                                    onClick={newChatbot}
                                     className='bg-gray-900 text-white items-center cursor-pointer justify-center flex px-2 sm:px-8 rounded-md active:scale-95'>
                                     <h3>New Ai Bot</h3>
                                 </div>
