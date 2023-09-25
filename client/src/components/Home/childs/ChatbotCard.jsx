@@ -12,7 +12,7 @@ import Delete_popup from "./Delete_popup"
 
 export default function ChatbotCard({ chatbot, delete_traind_bot }) {
     const navigate = useNavigate();
-
+    // console.log('from chatbot card', chatbot)
 
     return (
         <>
@@ -29,7 +29,16 @@ export default function ChatbotCard({ chatbot, delete_traind_bot }) {
                     }}>
                         <h3 className='text-xl font-semibold'>{chatbot.name}</h3>
                     </button>
-                    <div onClick={() => delete_traind_bot(chatbot.id)}>
+                    <div onClick={() => {
+                        if (chatbot.id !== undefined) {
+                            delete_traind_bot(chatbot.id);
+                        }
+                        else {
+                            delete_traind_bot(chatbot._id);
+
+                        }
+                        
+                        }}>
                         <AiOutlineDelete className='text-2xl hover:text-red-500 cursor-pointer active:scale-95' />
                     </div>
                 </div>

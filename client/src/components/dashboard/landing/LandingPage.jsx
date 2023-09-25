@@ -246,7 +246,7 @@ export default function LandingPage() {
                   </div>
 
         {/* ------------------------bg image----------------- */}
-        <div className="absolute hidden hidden sm:block left-0 w-[50vw] -z-10 -bottom-44">
+        <div className="absolute hidden sm:block left-0 w-[50vw] -z-10 -bottom-44">
           <img src="/vector-18.svg" alt="bg-line" />
         </div>
       </div>

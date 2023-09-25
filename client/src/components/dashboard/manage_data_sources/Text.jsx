@@ -6,6 +6,7 @@ import { BsDatabase } from "react-icons/bs"
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import serverBasePath from '../../../../constants'
+import LoadingDots from '../../loading/LoadingDots'
 
 export default function Text() {
 
@@ -63,33 +64,37 @@ export default function Text() {
 
 
     return (
+
         <>
-            <div className='w-[95vw] sm:w-[50vw] mb-8 flex flex-col gap-4'>
-                <div>
-                    <h3 className='text-2xl font-bold'>Add new text content</h3>
-                </div>
-                {/* <div>
+            {!loaded ? <LoadingDots size={4} /> :
+
+                <>
+                    <div className='w-[95vw] sm:w-[50vw] mb-8 flex flex-col gap-4'>
+                        <div>
+                            <h3 className='text-2xl font-bold'>Add new text content</h3>
+                        </div>
+                        {/* <div>
                 <Input_field style={"w-full outline-none pl-2 border-[1px] border-gray-400 rounded-md h-10"} placeholder={"title"}/>
             </div> */}
-                <div>
-                    <textarea
-                        className='border-[1px] rounded-md outline-none p-2 w-full border-gray-400'
-                        placeholder={loaded ? "Add Data here to train the model" : 'Please wait while the data is being loaded'}
-                        value={text}
-                        onChange={handleChange}
-                        disabled={!loaded}
-                        name="content"
-                        cols="20"
-                        rows="10"
-                    />
-                </div>
-                <div>
-                    <Button style={"bg-gray-900 w-[95vw] sm:w-auto p-3 rounded-md active:scale-95 text-white pl-8 pr-8"} text={"Add Content"} action={sumbitText} />
-                </div>
+                        <div>
+                            <textarea
+                                className='border-[1px] rounded-md outline-none p-2 w-full border-gray-400'
+                                placeholder={loaded ? "Add Data here to train the model" : 'Please wait while the data is being loaded'}
+                                value={text}
+                                onChange={handleChange}
+                                disabled={!loaded}
+                                name="content"
+                                cols="20"
+                                rows="10"
+                            />
+                        </div>
+                        <div>
+                            <Button style={"bg-gray-900 w-[95vw] sm:w-auto p-3 rounded-md active:scale-95 text-white pl-8 pr-8"} text={"Add Content"} action={sumbitText} />
+                        </div>
 
-                <hr />
+                        <hr />
 
-                {/* <div>
+                        {/* <div>
                 <h3 className='text-2xl font-bold'>Imported & Trained Text Contents</h3>
             </div>
             <div className='flex items-center justify-center mt-6'>
@@ -99,7 +104,8 @@ export default function Text() {
                     <h3>There are no items in the library.</h3>
                 </div>
             </div> */}
-            </div>
+                    </div>
+                </>}
         </>
     )
 }

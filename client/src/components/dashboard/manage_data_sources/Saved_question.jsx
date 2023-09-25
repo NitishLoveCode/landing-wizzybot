@@ -3,7 +3,7 @@ import { IoIosArrowDown } from 'react-icons/io'
 import Input_field from '../../shared_components/Input_field'
 import Button from '../../shared_components/Button'
 
-export default function Saved_question({cur}) {
+export default function Saved_question({cur, deleteQuestion}) {
     const [card_open, setcard_open]=useState(false)
 
 
@@ -32,7 +32,7 @@ export default function Saved_question({cur}) {
                     </div>
                     <div>
                         <label>Answer</label>
-                        <textarea value={cur.question} className="border-[1px] outline-none border-gray-300 w-full p-2 rounded-md" placeholder='Answer' name="answer" cols="30" rows="5"></textarea>
+                        <textarea value={cur.answer} className="border-[1px] outline-none border-gray-300 w-full p-2 rounded-md" placeholder='Answer' name="answer" cols="30" rows="5"></textarea>
                     </div>
                     <div className='flex justify-end gap-10 mt-2'>
                         <Button action={open_card} style={"border-[1px] rounded-md border-gray-600 active:scale-95 w-fit p-2 pr-8 pl-8"} text={"Cancel"}/>

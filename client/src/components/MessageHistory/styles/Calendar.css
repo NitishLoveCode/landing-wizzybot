@@ -1,0 +1,93 @@
+.rdrDayToday:not(.rdrDayPassive) .rdrInRange~.rdrDayNumber span:after,
+.rdrDayToday:not(.rdrDayPassive) .rdrStartEdge~.rdrDayNumber span:after,
+.rdrDayToday:not(.rdrDayPassive) .rdrEndEdge~.rdrDayNumber span:after,
+.rdrDayToday:not(.rdrDayPassive) .rdrSelected~.rdrDayNumber span:after {
+    background: none;
+}
+
+.rdrDayToday .rdrDayNumber span:after {
+    background: none;
+}
+
+.rdrStaticRange,
+.rdrDefinedRangesWrapper,
+.rdrCalendarWrapper,
+.rdrDateRangeWrapper,
+.rdrDateInput,
+.rdrDateDisplayItem {
+    @apply dark:bg-gray-800 dark:text-stone-300;
+    /* border: 0; */
+}
+
+.rdrDateInput,
+.rdrDateDisplayItem,
+.rdrStaticRange {
+    border: 0;
+}
+
+.rdrDateDisplayWrapper,
+.rdrNextPrevButton,
+.rdrPprevButton {
+    @apply dark:bg-gray-900;
+}
+
+.rdrStaticRangeSelected {
+    @apply dark:text-blue-400 !important;
+}
+
+.rdrDay,
+.rdrDayNumber,
+.rdrWeekDay,
+.rdrDayWeekend,
+.rdrDayEndOfWeek,
+.rdrDayStartOfMonth {
+    @apply dark:text-gray-100;
+}
+
+button.rdrDayPassive span.rdrDayNumber span {
+    @apply dark:text-gray-500 !important;
+}
+
+.rdrDayNumber span {
+    @apply dark:text-gray-100 !important;
+}
+
+.rdrStaticRange:hover {
+    @apply dark:hover:bg-gray-800 !important;
+}
+
+.rdrStartEdge,
+.rdrInRange,
+.rdrEndEdge {
+    @apply dark:text-blue-700 !important;
+}
+
+.rdrInRange span,
+.rdrDayInPreview,
+.rdrDayStartPreview,
+.rdrDayEndPreview {
+    @apply dark:text-blue-700 !important;
+}
+
+.rdrStaticRangeLabel:hover {
+    @apply dark:bg-gray-900 !important;
+}
+
+.rdrDefinedRangesWrapper {
+    @apply dark:border-gray-700 dark:border;
+}
+
+.rdrMonthPicker select,
+.rdrYearPicker select {
+    color: #849095
+}
+
+.rdrNextPrevButton.rdrPprevButton li {
+    @apply dark:border-gray-800 dark:text-gray-800 dark:bg-gray-800;
+}
+
+@media (max-width: 490px) {
+    .rdrDefinedRangesWrapper {
+        display: none;
+    }
+}

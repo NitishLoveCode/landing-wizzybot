@@ -6,13 +6,14 @@ import Button from '../shared_components/Button'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import serverBasePath from '../../../constants'
+import { MdOutlineManageAccounts } from "react-icons/md"
+import toast from 'react-hot-toast';
 
-export default function Load_url() {
+export default function Load_url({ agencyView }) {
 
   const [baseLink, setBaseLink] = useState('');
   // const [sources, setSources] = useState([]);
   const navigate = useNavigate();
-
 
 
   function getLinks() {
@@ -36,12 +37,19 @@ export default function Load_url() {
           navigate('/scrape', { state: { sources: data.pagesData } })
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {console.log(err);toast.error(err.response.data.message !== undefined ? err.response.data.message : err.message)});
   }
 
 
   return (
     <>
+      {agencyView &&
+        // NOTE FOR NITISH: DO NOT MOVE THIS BAR FROM THIS PLACE!!!!!!!!
+        <div className='p-3 px-11 w-screen bg-blue-900 mt-[-2rem] mb-8 text-white font-medium'>
+          <MdOutlineManageAccounts size={25} className='inline mx-2' />
+          You are viewing this page as an manager
+        </div>
+      }
       <Source_1_2_card />
       <div className='flex flex-col gap-3 justify-center items-center text-center'>
         <Heading_text text_size={"text-xl sm:text-3xl mt-4 font-bold text-gray-800"} text={"Add a Website as Data Source"} />

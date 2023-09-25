@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import {MdOutlineAdd} from "react-icons/md"
 import serverBasePath from '../../../../constants';
 
-export default function Addteam({add_new_team_popup}) {
+export default function AddClient({add_new_client_popup, fetchChatbots}) {
 
     const [email, setEmail] = useState('');
 
@@ -11,7 +11,7 @@ export default function Addteam({add_new_team_popup}) {
         if (email === ''){
             return;
         }
-        axios.post(`${serverBasePath}/user/add-agency`,
+        axios.post(`${serverBasePath}/agency/add-new-client`,
                 {
                     email: email
                 },
@@ -20,7 +20,8 @@ export default function Addteam({add_new_team_popup}) {
                 })
                 .then(function (response) {
                     if (response.status === 200) {
-                        add_new_team_popup();
+                        add_new_client_popup();
+                        fetchChatbots();
                     }
                 })
                 .catch(function (error) {
@@ -40,10 +41,10 @@ export default function Addteam({add_new_team_popup}) {
                             </div>
                         </div>
                         <div>
-                            <h3 className='text-2xl'>Add Team Member & Agent</h3>
+                            <h3 className='text-2xl'>Add a new client</h3>
                         </div>
                         <div className='items-center text-center flex justify-center'>
-                            <h3 className='text-sm'>Add a new team member to manage your workspace and answer your human-support queriest from live chat human handoff.</h3>
+                            <h3 className='text-sm'>Add the client's email below to send them an invite. If they accept the invite, you will be able to manage chatbots on their behalf.</h3>
                         </div>
                         <div className='flex ml-20 flex-col justify-center w-full'>
                             <label>Email</label>
@@ -57,7 +58,7 @@ export default function Addteam({add_new_team_popup}) {
                              />
                         </div>
                         <div className='w-full gap-4 flex justify-end'>
-                            <button onClick={()=>add_new_team_popup()} className='border-[1px] rounded-md active:scale-95 w-fit p-2'>Cancel</button>
+                            <button onClick={()=>add_new_client_popup()} className='border-[1px] rounded-md active:scale-95 w-fit p-2'>Cancel</button>
                             <button 
                             className='border-[1px] rounded-md active:scale-95 bg-gray-800 text-white w-fit p-2'
                             onClick={addTeamMember}

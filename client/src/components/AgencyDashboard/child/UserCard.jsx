@@ -15,7 +15,8 @@ export default function UserCard({ id, email, name, chatbots, delete_traind_bot,
     function handleClick() {
         const client = {
             name: name,
-            chatbots: chatbots
+            chatbots: chatbots,
+            id: id
         }
         setAgencyClient(client);
         navigate(`/client-dashboard/${id}`)
@@ -29,7 +30,7 @@ export default function UserCard({ id, email, name, chatbots, delete_traind_bot,
                         <h3 className="text-sm font-extralight self-start justify-self-start text-left">{name}</h3>
                         <h3 className='text-xl font-semibold'>{email}</h3>
                     </button>
-                    <div onClick={() => delete_traind_bot(chatbots.id)}>
+                    <div onClick={() => delete_traind_bot(email)}>
                         <AiOutlineDelete className='text-2xl hover:text-red-500 cursor-pointer active:scale-95' />
                     </div>
                 </div>
