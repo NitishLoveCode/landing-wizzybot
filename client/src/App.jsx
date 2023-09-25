@@ -13,6 +13,7 @@ import Forgotpassword from './components/entry/Forgotpassword'
 import ResetPassword from './components/entry/ResetPassword'
 import AgencyDashboard from './components/AgencyDashboard/AgencyDashboard'
 import Landing from './components/dashboard/landing/Landing'
+import LandingPage from './components/dashboard/landing/LandingPage'
 
 export default function App() {
   const [agencyClient, setAgencyClient] = useState({});
@@ -34,7 +35,7 @@ export default function App() {
           <Route path='/reset-password/:token' element={<ResetPassword />} />
           <Route path='/agency-dashboard' element={<AgencyDashboard setAgencyClient={setAgencyClient} />} />
           <Route path='/test' element={<AgencyDashboard />} />
-          <Route path="/landing-1" element={<Landing/>}/>
+          <Route path="/landing-1" element={<LandingPage/>}/>
         </Routes>
       </BrowserRouter>
     </>
